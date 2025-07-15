@@ -20,7 +20,7 @@ async def send_ticket(context: ContextTypes.DEFAULT_TYPE, chat_id: str, match_da
     """Odošle tiket do kanála"""
     try:
         # Cesta k obrázkom v priečinku images
-        image_path = f"images/{match_data.get('sport', 'Volejbal - sablona')}.png"
+        image_path = f"images/{match_data.get('sport', 'Futbal - sablona')}.png"
         
         # Vytvorenie inline klávesnice s buttonom pre analýzu
         keyboard = InlineKeyboardMarkup([
@@ -52,7 +52,7 @@ async def send_ticket(context: ContextTypes.DEFAULT_TYPE, chat_id: str, match_da
 
 # Príklad dát zápasu
 example_match = {
-    'sport': 'Volejbal - sablona',  # názov obrázka bez .png
+    'sport': 'Futbal - sablona',  # názov obrázka bez .png
     'team1': 'CHELSEA',
     'team2': 'PARIS SAINT-GERMAIN',
     'tournament': 'FIFA Club World Cup',
