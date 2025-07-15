@@ -192,7 +192,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 • Riziková upozornenia
 
 💬 **Pripojte sa k VIP skupine:**
-👉 @Smarttipy 
+📞 [BLIŽŠIE INFO TU](https://t.me/SmartTipy) 
 
 💰 **Špeciálna cena:** ~~€49~~ **€29/mesiac**
 🎁 **Prvý týždeň ZADARMO!**"""
