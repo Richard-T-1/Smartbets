@@ -192,7 +192,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 • Riziková upozornenia
 
 💬 **Pripojte sa k VIP skupine:**
-📞 [BLIŽŠIE INFO TU](https://t.me/SmartTipy) 
+👉 @Smarttipy 
 
 💰 **Špeciálna cena:** ~~€49~~ **€29/mesiac**
 🎁 **Prvý týždeň ZADARMO!**"""
@@ -213,6 +213,21 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # Užívateľ prišiel pre analýzu - pošleme ju
         await update.message.reply_text(
             f"📊 **ANALÝZA ZÁPASU**\n\n{analysis_text}",
+            parse_mode='Markdown'
+        )
+        
+        # Po analýze automaticky zobrazíme menu
+        keyboard = InlineKeyboardMarkup([
+            [InlineKeyboardButton("📊 ANALÝZA", callback_data="user_analysis")],
+            [InlineKeyboardButton("💎 VIP", callback_data="user_vip")]
+        ])
+        
+        await update.message.reply_text(
+            f'🏆 **SMART BETS** - Váš expert na športové stávky\n\n'
+            '📊 **ANALÝZA** - Získajte podrobné analýzy zápasov\n'
+            '💎 **VIP** - Prémium tipy s vyššími kurzmi\n\n'
+            '🎯 Vyberte si možnosť:',
+            reply_markup=keyboard,
             parse_mode='Markdown'
         )
         return
