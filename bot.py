@@ -1,9 +1,11 @@
 import logging
 import asyncio
 import os
+import threading
 from io import BytesIO
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, ContextTypes, CallbackQueryHandler
+from http.server import HTTPServer, BaseHTTPRequestHandler
 
 # Vypnutie verbose logov
 logging.basicConfig(level=logging.WARNING)
@@ -15,6 +17,23 @@ CHANNEL_ID = os.environ.get('CHANNEL_ID', '-1002827606573')
 ADMIN_ID = int(os.environ.get('ADMIN_ID', '7626888184'))
 PORT = int(os.environ.get('PORT', 8080))
 WEBHOOK_URL = os.environ.get('WEBHOOK_URL', '')
+
+# Jednoduchý HTTP server pre Render
+class HealthHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+        self.wfile.write(b'Bot is running!')
+    
+    def log_message(self, format, *args):
+        pass  # Vypne HTTP logy
+
+def start_health_server():
+    """Spusti HTTP server na porte pre Render"""
+    server = HTTPServer(('0.0.0.0', PORT), HealthHandler)
+    print(f"Health server spustený na porte {PORT}")
+    server.serve_forever()
 
 async def send_ticket(context: ContextTypes.DEFAULT_TYPE, chat_id: str, match_data: dict):
     """Odošle tiket do kanála"""
@@ -90,33 +109,70 @@ PSG má lepšiu ofenzívu a doma sú veľmi silní. Chelsea má problémy v obra
 • BTTS Yes: 1.65
 • Over 2.5: 1.80"""
 
+async def auto_start_user(context: ContextTypes.DEFAULT_TYPE, user_id: int):
+    """Automaticky pošle /start užívateľovi"""
+    try:
+        # Simuluje že užívateľ napísal /start
+        welcome_keyboard = InlineKeyboardMarkup([
+            [InlineKeyboardButton("📊 ANALÝZA", callback_data="user_analysis")],
+            [InlineKeyboardButton("💎 VIP", callback_data="user_vip")]
+        ])
+        
+        await context.bot.send_message(
+            chat_id=user_id,
+            text='👋 **Vitajte v SMART BETS!**\n\n'
+                 '📊 **ANALÝZA** - Podrobné analýzy zápasov\n'
+                 '💎 **VIP** - Prémium tipy s vyššími kurzmi\n\n'
+                 '🎯 Vyberte si možnosť:',
+            reply_markup=welcome_keyboard,
+            parse_mode='Markdown'
+        )
+        return True
+    except:
+        return False
+
 async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Obsluha kliknutí na buttony"""
     query = update.callback_query
     user_name = query.from_user.first_name
+    user_id = query.from_user.id
     
     if query.data == "show_analysis":
-        # Analýza z tiketu (pôvodná funkcia)
+        # Analýza z tiketu (inteligentné riešenie)
         try:
-            try:
-                await context.bot.send_message(
-                    chat_id=query.from_user.id,
-                    text=analysis_text,
-                    parse_mode='Markdown'
-                )
-                await query.answer("📊 Analýza odoslaná do súkromných správ!")
-                print(f"Analýza odoslaná súkromne užívateľovi: {query.from_user.first_name}")
-                
-            except Exception as private_error:
+            # Najprv skúsi poslať súkromne
+            await context.bot.send_message(
+                chat_id=user_id,
+                text=analysis_text,
+                parse_mode='Markdown'
+            )
+            await query.answer("📊 Analýza odoslaná do súkromných správ!")
+            print(f"Analýza odoslaná súkromne užívateľovi: {user_name}")
+            
+        except Exception as private_error:
+            # Ak nemôže poslať súkromne, pokúsi sa iniziovať konverzáciu
+            print(f"Nemôžem poslať súkromne užívateľovi {user_name}, pokúšam sa iniciať konverzáciu...")
+            
+            success = await auto_start_user(context, user_id)
+            if success:
+                # Po úspešnom iniciovaní pošle analýzu
+                try:
+                    await asyncio.sleep(1)  # Krátka pauza
+                    await context.bot.send_message(
+                        chat_id=user_id,
+                        text=f"📊 **ANALÝZA ZÁPASU**\n\n{analysis_text}",
+                        parse_mode='Markdown'
+                    )
+                    await query.answer("📊 Analýza odoslaná!")
+                    print(f"Analýza úspešne odoslaná po iniciácii: {user_name}")
+                except:
+                    await query.answer("❌ Chyba pri odosielaní analýzy")
+            else:
+                # Záložné riešenie - popup
                 await query.answer(
-                    text="📱 @smartbets_tikety_bot",
+                    text="📱 Napíšte mi súkromne @smartbets_tikety_bot pre analýzu",
                     show_alert=True
                 )
-                print(f"Užívateľ {query.from_user.first_name} musí najprv napísať botovi")
-                
-        except Exception as e:
-            print(f"Chyba pri zobrazení analýzy: {e}")
-            await query.answer("❌ Chyba pri načítaní analýzy")
     
     elif query.data == "user_analysis":
         # Konkrétna analýza aktuálneho tiketu pre bežných užívateľov
@@ -207,7 +263,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         
         await update.message.reply_text(
             f'Vitajte {user_name}! 👋\n\n'
-            '🏆 **SMART BETS** - Vaš expert na športové stávky\n\n'
+            '🏆 **SMART BETS** - Váš expert na športové stávky\n\n'
             '📊 **ANALÝZA** - Získajte podrobné analýzy zápasov\n'
             '💎 **VIP** - Prémium tipy s vyššími kurzmi\n\n'
             '🎯 Vyberte si možnosť:',
@@ -278,6 +334,10 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def main():
     """Spustenie bota"""
+    # Spustenie health servera na pozadí (pre Render)
+    health_thread = threading.Thread(target=start_health_server, daemon=True)
+    health_thread.start()
+    
     # Vytvorenie aplikácie
     application = Application.builder().token(BOT_TOKEN).build()
     
@@ -286,22 +346,11 @@ def main():
     application.add_handler(CommandHandler("tiket", tiket))
     application.add_handler(CommandHandler("test", test_channel))
     application.add_handler(CommandHandler("help", help_command))
-    application.add_handler(CallbackQueryHandler(button_handler))  # Pre button ANALÝZA
+    application.add_handler(CallbackQueryHandler(button_handler))  # Pre buttony
     
-    # Spustenie bota
-    if WEBHOOK_URL:
-        # Webhook pre Render
-        print("Spúšťam webhook...")
-        application.run_webhook(
-            listen="0.0.0.0",
-            port=PORT,
-            webhook_url=f"{WEBHOOK_URL}/webhook",
-            secret_token="your-secret-token"
-        )
-    else:
-        # Polling pre lokálne testovanie
-        print("Bot je spustený...")
-        application.run_polling()
+    # Spustenie bota v polling režime
+    print("Spúšťam polling...")
+    application.run_polling()
 
 if __name__ == '__main__':
     main()
