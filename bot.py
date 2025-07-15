@@ -19,7 +19,8 @@ WEBHOOK_URL = os.environ.get('WEBHOOK_URL', '')
 async def send_ticket(context: ContextTypes.DEFAULT_TYPE, chat_id: str, match_data: dict):
     """Odošle tiket do kanála"""
     try:
-        image_path = 'Volejbal - sablona.png'
+        # Cesta k obrázkom v priečinku images
+        image_path = f"images/{match_data.get('sport', 'volejbal')}.png"
         
         # Vytvorenie inline klávesnice s buttonom pre analýzu
         keyboard = InlineKeyboardMarkup([
@@ -44,13 +45,14 @@ async def send_ticket(context: ContextTypes.DEFAULT_TYPE, chat_id: str, match_da
             )
         
     except FileNotFoundError:
-        await context.bot.send_message(chat_id, "❌ Obrázok tiketu nebol nájdený! Uložte obrázok ako 'ticket_image.png'")
+        await context.bot.send_message(chat_id, f"❌ Obrázok nebol nájdený: {image_path}")
     except Exception as e:
         print(f"Chyba pri odosielaní tiketu: {e}")
         await context.bot.send_message(chat_id, "Nastala chyba pri odosielaní tiketu.")
 
 # Príklad dát zápasu
 example_match = {
+    'sport': 'volejbal',  # názov obrázka bez .png
     'team1': 'CHELSEA',
     'team2': 'PARIS SAINT-GERMAIN',
     'tournament': 'FIFA Club World Cup',
