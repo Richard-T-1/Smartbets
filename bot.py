@@ -91,12 +91,13 @@ PSG má lepšiu ofenzívu a doma sú veľmi silní. Chelsea má problémy v obra
 • Over 2.5: 1.80"""
 
 async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Obsluha kliknutí na button ANALÝZA"""
+    """Obsluha kliknutí na buttony"""
     query = update.callback_query
+    user_name = query.from_user.first_name
     
     if query.data == "show_analysis":
+        # Analýza z tiketu (pôvodná funkcia)
         try:
-            # Najprv skúsime poslať súkromne
             try:
                 await context.bot.send_message(
                     chat_id=query.from_user.id,
@@ -107,7 +108,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 print(f"Analýza odoslaná súkromne užívateľovi: {query.from_user.first_name}")
                 
             except Exception as private_error:
-                # Ak nemôže poslať súkromne, ukáže inštrukcie
                 await query.answer(
                     text="📱 Pre analýzu mi napíšte súkromne /start a potom kliknite znovu na ANALÝZA",
                     show_alert=True
@@ -117,6 +117,69 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         except Exception as e:
             print(f"Chyba pri zobrazení analýzy: {e}")
             await query.answer("❌ Chyba pri načítaní analýzy")
+    
+    elif query.data == "user_analysis":
+        # Konkrétna analýza aktuálneho tiketu pre bežných užívateľov
+        await query.answer("📊 Načítavam analýzu...")
+        
+        # Tu bude konkrétna analýza tiketu (upravte podľa potreby)
+        current_analysis = """📊 **ANALÝZA ZÁPASU: CHELSEA vs PSG**
+
+🔍 **Forma tímov:**
+• **Chelsea:** 3 výhry z posledných 5 zápasov (60%)
+• **PSG:** 4 výhry z posledných 5 zápasov (80%)
+
+⚽ **Ofenzívne štatistiky:**
+• Chelsea: 1.8 gólov/zápas (posledných 5)
+• PSG: 2.4 gólov/zápas doma
+• PSG strelilo 12 gólov v posledných 5 domácich
+
+🛡️ **Defenzívne štatistiky:**
+• Chelsea inkasuje 1.2 gólov/zápas vonku
+• PSG má čisté konto v 60% domácich zápasov
+
+📈 **Vzájomné zápasy:**
+• Posledné 3 zápasy: 2x Over 1.5, 1x Under
+• PSG vyhralo 2 z posledných 3 vzájomných
+
+🎯 **Náš tip: PSG Win + Over 1.5**
+**Dôvod:** PSG má lepšiu formu, hrá doma a Chelsea má problémy v obrane na cestách.
+
+💡 **Confidence: 8/10**"""
+        
+        await query.message.reply_text(current_analysis, parse_mode='Markdown')
+        
+    elif query.data == "user_vip":
+        # VIP promo s odkazom na váš chat
+        await query.answer("💎 VIP informácie...")
+        
+        vip_promo = """💎 **SMART BETS VIP** 
+
+🔥 **Prečo si vybrať VIP?**
+• **85% úspešnosť** našich VIP tipov
+• **Exkluzívne insider info** pred zápasmi
+• **Skoršie tipy** - 1 hodinu pred kanálom  
+• **Vyššie kurzy** - priemer 2.8+
+• **Osobné poradenstvo** pri stávkach
+
+📊 **Posledný mesiac VIP:**
+✅ 23 výherných tipov
+❌ 4 prehraté tipy  
+💰 **ROI: +34%**
+
+🎯 **VIP obsahuje:**
+• Denné analýzy TOP zápasov
+• Live tipy počas zápasov
+• Bankroll management  
+• Riziková upozornenia
+
+💬 **Pripojte sa k VIP skupine:**
+👉 @Smarttipy 
+
+💰 **Špeciálna cena:** ~~€49~~ **€29/mesiac**
+🎁 **Prvý týždeň ZADARMO!**"""
+        
+        await query.message.reply_text(vip_promo, parse_mode='Markdown')
 
 def is_admin(user_id):
     """Kontrola či je užívateľ administrátor"""
@@ -125,18 +188,32 @@ def is_admin(user_id):
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Obsluha príkazu /start"""
     user_id = update.effective_user.id
+    user_name = update.effective_user.first_name
     
-    if not is_admin(user_id):
-        await update.message.reply_text("❌ Nemáte oprávnenie používať tohto bota.")
-        return
-    
-    await update.message.reply_text(
-        f'Vitajte v Sports Tips Bot! 🏆\n'
-        f'Vaše ID: {user_id}\n\n'
-        'Príkazy:\n'
-        '/tiket - Odoslať tiket do kanála\n'
-        '/help - Zobrazí nápovedu'
-    )
+    if is_admin(user_id):
+        await update.message.reply_text(
+            f'Vitajte v Sports Tips Bot! 🏆\n'
+            f'Vaše ID: {user_id}\n\n'
+            'Príkazy:\n'
+            '/tiket - Odoslať tiket do kanála\n'
+            '/help - Zobrazí nápovedu'
+        )
+    else:
+        # Pre bežných užívateľov - welcome správa s buttonmi
+        keyboard = InlineKeyboardMarkup([
+            [InlineKeyboardButton("📊 ANALÝZA", callback_data="user_analysis")],
+            [InlineKeyboardButton("💎 VIP", callback_data="user_vip")]
+        ])
+        
+        await update.message.reply_text(
+            f'Vitajte {user_name}! 👋\n\n'
+            '🏆 **SMART BETS** - Vaš expert na športové stávky\n\n'
+            '📊 **ANALÝZA** - Získajte podrobné analýzy zápasov\n'
+            '💎 **VIP** - Prémium tipy s vyššími kurzmi\n\n'
+            '🎯 Vyberte si možnosť:',
+            reply_markup=keyboard,
+            parse_mode='Markdown'
+        )
 
 async def tiket(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Obsluha príkazu /tiket"""
