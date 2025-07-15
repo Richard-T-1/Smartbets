@@ -150,29 +150,23 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             print(f"Analýza odoslaná súkromne užívateľovi: {user_name}")
             
         except Exception as private_error:
-            # Ak nemôže poslať súkromne, pokúsi sa iniziovať konverzáciu
-            print(f"Nemôžem poslať súkromne užívateľovi {user_name}, pokúšam sa iniciať konverzáciu...")
+            # Ak nemôže poslať súkromne, ukáže odkaz na bota
+            print(f"Nemôžem poslať súkromne užívateľovi {user_name}, ukážem odkaz...")
             
-            success = await auto_start_user(context, user_id)
-            if success:
-                # Po úspešnom iniciovaní pošle analýzu
-                try:
-                    await asyncio.sleep(1)  # Krátka pauza
-                    await context.bot.send_message(
-                        chat_id=user_id,
-                        text=f"📊 **ANALÝZA ZÁPASU**\n\n{analysis_text}",
-                        parse_mode='Markdown'
-                    )
-                    await query.answer("📊 Analýza odoslaná!")
-                    print(f"Analýza úspešne odoslaná po iniciácii: {user_name}")
-                except:
-                    await query.answer("❌ Chyba pri odosielaní analýzy")
-            else:
-                # Záložné riešenie - popup
-                await query.answer(
-                    text="📱 Napíšte mi súkromne @smartbets_tikety_bot pre analýzu",
-                    show_alert=True
-                )
+            await query.answer(
+                text="📱 Pre analýzu napíšte súkromne botovi /start",
+                show_alert=True
+            )
+            
+            # Pošle správu s odkazom do kanála (reply na pôvodný tiket)
+            keyboard = InlineKeyboardMarkup([
+                [InlineKeyboardButton("🤖 Kliknite sem", url="https://t.me/smartbets_tikety_bot?start=analysis")]
+            ])
+            
+            await query.message.reply_text(
+                f"📊 {user_name}, pre získanie analýzy kliknite na tlačidlo:",
+                reply_markup=keyboard
+            )
     
     elif query.data == "user_analysis":
         # Konkrétna analýza aktuálneho tiketu pre bežných užívateľov
@@ -245,6 +239,15 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Obsluha príkazu /start"""
     user_id = update.effective_user.id
     user_name = update.effective_user.first_name
+    
+    # Skontrolujeme či užívateľ prišiel pre analýzu
+    if update.message.text and "analysis" in update.message.text:
+        # Užívateľ prišiel pre analýzu - pošleme ju
+        await update.message.reply_text(
+            f"📊 **ANALÝZA ZÁPASU**\n\n{analysis_text}",
+            parse_mode='Markdown'
+        )
+        return
     
     if is_admin(user_id):
         await update.message.reply_text(
