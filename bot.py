@@ -59,7 +59,7 @@ example_match = {
     'time': '21:00',
     'pick': 'PSG To Win + Over 1.5 Total Goals - 1u',
     'odds': '1.93',
-    'betting_url': 'https://www.tipsport.sk/kurzy/futbal-16'
+    'betting_url': 'https://your-betting-site.com/bet/12345'
 }
 
 # Tu si môžete napísať svoju analýzu (až 4096 znakov)
@@ -96,19 +96,26 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     if query.data == "show_analysis":
         try:
-            # Potvrdí kliknutie
-            await query.answer("📊 Analýza sa načítava...")
-            
-            # Pošle dlhú analýzu ako súkromnú správu
-            await context.bot.send_message(
-                chat_id=query.from_user.id,
-                text=analysis_text,
-                parse_mode='Markdown'
-            )
-            print(f"Analýza odoslaná užívateľovi: {query.from_user.first_name}")
-            
+            # Najprv skúsime poslať súkromne
+            try:
+                await context.bot.send_message(
+                    chat_id=query.from_user.id,
+                    text=analysis_text,
+                    parse_mode='Markdown'
+                )
+                await query.answer("📊 Analýza odoslaná do súkromných správ!")
+                print(f"Analýza odoslaná súkromne užívateľovi: {query.from_user.first_name}")
+                
+            except Exception as private_error:
+                # Ak nemôže poslať súkromne, ukáže inštrukcie
+                await query.answer(
+                    text="📱 Pre analýzu mi napíšte súkromne /start a potom kliknite znovu na ANALÝZA",
+                    show_alert=True
+                )
+                print(f"Užívateľ {query.from_user.first_name} musí najprv napísať botovi")
+                
         except Exception as e:
-            print(f"Chyba pri odosielaní analýzy: {e}")
+            print(f"Chyba pri zobrazení analýzy: {e}")
             await query.answer("❌ Chyba pri načítaní analýzy")
 
 def is_admin(user_id):
