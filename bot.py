@@ -109,7 +109,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 
             except Exception as private_error:
                 await query.answer(
-                    text="📱 Pre analýzu mi napíšte súkromne /start a potom kliknite znovu na ANALÝZA",
+                    text="📱 @smartbets_tikety_bot",
                     show_alert=True
                 )
                 print(f"Užívateľ {query.from_user.first_name} musí najprv napísať botovi")
