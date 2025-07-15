@@ -59,7 +59,7 @@ example_match = {
     'time': '21:00',
     'pick': 'PSG To Win + Over 1.5 Total Goals - 1u',
     'odds': '1.93',
-    'betting_url': 'https://your-betting-site.com/bet/12345'
+    'betting_url': 'https://www.tipsport.sk/kurzy/futbal-16'
 }
 
 # Tu si môžete napísať svoju analýzu (až 4096 znakov)
