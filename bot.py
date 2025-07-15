@@ -44,7 +44,7 @@ async def send_ticket(context: ContextTypes.DEFAULT_TYPE, chat_id: str, match_da
         # Vytvorenie inline klávesnice s buttonom pre analýzu
         keyboard = InlineKeyboardMarkup([
             [InlineKeyboardButton("🎯 STAV TERAZ!", url=match_data['betting_url'])],
-            [InlineKeyboardButton("📊 ANALÝZA", callback_data="show_analysis")]
+            [InlineKeyboardButton("📊 ANALÝZA", url="https://t.me/smartbets_tikety_bot?start=analysis")]
         ])
         
         # Popis tiketu
@@ -135,40 +135,8 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Obsluha kliknutí na buttony"""
     query = update.callback_query
     user_name = query.from_user.first_name
-    user_id = query.from_user.id
     
-    if query.data == "show_analysis":
-        # Analýza z tiketu (inteligentné riešenie)
-        try:
-            # Najprv skúsi poslať súkromne
-            await context.bot.send_message(
-                chat_id=user_id,
-                text=analysis_text,
-                parse_mode='Markdown'
-            )
-            await query.answer("📊 Analýza odoslaná do súkromných správ!")
-            print(f"Analýza odoslaná súkromne užívateľovi: {user_name}")
-            
-        except Exception as private_error:
-            # Ak nemôže poslať súkromne, ukáže odkaz na bota
-            print(f"Nemôžem poslať súkromne užívateľovi {user_name}, ukážem odkaz...")
-            
-            await query.answer(
-                text="📱 Pre analýzu napíšte súkromne botovi /start",
-                show_alert=True
-            )
-            
-            # Pošle správu s odkazom do kanála (reply na pôvodný tiket)
-            keyboard = InlineKeyboardMarkup([
-                [InlineKeyboardButton("🤖 Kliknite sem", url="https://t.me/smartbets_tikety_bot?start=analysis")]
-            ])
-            
-            await query.message.reply_text(
-                f"📊 {user_name}, pre získanie analýzy kliknite na tlačidlo:",
-                reply_markup=keyboard
-            )
-    
-    elif query.data == "user_analysis":
+    if query.data == "user_analysis":
         # Konkrétna analýza aktuálneho tiketu pre bežných užívateľov
         await query.answer("📊 Načítavam analýzu...")
         
