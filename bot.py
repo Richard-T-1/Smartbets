@@ -2,10 +2,13 @@ import logging
 import asyncio
 import os
 import threading
+import time
 from io import BytesIO
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, ContextTypes, CallbackQueryHandler
 from http.server import HTTPServer, BaseHTTPRequestHandler
+import signal
+import sys
 
 # Vypnutie verbose logov
 logging.basicConfig(level=logging.WARNING)
@@ -18,22 +21,55 @@ ADMIN_ID = int(os.environ.get('ADMIN_ID', '7626888184'))
 PORT = int(os.environ.get('PORT', 8080))
 WEBHOOK_URL = os.environ.get('WEBHOOK_URL', '')
 
-# Jednoduchý HTTP server pre Render
+# Globálne premenné
+bot_running = False
+health_server = None
+
 class HealthHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
-        self.wfile.write(b'Bot is running!')
+        
+        # Kontrola či bot beží
+        status = "running" if bot_running else "stopped"
+        response = f'''
+        <html>
+        <body>
+            <h1>Telegram Bot Status: {status}</h1>
+            <p>Port: {PORT}</p>
+            <p>Time: {time.strftime('%Y-%m-%d %H:%M:%S')}</p>
+            <p>Health check: OK</p>
+        </body>
+        </html>
+        '''
+        self.wfile.write(response.encode())
     
     def log_message(self, format, *args):
         pass  # Vypne HTTP logy
 
 def start_health_server():
     """Spusti HTTP server na porte pre Render"""
-    server = HTTPServer(('0.0.0.0', PORT), HealthHandler)
-    print(f"Health server spustený na porte {PORT}")
-    server.serve_forever()
+    global health_server
+    try:
+        health_server = HTTPServer(('0.0.0.0', PORT), HealthHandler)
+        print(f"✅ Health server spustený na porte {PORT}")
+        health_server.serve_forever()
+    except Exception as e:
+        print(f"❌ Chyba health servera: {e}")
+
+def signal_handler(signum, frame):
+    """Graceful shutdown"""
+    global bot_running, health_server
+    print(f"\n🛑 Prijatý signál {signum}, ukončujem...")
+    bot_running = False
+    if health_server:
+        health_server.shutdown()
+    sys.exit(0)
+
+# Registrácia signal handlera
+signal.signal(signal.SIGINT, signal_handler)
+signal.signal(signal.SIGTERM, signal_handler)
 
 async def send_ticket(context: ContextTypes.DEFAULT_TYPE, chat_id: str, match_data: dict):
     """Odošle tiket do kanála"""
@@ -71,7 +107,7 @@ async def send_ticket(context: ContextTypes.DEFAULT_TYPE, chat_id: str, match_da
 
 # Príklad dát zápasu
 example_match = {
-    'sport': 'Futbal - sablona',  # názov obrázka bez .png
+    'sport': 'Futbal - sablona',
     'team1': 'CHELSEA',
     'team2': 'PARIS SAINT-GERMAIN',
     'tournament': 'FIFA Club World Cup',
@@ -81,7 +117,7 @@ example_match = {
     'betting_url': 'https://your-betting-site.com/bet/12345'
 }
 
-# Tu si môžete napísať svoju analýzu (až 4096 znakov)
+# Analýza
 analysis_text = """📊 **PODROBNÁ ANALÝZA**
 
 🔍 **Forma tímov:**
@@ -102,34 +138,7 @@ PSG má lepšiu ofenzívu a doma sú veľmi silní. Chelsea má problémy v obra
 • Domáce prostredie favorizuje PSG
 • Oba tímy potrebujú víťazstvo
 
-💡 **Confidence:** 8/10
-
-🎲 **Alternatívne tipy:**
-• PSG Win: 1.75
-• BTTS Yes: 1.65
-• Over 2.5: 1.80"""
-
-async def auto_start_user(context: ContextTypes.DEFAULT_TYPE, user_id: int):
-    """Automaticky pošle /start užívateľovi"""
-    try:
-        # Simuluje že užívateľ napísal /start
-        welcome_keyboard = InlineKeyboardMarkup([
-            [InlineKeyboardButton("📊 ANALÝZA", callback_data="user_analysis")],
-            [InlineKeyboardButton("💎 VIP", callback_data="user_vip")]
-        ])
-        
-        await context.bot.send_message(
-            chat_id=user_id,
-            text='👋 **Vitajte v SMART BETS!**\n\n'
-                 '📊 **ANALÝZA** - Podrobné analýzy zápasov\n'
-                 '💎 **VIP** - Prémium tipy s vyššími kurzmi\n\n'
-                 '🎯 Vyberte si možnosť:',
-            reply_markup=welcome_keyboard,
-            parse_mode='Markdown'
-        )
-        return True
-    except:
-        return False
+💡 **Confidence:** 8/10"""
 
 async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Obsluha kliknutí na buttony"""
@@ -137,10 +146,8 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_name = query.from_user.first_name
     
     if query.data == "user_analysis":
-        # Konkrétna analýza aktuálneho tiketu pre bežných užívateľov
         await query.answer("📊 Načítavam analýzu...")
         
-        # Tu bude konkrétna analýza tiketu (upravte podľa potreby)
         current_analysis = """📊 **ANALÝZA ZÁPASU: CHELSEA vs PSG**
 
 🔍 **Forma tímov:**
@@ -168,7 +175,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.message.reply_text(current_analysis, parse_mode='Markdown')
         
     elif query.data == "user_vip":
-        # VIP promo s odkazom na váš chat
         await query.answer("💎 VIP informácie...")
         
         vip_promo = """💎 **SMART BETS VIP** 
@@ -208,15 +214,12 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
     user_name = update.effective_user.first_name
     
-    # Skontrolujeme či užívateľ prišiel pre analýzu
     if update.message.text and "analysis" in update.message.text:
-        # Užívateľ prišiel pre analýzu - pošleme ju
         await update.message.reply_text(
             f"📊 **ANALÝZA ZÁPASU**\n\n{analysis_text}",
             parse_mode='Markdown'
         )
         
-        # Po analýze automaticky zobrazíme menu
         keyboard = InlineKeyboardMarkup([
             [InlineKeyboardButton("📊 ANALÝZA", callback_data="user_analysis")],
             [InlineKeyboardButton("💎 VIP", callback_data="user_vip")]
@@ -238,10 +241,10 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f'Vaše ID: {user_id}\n\n'
             'Príkazy:\n'
             '/tiket - Odoslať tiket do kanála\n'
-            '/help - Zobrazí nápovedu'
+            '/help - Zobrazí nápovedu\n'
+            '/status - Stav bota'
         )
     else:
-        # Pre bežných užívateľov - welcome správa s buttonmi
         keyboard = InlineKeyboardMarkup([
             [InlineKeyboardButton("📊 ANALÝZA", callback_data="user_analysis")],
             [InlineKeyboardButton("💎 VIP", callback_data="user_vip")]
@@ -266,41 +269,27 @@ async def tiket(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
     
     try:
-        # Odošle tiket do kanála
         await send_ticket(context, CHANNEL_ID, example_match)
-        
-        # Potvrdí odoslanie užívateľovi
         await update.message.reply_text('✅ Tiket bol odoslaný do kanála!')
-        
     except Exception as e:
         print(f"Chyba pri odosielaní: {e}")
         await update.message.reply_text(f'❌ Chyba pri odosielaní tiketu: {str(e)}')
 
-async def test_channel(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Test prístupu do kanála"""
+async def status(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Status bota"""
     user_id = update.effective_user.id
     
     if not is_admin(user_id):
         await update.message.reply_text("❌ Nemáte oprávnenie používať tohto bota.")
         return
     
-    try:
-        # Pokus o získanie informácií o kanáli
-        chat = await context.bot.get_chat(CHANNEL_ID)
-        await update.message.reply_text(
-            f"✅ Bot má prístup do kanála!\n"
-            f"Názov: {chat.title}\n"
-            f"ID: {chat.id}"
-        )
-    except Exception as e:
-        await update.message.reply_text(
-            f"❌ Bot nemá prístup do kanála!\n"
-            f"Chyba: {str(e)}\n\n"
-            f"Skontrolujte:\n"
-            f"1. Bot je pridaný do kanála\n"
-            f"2. Bot má práva administrátora\n"
-            f"3. Bot má právo posielať správy"
-        )
+    await update.message.reply_text(
+        f"🤖 **Bot Status**\n"
+        f"🔄 Running: {'✅ Yes' if bot_running else '❌ No'}\n"
+        f"🌐 Port: {PORT}\n"
+        f"⏰ Time: {time.strftime('%Y-%m-%d %H:%M:%S')}\n"
+        f"🏠 Health server: {'✅ Active' if health_server else '❌ Inactive'}"
+    )
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Obsluha príkazu /help"""
@@ -314,15 +303,28 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         'Dostupné príkazy:\n'
         '/start - Spustenie bota\n'
         '/tiket - Odoslanie tiketu do kanála\n'
-        '/test - Test prístupu do kanála\n'
+        '/status - Stav bota\n'
         '/help - Nápoveda'
     )
 
+async def keep_alive():
+    """Keepalive funkcia"""
+    while bot_running:
+        await asyncio.sleep(60)  # Každú minútu
+        print(f"🔄 Bot alive: {time.strftime('%H:%M:%S')}")
+
 def main():
     """Spustenie bota"""
-    # Spustenie health servera na pozadí (pre Render)
+    global bot_running
+    
+    print("🚀 Spúšťam Telegram bot...")
+    
+    # Spustenie health servera na pozadí
     health_thread = threading.Thread(target=start_health_server, daemon=True)
     health_thread.start()
+    
+    # Malé čakanie na spustenie servera
+    time.sleep(2)
     
     # Vytvorenie aplikácie
     application = Application.builder().token(BOT_TOKEN).build()
@@ -330,13 +332,33 @@ def main():
     # Registrácia handlerov
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("tiket", tiket))
-    application.add_handler(CommandHandler("test", test_channel))
+    application.add_handler(CommandHandler("status", status))
     application.add_handler(CommandHandler("help", help_command))
-    application.add_handler(CallbackQueryHandler(button_handler))  # Pre buttony
+    application.add_handler(CallbackQueryHandler(button_handler))
     
-    # Spustenie bota v polling režime
-    print("Spúšťam polling...")
-    application.run_polling()
+    # Spustenie bota
+    try:
+        bot_running = True
+        print("✅ Bot spustený v polling režime")
+        print(f"✅ Health server beží na http://0.0.0.0:{PORT}")
+        
+        # Spustenie keepalive
+        asyncio.create_task(keep_alive())
+        
+        # Spustenie pollingu
+        application.run_polling(
+            drop_pending_updates=True,
+            close_loop=False
+        )
+        
+    except KeyboardInterrupt:
+        print("\n🛑 Bot ukončený užívateľom")
+    except Exception as e:
+        print(f"❌ Chyba bota: {e}")
+    finally:
+        bot_running = False
+        if health_server:
+            health_server.shutdown()
 
 if __name__ == '__main__':
     main()
