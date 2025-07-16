@@ -1,9 +1,7 @@
 import logging
-import asyncio
 import os
 import threading
 import time
-from io import BytesIO
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, ContextTypes, CallbackQueryHandler
 from http.server import HTTPServer, BaseHTTPRequestHandler
@@ -19,31 +17,26 @@ BOT_TOKEN = os.environ.get('BOT_TOKEN', '7511593743:AAGsPG2FG9_QC-ynD85hHHptE29-
 CHANNEL_ID = os.environ.get('CHANNEL_ID', '-1002827606573')
 ADMIN_ID = int(os.environ.get('ADMIN_ID', '7626888184'))
 PORT = int(os.environ.get('PORT', 8080))
-WEBHOOK_URL = os.environ.get('WEBHOOK_URL', '')
 
 # Globálne premenné
-bot_running = False
 health_server = None
+bot_running = False
 
 class HealthHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
-        self.send_header('Content-type', 'text/html')
+        self.send_header('Content-type', 'application/json')
         self.end_headers()
         
-        # Kontrola či bot beží
-        status = "running" if bot_running else "stopped"
-        response = f'''
-        <html>
-        <body>
-            <h1>Telegram Bot Status: {status}</h1>
-            <p>Port: {PORT}</p>
-            <p>Time: {time.strftime('%Y-%m-%d %H:%M:%S')}</p>
-            <p>Health check: OK</p>
-        </body>
-        </html>
-        '''
-        self.wfile.write(response.encode())
+        response = {
+            "status": "ok",
+            "bot_running": bot_running,
+            "port": PORT,
+            "time": time.strftime('%Y-%m-%d %H:%M:%S'),
+            "message": "Telegram bot is running"
+        }
+        
+        self.wfile.write(str(response).encode())
     
     def log_message(self, format, *args):
         pass  # Vypne HTTP logy
@@ -53,15 +46,15 @@ def start_health_server():
     global health_server
     try:
         health_server = HTTPServer(('0.0.0.0', PORT), HealthHandler)
-        print(f"✅ Health server spustený na porte {PORT}")
+        print(f"✅ Health server started on port {PORT}")
         health_server.serve_forever()
     except Exception as e:
-        print(f"❌ Chyba health servera: {e}")
+        print(f"❌ Health server error: {e}")
 
 def signal_handler(signum, frame):
     """Graceful shutdown"""
     global bot_running, health_server
-    print(f"\n🛑 Prijatý signál {signum}, ukončujem...")
+    print(f"\n🛑 Received signal {signum}, shutting down...")
     bot_running = False
     if health_server:
         health_server.shutdown()
@@ -102,7 +95,7 @@ async def send_ticket(context: ContextTypes.DEFAULT_TYPE, chat_id: str, match_da
     except FileNotFoundError:
         await context.bot.send_message(chat_id, f"❌ Obrázok nebol nájdený: {image_path}")
     except Exception as e:
-        print(f"Chyba pri odosielaní tiketu: {e}")
+        print(f"Error sending ticket: {e}")
         await context.bot.send_message(chat_id, "Nastala chyba pri odosielaní tiketu.")
 
 # Príklad dát zápasu
@@ -241,8 +234,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f'Vaše ID: {user_id}\n\n'
             'Príkazy:\n'
             '/tiket - Odoslať tiket do kanála\n'
-            '/help - Zobrazí nápovedu\n'
-            '/status - Stav bota'
+            '/status - Stav bota\n'
+            '/help - Zobrazí nápovedu'
         )
     else:
         keyboard = InlineKeyboardMarkup([
@@ -272,7 +265,7 @@ async def tiket(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await send_ticket(context, CHANNEL_ID, example_match)
         await update.message.reply_text('✅ Tiket bol odoslaný do kanála!')
     except Exception as e:
-        print(f"Chyba pri odosielaní: {e}")
+        print(f"Error sending ticket: {e}")
         await update.message.reply_text(f'❌ Chyba pri odosielaní tiketu: {str(e)}')
 
 async def status(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -288,7 +281,8 @@ async def status(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"🔄 Running: {'✅ Yes' if bot_running else '❌ No'}\n"
         f"🌐 Port: {PORT}\n"
         f"⏰ Time: {time.strftime('%Y-%m-%d %H:%M:%S')}\n"
-        f"🏠 Health server: {'✅ Active' if health_server else '❌ Inactive'}"
+        f"🏠 Health server: {'✅ Active' if health_server else '❌ Inactive'}",
+        parse_mode='Markdown'
     )
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -307,58 +301,58 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         '/help - Nápoveda'
     )
 
-async def keep_alive():
-    """Keepalive funkcia"""
-    while bot_running:
-        await asyncio.sleep(60)  # Každú minútu
-        print(f"🔄 Bot alive: {time.strftime('%H:%M:%S')}")
-
 def main():
     """Spustenie bota"""
     global bot_running
     
-    print("🚀 Spúšťam Telegram bot...")
+    print("🚀 Starting Telegram bot...")
     
     # Spustenie health servera na pozadí
     health_thread = threading.Thread(target=start_health_server, daemon=True)
     health_thread.start()
     
-    # Malé čakanie na spustenie servera
-    time.sleep(2)
+    # Krátke čakanie na spustenie servera
+    time.sleep(1)
     
-    # Vytvorenie aplikácie
-    application = Application.builder().token(BOT_TOKEN).build()
-    
-    # Registrácia handlerov
-    application.add_handler(CommandHandler("start", start))
-    application.add_handler(CommandHandler("tiket", tiket))
-    application.add_handler(CommandHandler("status", status))
-    application.add_handler(CommandHandler("help", help_command))
-    application.add_handler(CallbackQueryHandler(button_handler))
-    
-    # Spustenie bota
     try:
+        # Vytvorenie aplikácie
+        application = Application.builder().token(BOT_TOKEN).build()
+        
+        # Registrácia handlerov
+        application.add_handler(CommandHandler("start", start))
+        application.add_handler(CommandHandler("tiket", tiket))
+        application.add_handler(CommandHandler("status", status))
+        application.add_handler(CommandHandler("help", help_command))
+        application.add_handler(CallbackQueryHandler(button_handler))
+        
+        # Nastavenie stavu
         bot_running = True
-        print("✅ Bot spustený v polling režime")
-        print(f"✅ Health server beží na http://0.0.0.0:{PORT}")
         
-        # Spustenie keepalive
-        asyncio.create_task(keep_alive())
+        print("✅ Bot started in polling mode")
+        print(f"✅ Health server running on http://0.0.0.0:{PORT}")
+        print("✅ All systems ready")
         
-        # Spustenie pollingu
+        # Spustenie pollingu (toto má vlastný event loop)
         application.run_polling(
             drop_pending_updates=True,
-            close_loop=False
+            allowed_updates=Update.ALL_TYPES
         )
         
     except KeyboardInterrupt:
-        print("\n🛑 Bot ukončený užívateľom")
+        print("\n🛑 Bot stopped by user")
     except Exception as e:
-        print(f"❌ Chyba bota: {e}")
+        print(f"❌ Bot error: {e}")
+        import traceback
+        traceback.print_exc()
     finally:
         bot_running = False
+        print("🔄 Cleaning up...")
         if health_server:
-            health_server.shutdown()
+            try:
+                health_server.shutdown()
+                print("✅ Health server stopped")
+            except:
+                pass
 
 if __name__ == '__main__':
     main()
