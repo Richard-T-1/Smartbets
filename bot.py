@@ -24,6 +24,7 @@ app = Flask(__name__)
 # Globálne premenné
 bot_app = None
 start_time = time.time()
+webhook_info_cache = {}
 
 # Príklad dát zápasu
 example_match = {
@@ -319,39 +320,14 @@ def webhook_info():
     if not bot_app:
         return jsonify({'error': 'Bot not initialized'})
     
-    try:
-        # Spustíme async funkciu v novom event loope
-        import asyncio
-        import threading
-        
-        result = {}
-        
-        def get_webhook_info():
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            try:
-                webhook_info = loop.run_until_complete(bot_app.bot.get_webhook_info())
-                result['webhook_url'] = webhook_info.url
-                result['has_custom_certificate'] = webhook_info.has_custom_certificate
-                result['pending_update_count'] = webhook_info.pending_update_count
-                result['last_error_date'] = str(webhook_info.last_error_date) if webhook_info.last_error_date else None
-                result['last_error_message'] = webhook_info.last_error_message
-                result['max_connections'] = webhook_info.max_connections
-                result['status'] = 'success'
-            except Exception as e:
-                result['error'] = str(e)
-                result['status'] = 'error'
-            finally:
-                loop.close()
-        
-        thread = threading.Thread(target=get_webhook_info)
-        thread.start()
-        thread.join()  # Čakáme na dokončenie
-        
-        return jsonify(result)
-        
-    except Exception as e:
-        return jsonify({'error': str(e), 'status': 'failed'})
+    # Vrátime cache ak je k dispozícii
+    if webhook_info_cache:
+        return jsonify(webhook_info_cache)
+    
+    return jsonify({
+        'error': 'Webhook info not available yet',
+        'suggestion': 'Check logs for webhook setup details'
+    })
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
@@ -398,7 +374,7 @@ def webhook():
 
 async def setup_bot():
     """Nastavenie bota"""
-    global bot_app
+    global bot_app, webhook_info_cache
     
     try:
         # Vytvorenie aplikácie
@@ -431,13 +407,28 @@ async def setup_bot():
         print(f"✅ Webhook set: {webhook_url}")
         print(f"✅ Webhook result: {result}")
         
-        # Overenie webhook
-        webhook_info = await bot_app.bot.get_webhook_info()
-        print(f"🔍 Webhook verification:")
-        print(f"   URL: {webhook_info.url}")
-        print(f"   Pending updates: {webhook_info.pending_update_count}")
-        if webhook_info.last_error_message:
-            print(f"   ⚠️ Last error: {webhook_info.last_error_message}")
+        # Overenie webhook a uloženie do cache
+        try:
+            webhook_info = await bot_app.bot.get_webhook_info()
+            webhook_info_cache = {
+                'webhook_url': webhook_info.url,
+                'has_custom_certificate': webhook_info.has_custom_certificate,
+                'pending_update_count': webhook_info.pending_update_count,
+                'last_error_date': str(webhook_info.last_error_date) if webhook_info.last_error_date else None,
+                'last_error_message': webhook_info.last_error_message,
+                'max_connections': webhook_info.max_connections,
+                'status': 'success'
+            }
+            
+            print(f"🔍 Webhook verification:")
+            print(f"   URL: {webhook_info.url}")
+            print(f"   Pending updates: {webhook_info.pending_update_count}")
+            if webhook_info.last_error_message:
+                print(f"   ⚠️ Last error: {webhook_info.last_error_message}")
+                
+        except Exception as e:
+            print(f"⚠️ Could not verify webhook: {e}")
+            webhook_info_cache = {'error': str(e), 'status': 'verification_failed'}
         
         return True
         
