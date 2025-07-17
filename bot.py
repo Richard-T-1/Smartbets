@@ -339,48 +339,57 @@ def webhook():
     """Webhook endpoint pre Telegram"""
     global bot_app
     
-    # Základný debug
-    print(f"🔔 WEBHOOK CALLED!")
-    
     if not bot_app:
         print("❌ Bot not initialized")
         return jsonify({'error': 'Bot not initialized'}), 500
     
     try:
         update_data = request.get_json()
-        print(f"📨 Raw data received: {update_data}")
         
         if not update_data:
             print("❌ No JSON data received")
             return jsonify({'error': 'No data received'}), 400
         
-        # Skúsme najprv len základné spracovanie
+        print(f"📨 Received update: {update_data.get('update_id', 'unknown')}")
+        
+        # Spracovanie správ
         if 'message' in update_data:
             message = update_data['message']
             chat_id = message['chat']['id']
             text = message.get('text', '')
             user_name = message['from'].get('first_name', 'Unknown')
+            user_id = message['from']['id']
             
             print(f"📝 Message from {user_name} (ID: {chat_id}): {text}")
             
-            # Jednoduché testovanie - pošleme odpoveď priamo
-            if text == '/start':
-                print("🎯 Handling /start command")
+            # Handle /start command
+            if text.startswith('/start'):
+                handle_start_command(chat_id, user_id, user_name, text)
+            elif text == '/tiket' and is_admin(user_id):
+                handle_tiket_command(chat_id)
+            elif text == '/status' and is_admin(user_id):
+                handle_status_command(chat_id)
+            elif text == '/help' and is_admin(user_id):
+                handle_help_command(chat_id)
                 
-                import requests
-                
-                response_text = f"Hello {user_name}! Bot funguje! 🎉"
-                
-                # Pošleme odpoveď priamo cez Telegram API
-                telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-                payload = {
-                    'chat_id': chat_id,
-                    'text': response_text
-                }
-                
-                resp = requests.post(telegram_url, json=payload)
-                print(f"📤 Sent response: {resp.status_code}")
-                
+        # Spracovanie callback queries (buttony)
+        elif 'callback_query' in update_data:
+            callback = update_data['callback_query']
+            chat_id = callback['message']['chat']['id']
+            user_name = callback['from'].get('first_name', 'Unknown')
+            data = callback['data']
+            callback_query_id = callback['id']
+            
+            print(f"🔘 Button clicked: {data} by {user_name}")
+            
+            # Answer callback query
+            answer_callback_query(callback_query_id)
+            
+            if data == "user_analysis":
+                send_analysis(chat_id)
+            elif data == "user_vip":
+                send_vip_info(chat_id)
+        
         return jsonify({'status': 'ok'})
         
     except Exception as e:
@@ -388,6 +397,192 @@ def webhook():
         import traceback
         traceback.print_exc()
         return jsonify({'error': str(e)}), 500
+
+def send_telegram_message(chat_id, text, reply_markup=None, parse_mode=None):
+    """Pošle správu cez Telegram API"""
+    import requests
+    
+    telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+    payload = {
+        'chat_id': chat_id,
+        'text': text
+    }
+    
+    if reply_markup:
+        payload['reply_markup'] = reply_markup
+    if parse_mode:
+        payload['parse_mode'] = parse_mode
+    
+    try:
+        resp = requests.post(telegram_url, json=payload)
+        print(f"📤 Message sent: {resp.status_code}")
+        return resp.status_code == 200
+    except Exception as e:
+        print(f"❌ Error sending message: {e}")
+        return False
+
+def answer_callback_query(callback_query_id, text=""):
+    """Odpovie na callback query"""
+    import requests
+    
+    telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/answerCallbackQuery"
+    payload = {
+        'callback_query_id': callback_query_id,
+        'text': text
+    }
+    
+    try:
+        resp = requests.post(telegram_url, json=payload)
+        return resp.status_code == 200
+    except Exception as e:
+        print(f"❌ Error answering callback: {e}")
+        return False
+
+def handle_start_command(chat_id, user_id, user_name, text):
+    """Spracuje /start príkaz"""
+    
+    if "analysis" in text:
+        # Pošle analýzu
+        send_telegram_message(
+            chat_id, 
+            f"📊 **ANALÝZA ZÁPASU**\n\n{analysis_text}",
+            parse_mode='Markdown'
+        )
+        
+        # Potom menu
+        keyboard = {
+            "inline_keyboard": [
+                [{"text": "📊 ANALÝZA", "callback_data": "user_analysis"}],
+                [{"text": "💎 VIP", "callback_data": "user_vip"}]
+            ]
+        }
+        
+        send_telegram_message(
+            chat_id,
+            '🏆 **SMART BETS** - Váš expert na športové stávky\n\n'
+            '📊 **ANALÝZA** - Získajte podrobné analýzy zápasov\n'
+            '💎 **VIP** - Prémium tipy s vyššími kurzmi\n\n'
+            '🎯 Vyberte si možnosť:',
+            reply_markup=keyboard,
+            parse_mode='Markdown'
+        )
+    
+    elif is_admin(user_id):
+        send_telegram_message(
+            chat_id,
+            f'Vitajte v Sports Tips Bot! 🏆\n'
+            f'Vaše ID: {user_id}\n\n'
+            'Príkazy:\n'
+            '/tiket - Odoslať tiket do kanála\n'
+            '/status - Stav bota\n'
+            '/help - Zobrazí nápovedu'
+        )
+    else:
+        keyboard = {
+            "inline_keyboard": [
+                [{"text": "📊 ANALÝZA", "callback_data": "user_analysis"}],
+                [{"text": "💎 VIP", "callback_data": "user_vip"}]
+            ]
+        }
+        
+        send_telegram_message(
+            chat_id,
+            f'Vitajte {user_name}! 👋\n\n'
+            '🏆 **SMART BETS** - Váš expert na športové stávky\n\n'
+            '📊 **ANALÝZA** - Získajte podrobné analýzy zápasov\n'
+            '💎 **VIP** - Prémium tipy s vyššími kurzmi\n\n'
+            '🎯 Vyberte si možnosť:',
+            reply_markup=keyboard,
+            parse_mode='Markdown'
+        )
+
+def send_analysis(chat_id):
+    """Pošle analýzu"""
+    analysis = """📊 *ANALÝZA ZÁPASU: CHELSEA vs PSG*
+
+🔍 *Forma tímov:*
+• Chelsea: 3 výhry z posledných 5 zápasov (60%)
+• PSG: 4 výhry z posledných 5 zápasov (80%)
+
+⚽ *Ofenzívne štatistiky:*
+• Chelsea: 1.8 gólov/zápas (posledných 5)
+• PSG: 2.4 gólov/zápas doma
+• PSG strelilo 12 gólov v posledných 5 domácich
+
+🛡️ *Defenzívne štatistiky:*
+• Chelsea inkasuje 1.2 gólov/zápas vonku
+• PSG má čisté konto v 60% domácich zápasov
+
+📈 *Vzájomné zápasy:*
+• Posledné 3 zápasy: 2x Over 1.5, 1x Under
+• PSG vyhralo 2 z posledných 3 vzájomných
+
+🎯 *Náš tip: PSG Win + Over 1.5*
+
+📈 *Ďalšie faktory:*
+• PSG je bez zranených hráčov
+• Chelsea cestuje po náročnom zápase
+• Domáce prostredie favorizuje PSG
+• Oba tímy potrebujú víťazstvo
+
+💡 Confidence: 8/10 """
+    
+    send_telegram_message(chat_id, analysis, parse_mode='Markdown')
+
+def send_vip_info(chat_id):
+    """Pošle VIP informácie"""
+    vip_text = """💎 *SMART BETS VIP* 
+
+🔥 *Prečo si vybrať VIP?*
+
+💎 1-3 Exkluzívne tipy každý deň
+🎯 Denné tipy s kurzom 1.8+
+🔔 Prioritná podpora
+📊 Profesionálne analýzy
+🎁 Bonusové tipy cez víkendy
+
+
+🚀 *BILANCIA TIKETOV*
+• výherné tikety: 11 ✅
+• prehraté tikety: 5 ❌
+
+
+📈 *NAŠA ÚSPEŠNOSŤ*
+• Navrátnosť za dané obdobie: 9.45% 
+• Zisk za dané obdobie: +3.44u
+
+(1u=250€)
+
+📞 [BLIŽŠIE INFO TU](https://t.me/SmartTipy) """
+    
+    send_telegram_message(chat_id, vip_text, parse_mode='Markdown')
+
+def handle_tiket_command(chat_id):
+    """Spracuje /tiket príkaz"""
+    # Tu by ste implementovali odoslanie tiketu do kanála
+    send_telegram_message(chat_id, "✅ Tiket bol odoslaný do kanála!")
+
+def handle_status_command(chat_id):
+    """Spracuje /status príkaz"""
+    uptime = time.time() - start_time
+    status_text = f"""🤖 **Bot Status**
+🔄 Mode: Webhook
+🌐 Port: {PORT}
+⏰ Uptime: {round(uptime/3600, 1)} hodín
+🔗 Webhook: {WEBHOOK_URL}/webhook
+✅ Status: Running"""
+    
+    send_telegram_message(chat_id, status_text, parse_mode='Markdown')
+
+def handle_help_command(chat_id):
+    """Spracuje /help príkaz"""
+    help_text = """Dostupné príkazy:
+/start - Spustenie bota
+/tiket - Odoslanie tiketu do kanála
+/status - Stav bota
+/help - Nápoveda"""
+    
+    send_telegram_message(chat_id, help_text)
 
 async def setup_bot():
     """Nastavenie bota"""
