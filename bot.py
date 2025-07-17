@@ -141,7 +141,8 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if query.data == "user_analysis":
         await query.answer("📊 Načítavam analýzu...")
         
-        current_analysis = """📊 **ANALÝZA ZÁPASU: CHELSEA vs PSG**
+        # Použijeme pôvodnú dlhú analýzu
+        current_analysis = f"""📊 **ANALÝZA ZÁPASU: CHELSEA vs PSG**
 
 🔍 **Forma tímov:**
 • **Chelsea:** 3 výhry z posledných 5 zápasov (60%)
@@ -163,9 +164,25 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 🎯 **Náš tip: PSG Win + Over 1.5**
 **Dôvod:** PSG má lepšiu formu, hrá doma a Chelsea má problémy v obrane na cestách.
 
+📈 **Ďalšie faktory:**
+• PSG je bez zranených hráčov
+• Chelsea cestuje po náročnom zápase
+• Domáce prostredie favorizuje PSG
+• Oba tímy potrebujú víťazstvo
+
+🎲 **Alternatívne tipy:**
+• PSG Win: 1.75
+• BTTS Yes: 1.65
+• Over 2.5: 1.80
+
 💡 **Confidence: 8/10**"""
         
-        await query.message.reply_text(current_analysis, parse_mode='Markdown')
+        try:
+            await query.message.reply_text(current_analysis, parse_mode='Markdown')
+        except Exception as e:
+            print(f"Error sending analysis: {e}")
+            # Fallback bez markdown
+            await query.message.reply_text(current_analysis)
         
     elif query.data == "user_vip":
         await query.answer("💎 VIP informácie...")
