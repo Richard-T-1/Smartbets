@@ -2,10 +2,10 @@ import logging
 import os
 import json
 import asyncio
+import time
 from flask import Flask, request, jsonify
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, ContextTypes, CallbackQueryHandler
-import time
 
 # Vypnutie verbose logov
 logging.basicConfig(level=logging.WARNING)
@@ -559,8 +559,70 @@ def send_vip_info(chat_id):
 
 def handle_tiket_command(chat_id):
     """Spracuje /tiket príkaz"""
-    # Tu by ste implementovali odoslanie tiketu do kanála
-    send_telegram_message(chat_id, "✅ Tiket bol odoslaný do kanála!")
+    try:
+        # Pošleme tiket do kanála
+        send_ticket_to_channel()
+        send_telegram_message(chat_id, "✅ Tiket bol odoslaný do kanála!")
+    except Exception as e:
+        print(f"❌ Error sending ticket: {e}")
+        send_telegram_message(chat_id, f"❌ Chyba pri odosielaní tiketu: {str(e)}")
+
+def send_ticket_to_channel():
+    """Odošle tiket do kanála"""
+    import requests
+    
+    # Dáta tiketu
+    match_data = example_match
+    
+    # Vytvoríme caption
+    caption = (f"🏆 {match_data['team1']} vs {match_data['team2']}\n"
+              f"⚽ {match_data['tournament']}\n"
+              f"🕘 {match_data['time']}\n\n"
+              f"🎯 {match_data['pick']}\n"
+              f"💰 Kurz: {match_data['odds']}")
+    
+    # Inline keyboard
+    keyboard = {
+        "inline_keyboard": [
+            [{"text": "🎯 STAV TERAZ!", "url": match_data['betting_url']}],
+            [{"text": "📊 ANALÝZA", "url": "https://t.me/smartbets_tikety_bot?start=analysis"}]
+        ]
+    }
+    
+    try:
+        # Skúsime najprv poslať obrázok
+        image_path = f"images/{match_data.get('sport', 'Futbal - sablona')}.png"
+        
+        # Pošleme obrázok s popisom
+        with open(image_path, 'rb') as photo:
+            telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendPhoto"
+            
+            files = {'photo': photo}
+            data = {
+                'chat_id': CHANNEL_ID,
+                'caption': caption,
+                'reply_markup': json.dumps(keyboard)
+            }
+            
+            resp = requests.post(telegram_url, files=files, data=data)
+            print(f"📤 Ticket sent to channel: {resp.status_code}")
+            
+            if resp.status_code != 200:
+                print(f"❌ Telegram API error: {resp.text}")
+                raise Exception(f"Telegram API returned {resp.status_code}")
+                
+    except FileNotFoundError:
+        print(f"❌ Image not found: {image_path}")
+        # Fallback - pošleme len text
+        send_telegram_message(CHANNEL_ID, f"❌ Obrázok nebol nájdený: {image_path}")
+        
+        # Pošleme tiket ako text
+        text_message = f"{caption}\n\n🎯 [STAV TERAZ!]({match_data['betting_url']})"
+        send_telegram_message(CHANNEL_ID, text_message, parse_mode='Markdown')
+        
+    except Exception as e:
+        print(f"❌ Error sending photo: {e}")
+        raise e
 
 def handle_status_command(chat_id):
     """Spracuje /status príkaz"""
