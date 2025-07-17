@@ -314,23 +314,44 @@ def debug_info():
     })
 
 @app.route('/webhook_info')
-async def webhook_info():
+def webhook_info():
     """Informácie o webhook od Telegram"""
     if not bot_app:
         return jsonify({'error': 'Bot not initialized'})
     
     try:
-        webhook_info = await bot_app.bot.get_webhook_info()
-        return jsonify({
-            'webhook_url': webhook_info.url,
-            'has_custom_certificate': webhook_info.has_custom_certificate,
-            'pending_update_count': webhook_info.pending_update_count,
-            'last_error_date': webhook_info.last_error_date,
-            'last_error_message': webhook_info.last_error_message,
-            'max_connections': webhook_info.max_connections
-        })
+        # Spustíme async funkciu v novom event loope
+        import asyncio
+        import threading
+        
+        result = {}
+        
+        def get_webhook_info():
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            try:
+                webhook_info = loop.run_until_complete(bot_app.bot.get_webhook_info())
+                result['webhook_url'] = webhook_info.url
+                result['has_custom_certificate'] = webhook_info.has_custom_certificate
+                result['pending_update_count'] = webhook_info.pending_update_count
+                result['last_error_date'] = str(webhook_info.last_error_date) if webhook_info.last_error_date else None
+                result['last_error_message'] = webhook_info.last_error_message
+                result['max_connections'] = webhook_info.max_connections
+                result['status'] = 'success'
+            except Exception as e:
+                result['error'] = str(e)
+                result['status'] = 'error'
+            finally:
+                loop.close()
+        
+        thread = threading.Thread(target=get_webhook_info)
+        thread.start()
+        thread.join()  # Čakáme na dokončenie
+        
+        return jsonify(result)
+        
     except Exception as e:
-        return jsonify({'error': str(e)})
+        return jsonify({'error': str(e), 'status': 'failed'})
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
