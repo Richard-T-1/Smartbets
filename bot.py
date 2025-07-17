@@ -314,7 +314,12 @@ def debug_info():
         'webhook_endpoint': f"{WEBHOOK_URL}/webhook"
     })
 
-@app.route('/webhook_info')
+@app.route('/test_webhook', methods=['POST'])
+def test_webhook():
+    """Test webhook endpoint"""
+    data = request.get_json()
+    print(f"🧪 Test webhook received: {data}")
+    return jsonify({'status': 'test_ok', 'received': data})
 def webhook_info():
     """Informácie o webhook od Telegram"""
     if not bot_app:
@@ -334,42 +339,54 @@ def webhook():
     """Webhook endpoint pre Telegram"""
     global bot_app
     
+    # Základný debug
+    print(f"🔔 WEBHOOK CALLED!")
+    
     if not bot_app:
+        print("❌ Bot not initialized")
         return jsonify({'error': 'Bot not initialized'}), 500
     
     try:
         update_data = request.get_json()
+        print(f"📨 Raw data received: {update_data}")
         
         if not update_data:
+            print("❌ No JSON data received")
             return jsonify({'error': 'No data received'}), 400
         
-        print(f"Received update: {update_data.get('update_id', 'unknown')}")
-        
-        # Vytvorenie Update objektu
-        update = Update.de_json(update_data, bot_app.bot)
-        
-        # Spracovanie update - použijeme správny asyncio
-        import threading
-        
-        def process_update():
-            """Spracuje update v novom event loope"""
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            try:
-                loop.run_until_complete(bot_app.process_update(update))
-            except Exception as e:
-                print(f"Error processing update: {e}")
-            finally:
-                loop.close()
-        
-        # Spustenie v threade
-        thread = threading.Thread(target=process_update)
-        thread.start()
-        
+        # Skúsme najprv len základné spracovanie
+        if 'message' in update_data:
+            message = update_data['message']
+            chat_id = message['chat']['id']
+            text = message.get('text', '')
+            user_name = message['from'].get('first_name', 'Unknown')
+            
+            print(f"📝 Message from {user_name} (ID: {chat_id}): {text}")
+            
+            # Jednoduché testovanie - pošleme odpoveď priamo
+            if text == '/start':
+                print("🎯 Handling /start command")
+                
+                import requests
+                
+                response_text = f"Hello {user_name}! Bot funguje! 🎉"
+                
+                # Pošleme odpoveď priamo cez Telegram API
+                telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+                payload = {
+                    'chat_id': chat_id,
+                    'text': response_text
+                }
+                
+                resp = requests.post(telegram_url, json=payload)
+                print(f"📤 Sent response: {resp.status_code}")
+                
         return jsonify({'status': 'ok'})
         
     except Exception as e:
-        print(f"Webhook error: {e}")
+        print(f"❌ Webhook error: {e}")
+        import traceback
+        traceback.print_exc()
         return jsonify({'error': str(e)}), 500
 
 async def setup_bot():
