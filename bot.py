@@ -1,12 +1,11 @@
 import logging
 import os
-import threading
-import time
+import json
+import asyncio
+from flask import Flask, request, jsonify
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, ContextTypes, CallbackQueryHandler
-from http.server import HTTPServer, BaseHTTPRequestHandler
-import signal
-import sys
+import time
 
 # Vypnutie verbose logov
 logging.basicConfig(level=logging.WARNING)
@@ -16,87 +15,15 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 BOT_TOKEN = os.environ.get('BOT_TOKEN', '7511593743:AAGsPG2FG9_QC-ynD85hHHptE29-P5KiBMQ')
 CHANNEL_ID = os.environ.get('CHANNEL_ID', '-1002827606573')
 ADMIN_ID = int(os.environ.get('ADMIN_ID', '7626888184'))
-PORT = int(os.environ.get('PORT', 8080))
+PORT = int(os.environ.get('PORT', 10000))
+WEBHOOK_URL = os.environ.get('WEBHOOK_URL', 'https://smartbets.onrender.com')
+
+# Flask aplikácia
+app = Flask(__name__)
 
 # Globálne premenné
-health_server = None
-bot_running = False
-
-class HealthHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header('Content-type', 'application/json')
-        self.end_headers()
-        
-        response = {
-            "status": "ok",
-            "bot_running": bot_running,
-            "port": PORT,
-            "time": time.strftime('%Y-%m-%d %H:%M:%S'),
-            "message": "Telegram bot is running"
-        }
-        
-        self.wfile.write(str(response).encode())
-    
-    def log_message(self, format, *args):
-        pass  # Vypne HTTP logy
-
-def start_health_server():
-    """Spusti HTTP server na porte pre Render"""
-    global health_server
-    try:
-        health_server = HTTPServer(('0.0.0.0', PORT), HealthHandler)
-        print(f"✅ Health server started on port {PORT}")
-        health_server.serve_forever()
-    except Exception as e:
-        print(f"❌ Health server error: {e}")
-
-def signal_handler(signum, frame):
-    """Graceful shutdown"""
-    global bot_running, health_server
-    print(f"\n🛑 Received signal {signum}, shutting down...")
-    bot_running = False
-    if health_server:
-        health_server.shutdown()
-    sys.exit(0)
-
-# Registrácia signal handlera
-signal.signal(signal.SIGINT, signal_handler)
-signal.signal(signal.SIGTERM, signal_handler)
-
-async def send_ticket(context: ContextTypes.DEFAULT_TYPE, chat_id: str, match_data: dict):
-    """Odošle tiket do kanála"""
-    try:
-        # Cesta k obrázkom v priečinku images
-        image_path = f"images/{match_data.get('sport', 'Futbal - sablona')}.png"
-        
-        # Vytvorenie inline klávesnice s buttonom pre analýzu
-        keyboard = InlineKeyboardMarkup([
-            [InlineKeyboardButton("🎯 STAV TERAZ!", url=match_data['betting_url'])],
-            [InlineKeyboardButton("📊 ANALÝZA", url="https://t.me/smartbets_tikety_bot?start=analysis")]
-        ])
-        
-        # Popis tiketu
-        caption = (f"🏆 {match_data['team1']} vs {match_data['team2']}\n"
-                  f"⚽ {match_data['tournament']}\n"
-                  f"🕘 {match_data['time']}\n\n"
-                  f"🎯 {match_data['pick']}\n"
-                  f"💰 Kurz: {match_data['odds']}")
-        
-        # Odoslanie obrázka
-        with open(image_path, 'rb') as photo:
-            await context.bot.send_photo(
-                chat_id=chat_id,
-                photo=photo,
-                caption=caption,
-                reply_markup=keyboard
-            )
-        
-    except FileNotFoundError:
-        await context.bot.send_message(chat_id, f"❌ Obrázok nebol nájdený: {image_path}")
-    except Exception as e:
-        print(f"Error sending ticket: {e}")
-        await context.bot.send_message(chat_id, "Nastala chyba pri odosielaní tiketu.")
+bot_app = None
+start_time = time.time()
 
 # Príklad dát zápasu
 example_match = {
@@ -133,6 +60,36 @@ PSG má lepšiu ofenzívu a doma sú veľmi silní. Chelsea má problémy v obra
 
 💡 **Confidence:** 8/10"""
 
+async def send_ticket(context: ContextTypes.DEFAULT_TYPE, chat_id: str, match_data: dict):
+    """Odošle tiket do kanála"""
+    try:
+        image_path = f"images/{match_data.get('sport', 'Futbal - sablona')}.png"
+        
+        keyboard = InlineKeyboardMarkup([
+            [InlineKeyboardButton("🎯 STAV TERAZ!", url=match_data['betting_url'])],
+            [InlineKeyboardButton("📊 ANALÝZA", url=f"https://t.me/smartbets_tikety_bot?start=analysis")]
+        ])
+        
+        caption = (f"🏆 {match_data['team1']} vs {match_data['team2']}\n"
+                  f"⚽ {match_data['tournament']}\n"
+                  f"🕘 {match_data['time']}\n\n"
+                  f"🎯 {match_data['pick']}\n"
+                  f"💰 Kurz: {match_data['odds']}")
+        
+        with open(image_path, 'rb') as photo:
+            await context.bot.send_photo(
+                chat_id=chat_id,
+                photo=photo,
+                caption=caption,
+                reply_markup=keyboard
+            )
+        
+    except FileNotFoundError:
+        await context.bot.send_message(chat_id, f"❌ Obrázok nebol nájdený: {image_path}")
+    except Exception as e:
+        print(f"Error sending ticket: {e}")
+        await context.bot.send_message(chat_id, "Nastala chyba pri odosielaní tiketu.")
+
 async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Obsluha kliknutí na buttony"""
     query = update.callback_query
@@ -141,6 +98,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if query.data == "user_analysis":
         await query.answer("📊 Načítavam analýzu...")
         
+        # Vaše upravené texty - zachované presne tak, ako sú
         current_analysis = f"""📊 *ANALÝZA ZÁPASU: CHELSEA vs PSG*
 
 🔍 *Forma tímov:*
@@ -174,12 +132,12 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.message.reply_text(current_analysis, parse_mode='Markdown')
         except Exception as e:
             print(f"Error sending analysis: {e}")
-            # Fallback bez markdown
             await query.message.reply_text(current_analysis)
-        
+            
     elif query.data == "user_vip":
         await query.answer("💎 VIP informácie...")
         
+        # Vaše upravené VIP texty - zachované presne tak, ako sú
         vip_promo = """💎 *SMART BETS VIP* 
 
 🔥 *Prečo si vybrať VIP?*
@@ -204,10 +162,13 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 📞 [BLIŽŠIE INFO TU](https://t.me/SmartTipy) """
         
-        await query.message.reply_text(vip_promo, parse_mode='Markdown')
+        try:
+            await query.message.reply_text(vip_promo, parse_mode='Markdown')
+        except Exception as e:
+            print(f"Error sending VIP info: {e}")
+            await query.message.reply_text(vip_promo)
 
 def is_admin(user_id):
-    """Kontrola či je užívateľ administrátor"""
     return user_id == ADMIN_ID
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -215,25 +176,41 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
     user_name = update.effective_user.first_name
     
+    print(f"Start command from user {user_id}: {update.message.text}")
+    
     if update.message.text and "analysis" in update.message.text:
-        await update.message.reply_text(
-            f"📊 **ANALÝZA ZÁPASU**\n\n{analysis_text}",
-            parse_mode='Markdown'
-        )
+        try:
+            await update.message.reply_text(
+                f"📊 **ANALÝZA ZÁPASU**\n\n{analysis_text}",
+                parse_mode='Markdown'
+            )
+        except Exception as e:
+            print(f"Error sending analysis: {e}")
+            await update.message.reply_text(f"📊 ANALÝZA ZÁPASU\n\n{analysis_text}")
         
         keyboard = InlineKeyboardMarkup([
             [InlineKeyboardButton("📊 ANALÝZA", callback_data="user_analysis")],
             [InlineKeyboardButton("💎 VIP", callback_data="user_vip")]
         ])
         
-        await update.message.reply_text(
-            f'🏆 **SMART BETS** - Váš expert na športové stávky\n\n'
-            '📊 **ANALÝZA** - Získajte podrobné analýzy zápasov\n'
-            '💎 **VIP** - Prémium tipy s vyššími kurzmi\n\n'
-            '🎯 Vyberte si možnosť:',
-            reply_markup=keyboard,
-            parse_mode='Markdown'
-        )
+        try:
+            await update.message.reply_text(
+                f'🏆 **SMART BETS** - Váš expert na športové stávky\n\n'
+                '📊 **ANALÝZA** - Získajte podrobné analýzy zápasov\n'
+                '💎 **VIP** - Prémium tipy s vyššími kurzmi\n\n'
+                '🎯 Vyberte si možnosť:',
+                reply_markup=keyboard,
+                parse_mode='Markdown'
+            )
+        except Exception as e:
+            print(f"Error sending menu: {e}")
+            await update.message.reply_text(
+                'SMART BETS - Váš expert na športové stávky\n\n'
+                'ANALÝZA - Získajte podrobné analýzy zápasov\n'
+                'VIP - Prémium tipy s vyššími kurzmi\n\n'
+                'Vyberte si možnosť:',
+                reply_markup=keyboard
+            )
         return
     
     if is_admin(user_id):
@@ -284,12 +261,14 @@ async def status(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("❌ Nemáte oprávnenie používať tohto bota.")
         return
     
+    uptime = time.time() - start_time
     await update.message.reply_text(
         f"🤖 **Bot Status**\n"
-        f"🔄 Running: {'✅ Yes' if bot_running else '❌ No'}\n"
+        f"🔄 Mode: Webhook\n"
         f"🌐 Port: {PORT}\n"
-        f"⏰ Time: {time.strftime('%Y-%m-%d %H:%M:%S')}\n"
-        f"🏠 Health server: {'✅ Active' if health_server else '❌ Inactive'}",
+        f"⏰ Uptime: {round(uptime/3600, 1)} hodín\n"
+        f"🔗 Webhook: {WEBHOOK_URL}/webhook\n"
+        f"✅ Status: Running",
         parse_mode='Markdown'
     )
 
@@ -309,58 +288,105 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         '/help - Nápoveda'
     )
 
-def main():
-    """Spustenie bota"""
-    global bot_running
+# Flask routes
+@app.route('/')
+def health_check():
+    """Health check endpoint"""
+    uptime = time.time() - start_time
+    return jsonify({
+        'status': 'ok',
+        'service': 'telegram-bot',
+        'mode': 'webhook',
+        'uptime_hours': round(uptime / 3600, 2),
+        'port': PORT,
+        'webhook_url': f"{WEBHOOK_URL}/webhook",
+        'timestamp': time.strftime('%Y-%m-%d %H:%M:%S')
+    })
+
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    """Webhook endpoint pre Telegram"""
+    global bot_app
     
-    print("🚀 Starting Telegram bot...")
+    if not bot_app:
+        return jsonify({'error': 'Bot not initialized'}), 500
     
-    # Spustenie health servera na pozadí
-    health_thread = threading.Thread(target=start_health_server, daemon=True)
-    health_thread.start()
-    
-    # Krátke čakanie na spustenie servera
-    time.sleep(1)
+    try:
+        update_data = request.get_json()
+        
+        if not update_data:
+            return jsonify({'error': 'No data received'}), 400
+        
+        print(f"Received update: {update_data.get('update_id', 'unknown')}")
+        
+        # Vytvorenie Update objektu
+        update = Update.de_json(update_data, bot_app.bot)
+        
+        # Spracovanie update v asyncio
+        async def process_update_async():
+            try:
+                await bot_app.process_update(update)
+            except Exception as e:
+                print(f"Error processing update: {e}")
+        
+        # Spustenie v event loope
+        asyncio.create_task(process_update_async())
+        
+        return jsonify({'status': 'ok'})
+        
+    except Exception as e:
+        print(f"Webhook error: {e}")
+        return jsonify({'error': str(e)}), 500
+
+async def setup_bot():
+    """Nastavenie bota"""
+    global bot_app
     
     try:
         # Vytvorenie aplikácie
-        application = Application.builder().token(BOT_TOKEN).build()
+        bot_app = Application.builder().token(BOT_TOKEN).build()
         
         # Registrácia handlerov
-        application.add_handler(CommandHandler("start", start))
-        application.add_handler(CommandHandler("tiket", tiket))
-        application.add_handler(CommandHandler("status", status))
-        application.add_handler(CommandHandler("help", help_command))
-        application.add_handler(CallbackQueryHandler(button_handler))
+        bot_app.add_handler(CommandHandler("start", start))
+        bot_app.add_handler(CommandHandler("tiket", tiket))
+        bot_app.add_handler(CommandHandler("status", status))
+        bot_app.add_handler(CommandHandler("help", help_command))
+        bot_app.add_handler(CallbackQueryHandler(button_handler))
         
-        # Nastavenie stavu
-        bot_running = True
+        # Nastavenie webhooku
+        webhook_url = f"{WEBHOOK_URL}/webhook"
+        await bot_app.bot.set_webhook(url=webhook_url)
         
-        print("✅ Bot started in polling mode")
-        print(f"✅ Health server running on http://0.0.0.0:{PORT}")
-        print("✅ All systems ready")
+        print(f"✅ Bot initialized")
+        print(f"✅ Webhook set: {webhook_url}")
         
-        # Spustenie pollingu (toto má vlastný event loop)
-        application.run_polling(
-            drop_pending_updates=True,
-            allowed_updates=Update.ALL_TYPES
-        )
+        return True
         
-    except KeyboardInterrupt:
-        print("\n🛑 Bot stopped by user")
     except Exception as e:
-        print(f"❌ Bot error: {e}")
-        import traceback
-        traceback.print_exc()
-    finally:
-        bot_running = False
-        print("🔄 Cleaning up...")
-        if health_server:
-            try:
-                health_server.shutdown()
-                print("✅ Health server stopped")
-            except:
-                pass
+        print(f"❌ Bot setup error: {e}")
+        return False
+
+def main():
+    """Spustenie aplikácie"""
+    print("🚀 Starting Telegram Bot with Webhook...")
+    
+    # Nastavenie event loopu pre async operácie
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    
+    # Spustenie bot setup
+    success = loop.run_until_complete(setup_bot())
+    
+    if not success:
+        print("❌ Failed to setup bot")
+        return
+    
+    print(f"✅ Starting Flask server on port {PORT}")
+    print(f"✅ Webhook URL: {WEBHOOK_URL}/webhook")
+    print("✅ Bot ready for requests")
+    
+    # Spustenie Flask servera
+    app.run(host='0.0.0.0', port=PORT)
 
 if __name__ == '__main__':
     main()
