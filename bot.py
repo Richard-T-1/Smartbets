@@ -141,41 +141,34 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if query.data == "user_analysis":
         await query.answer("📊 Načítavam analýzu...")
         
-        # Použijeme pôvodnú dlhú analýzu
-        current_analysis = f"""📊 **ANALÝZA ZÁPASU: CHELSEA vs PSG**
+        current_analysis = f"""📊 *ANALÝZA ZÁPASU: CHELSEA vs PSG*
 
-🔍 **Forma tímov:**
-• **Chelsea:** 3 výhry z posledných 5 zápasov (60%)
-• **PSG:** 4 výhry z posledných 5 zápasov (80%)
+🔍 *Forma tímov:*
+• Chelsea: 3 výhry z posledných 5 zápasov (60%)
+• PSG: 4 výhry z posledných 5 zápasov (80%)
 
-⚽ **Ofenzívne štatistiky:**
+⚽ *Ofenzívne štatistiky:*
 • Chelsea: 1.8 gólov/zápas (posledných 5)
 • PSG: 2.4 gólov/zápas doma
 • PSG strelilo 12 gólov v posledných 5 domácich
 
-🛡️ **Defenzívne štatistiky:**
+🛡️ *Defenzívne štatistiky:*
 • Chelsea inkasuje 1.2 gólov/zápas vonku
 • PSG má čisté konto v 60% domácich zápasov
 
-📈 **Vzájomné zápasy:**
+📈 *Vzájomné zápasy:*
 • Posledné 3 zápasy: 2x Over 1.5, 1x Under
 • PSG vyhralo 2 z posledných 3 vzájomných
 
-🎯 **Náš tip: PSG Win + Over 1.5**
-**Dôvod:** PSG má lepšiu formu, hrá doma a Chelsea má problémy v obrane na cestách.
+🎯 *Náš tip: PSG Win + Over 1.5*
 
-📈 **Ďalšie faktory:**
+📈 *Ďalšie faktory:*
 • PSG je bez zranených hráčov
 • Chelsea cestuje po náročnom zápase
 • Domáce prostredie favorizuje PSG
 • Oba tímy potrebujú víťazstvo
 
-🎲 **Alternatívne tipy:**
-• PSG Win: 1.75
-• BTTS Yes: 1.65
-• Over 2.5: 1.80
-
-💡 **Confidence: 8/10**"""
+💡 Confidence: 8/10 """
         
         try:
             await query.message.reply_text(current_analysis, parse_mode='Markdown')
@@ -187,31 +180,29 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif query.data == "user_vip":
         await query.answer("💎 VIP informácie...")
         
-        vip_promo = """💎 **SMART BETS VIP** 
+        vip_promo = """💎 *SMART BETS VIP* 
 
-🔥 **Prečo si vybrať VIP?**
-• **85% úspešnosť** našich VIP tipov
-• **Exkluzívne insider info** pred zápasmi
-• **Skoršie tipy** - 1 hodinu pred kanálom  
-• **Vyššie kurzy** - priemer 2.8+
-• **Osobné poradenstvo** pri stávkach
+🔥 *Prečo si vybrať VIP?*
 
-📊 **Posledný mesiac VIP:**
-✅ 23 výherných tipov
-❌ 4 prehraté tipy  
-💰 **ROI: +34%**
+💎 1-3 Exkluzívne tipy každý deň
+🎯 Denné tipy s kurzom 1.8+
+🔔 Prioritná podpora
+📊 Profesionálne analýzy
+🎁 Bonusové tipy cez víkendy
 
-🎯 **VIP obsahuje:**
-• Denné analýzy TOP zápasov
-• Live tipy počas zápasov
-• Bankroll management  
-• Riziková upozornenia
 
-💬 **Pripojte sa k VIP skupine:**
-👉 📞 [BLIŽŠIE INFO TU](https://t.me/SmartTipy) 
+🚀 *BILANCIA TIKETOV*
+• výherné tikety: 11 ✅
+• prehraté tikety: 5 ❌
 
-💰 **Špeciálna cena:** ~~€49~~ **€29/mesiac**
-🎁 **Prvý týždeň ZADARMO!**"""
+
+📈 *NAŠA ÚSPEŠNOSŤ*
+• Navrátnosť za dané obdobie: 9.45% 
+• Zisk za dané obdobie: +3.44u
+
+(1u=250€)
+
+📞 [BLIŽŠIE INFO TU](https://t.me/SmartTipy) """
         
         await query.message.reply_text(vip_promo, parse_mode='Markdown')
 
