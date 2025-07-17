@@ -322,15 +322,23 @@ def webhook():
         # Vytvorenie Update objektu
         update = Update.de_json(update_data, bot_app.bot)
         
-        # Spracovanie update v asyncio
-        async def process_update_async():
+        # Spracovanie update - použijeme správny asyncio
+        import threading
+        
+        def process_update():
+            """Spracuje update v novom event loope"""
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
             try:
-                await bot_app.process_update(update)
+                loop.run_until_complete(bot_app.process_update(update))
             except Exception as e:
                 print(f"Error processing update: {e}")
+            finally:
+                loop.close()
         
-        # Spustenie v event loope
-        asyncio.create_task(process_update_async())
+        # Spustenie v threade
+        thread = threading.Thread(target=process_update)
+        thread.start()
         
         return jsonify({'status': 'ok'})
         
