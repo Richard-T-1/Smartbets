@@ -303,6 +303,35 @@ def health_check():
         'timestamp': time.strftime('%Y-%m-%d %H:%M:%S')
     })
 
+@app.route('/debug')
+def debug_info():
+    """Debug informácie"""
+    return jsonify({
+        'bot_token': BOT_TOKEN[:10] + "..." if BOT_TOKEN else "NOT SET",
+        'webhook_url': WEBHOOK_URL,
+        'bot_initialized': bot_app is not None,
+        'webhook_endpoint': f"{WEBHOOK_URL}/webhook"
+    })
+
+@app.route('/webhook_info')
+async def webhook_info():
+    """Informácie o webhook od Telegram"""
+    if not bot_app:
+        return jsonify({'error': 'Bot not initialized'})
+    
+    try:
+        webhook_info = await bot_app.bot.get_webhook_info()
+        return jsonify({
+            'webhook_url': webhook_info.url,
+            'has_custom_certificate': webhook_info.has_custom_certificate,
+            'pending_update_count': webhook_info.pending_update_count,
+            'last_error_date': webhook_info.last_error_date,
+            'last_error_message': webhook_info.last_error_message,
+            'max_connections': webhook_info.max_connections
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
 @app.route('/webhook', methods=['POST'])
 def webhook():
     """Webhook endpoint pre Telegram"""
@@ -361,17 +390,40 @@ async def setup_bot():
         bot_app.add_handler(CommandHandler("help", help_command))
         bot_app.add_handler(CallbackQueryHandler(button_handler))
         
-        # Nastavenie webhooku
+        # Najprv zrušíme existujúci webhook
+        await bot_app.bot.delete_webhook(drop_pending_updates=True)
+        print("🗑️ Old webhook deleted")
+        
+        # Krátke čakanie
+        import asyncio
+        await asyncio.sleep(1)
+        
+        # Nastavenie nového webhooku
         webhook_url = f"{WEBHOOK_URL}/webhook"
-        await bot_app.bot.set_webhook(url=webhook_url)
+        result = await bot_app.bot.set_webhook(
+            url=webhook_url,
+            drop_pending_updates=True,
+            max_connections=40
+        )
         
         print(f"✅ Bot initialized")
         print(f"✅ Webhook set: {webhook_url}")
+        print(f"✅ Webhook result: {result}")
+        
+        # Overenie webhook
+        webhook_info = await bot_app.bot.get_webhook_info()
+        print(f"🔍 Webhook verification:")
+        print(f"   URL: {webhook_info.url}")
+        print(f"   Pending updates: {webhook_info.pending_update_count}")
+        if webhook_info.last_error_message:
+            print(f"   ⚠️ Last error: {webhook_info.last_error_message}")
         
         return True
         
     except Exception as e:
         print(f"❌ Bot setup error: {e}")
+        import traceback
+        traceback.print_exc()
         return False
 
 def main():
