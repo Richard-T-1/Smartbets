@@ -156,6 +156,7 @@ def handle_start_command(chat_id, user_id, user_name, text):
         # Pošle analýzu
         send_telegram_message(
             chat_id, 
+            analysis_text,
             parse_mode='Markdown'
         )
         
