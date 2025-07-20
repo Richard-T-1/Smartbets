@@ -25,45 +25,29 @@ start_time = time.time()
 
 # Príklad dát zápasu
 example_match = {
-    'sport': 'Futbal - sablona',
-    'team1': 'CHELSEA',
-    'team2': 'PARIS SAINT-GERMAIN',
-    'tournament': 'FIFA Club World Cup',
-    'time': '21:00',
-    'pick': 'PSG To Win + Over 1.5 Total Goals - 1u',
-    'odds': '1.93',
-    'betting_url': 'https://your-betting-site.com/bet/12345'
+    'sport': 'Tenis',
+    'team1': 'L. DARDERI',
+    'team2': 'J. DE JONG',
+    'tournament': 'Bastad - finále',
+    'time': '14:00',
+    'pick': 'L. DARDERI vyhrá - 1',
+    'odds': '1.58',
+    'betting_url': 'https://www.tipsport.sk/kurzy/zapas/tenis-darderi-luciano-de-jong-jesper/7249621/co-sa-tipuje'
 }
 
 # Analýza text
-analysis_text = """📊 *ANALÝZA ZÁPASU: CHELSEA vs PSG*
+analysis_text = """📊 *ANALÝZA ZÁPASU: L. Darderi - J. De Jong*
 
-🔍 *Forma tímov:*
-• Chelsea: 3 výhry z posledných 5 zápasov (60%)
-• PSG: 4 výhry z posledných 5 zápasov (80%)
+*Bastad - finále* 🏆
+Čas: 14:00
 
-⚽ *Ofenzívne štatistiky:*
-• Chelsea: 1.8 gólov/zápas (posledných 5)
-• PSG: 2.4 gólov/zápas doma
-• PSG strelilo 12 gólov v posledných 5 domácich
+Pred pár dňami sme boli prítomní pri finále Wimbledonu, teraz budeme aj pri finále Bastadu. O víťazovi sa rozhodne v zápase Darderi - De Jong 🎾
 
-🛡️ *Defenzívne štatistiky:*
-• Chelsea inkasuje 1.2 gólov/zápas vonku
-• PSG má čisté konto v 60% domácich zápasov
+_Luciano Darderi (ATP 55) už ma z posledného obdobia 2 tituly a určite si ide po tretí. Darderi má výborné podanie a agresívnejší prístup. Uprednostňuje baseline štýl tenisu so silným forehandom. Jeho slabinou je bránenie breakbalov a inkasuje v priemere viac es 🇮🇹
 
-📈 *Vzájomné zápasy:*
-• Posledné 3 zápasy: 2x Over 1.5, 1x Under
-• PSG vyhralo 2 z posledných 3 vzájomných
+Jesper De Jong (ATP 106) vstupuje ako outsider do tohto zápasu. Jeho štýl podávania je agresívny, máva však preto aj problémy s dvojchybami a podania môžu byť nekonzistentné. Často vystupuje k sieti, čo na antuke je o niečo menej efektívne. De Jong bude mať viac času na pribehnutie k lopte a môže lepšie pripraviť loby alebo passing shoty _ 🇳🇱
 
-🎯 *Náš tip: PSG Win + Over 1.5*
-
-📈 *Ďalšie faktory:*
-• PSG je bez zranených hráčov
-• Chelsea cestuje po náročnom zápase
-• Domáce prostredie favorizuje PSG
-• Oba tímy potrebujú víťazstvo
-
-💡 Confidence: 8/10"""
+*Darderi je v tomto zápase určite favorit a aj jeho herný štýl mu zväčšuje šance na úspech* ✅"""
 
 vip_text = """💎 *SMART BETS VIP* 
 
@@ -76,12 +60,12 @@ vip_text = """💎 *SMART BETS VIP*
 🎁 Bonusové tipy cez víkendy
 
 🚀 *BILANCIA TIKETOV*
-• výherné tikety: 11 ✅
+• výherné tikety: 14 ✅
 • prehraté tikety: 5 ❌
 
 📈 *NAŠA ÚSPEŠNOSŤ*
-• Navrátnosť za dané obdobie: 9.45% 
-• Zisk za dané obdobie: +3.44u
+• Navrátnosť za dané obdobie: 8.25% 
+• Zisk za dané obdobie: +4.16u
 
 (1u=250€)
 
@@ -266,7 +250,7 @@ def send_ticket_to_channel():
     }
     
     # Skús poslať obrázok
-    image_path = f"images/{match_data.get('sport', 'Futbal - sablona')}.png"
+    image_path = f"images/{match_data.get('sport', 'Bastad - finale')}.png"
     
     if send_telegram_photo(CHANNEL_ID, image_path, caption, keyboard):
         print("✅ Ticket with image sent to channel")
