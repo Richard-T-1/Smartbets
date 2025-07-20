@@ -25,7 +25,7 @@ start_time = time.time()
 
 # Príklad dát zápasu
 example_match = {
-    'sport': 'Tenis',
+    'sport': 'Bastad - finale',
     'team1': 'L. DARDERI',
     'team2': 'J. DE JONG',
     'tournament': 'Bastad - finále',
