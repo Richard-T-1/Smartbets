@@ -11,7 +11,7 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 
 # Konfigurácia
 BOT_TOKEN = os.environ.get('BOT_TOKEN', '7511593743:AAGsPG2FG9_QC-ynD85hHHptE29-P5KiBMQ')
-CHANNEL_ID = os.environ.get('CHANNEL_ID', '-1002107685116')
+CHANNEL_ID = os.environ.get('CHANNEL_ID', '-1002827606573')
 ADMIN_ID = int(os.environ.get('ADMIN_ID', '7626888184'))
 PORT = int(os.environ.get('PORT', 10000))
 WEBHOOK_URL = os.environ.get('WEBHOOK_URL', 'https://smartbets.onrender.com')
@@ -37,23 +37,22 @@ example_match = {
 
 analysis_text = """📊 *ANALÝZA ZÁPASU: J. Franceska - C. Paquet*
 
-_Jones Franceska (WTA 101) nedávno vyhrala svoj prvý WTA 125 titul, kde vo finále zdolala Elsu Jacquemot. Je skôr defenzívny typ hračky, svoje super zdoláva vďaka vytrvalosti a ich vlastným chybám. Francecska je taktiež známa svojim handicapom (chýbajúce prsty), čo môže sťažovať jej hru (verím, že si už zvykla 😄 ). Ma trocha slabšie podanie a relatívne málo skúsenosti na najvyššej úrovni 🇬🇧
+_ Jones Franceska (WTA 101) nedávno vyhrala svoj prvý WTA 125 titul, kde vo finále zdolala Elsu Jacquemot. Je skôr defenzívny typ hračky, svoje super zdoláva vďaka vytrvalosti a ich vlastným chybám. Francecska je taktiež známa svojim handicapom (chýbajúce prsty), čo môže sťažovať jej hru (verím, že si už zvykla 😄 ). Ma trocha slabšie podanie a relatívne málo skúsenosti na najvyššej úrovni 🇬🇧
 
 Chloe Paquet (WTA 173) má tento rok zatiaľ negatívnu bilanciu (14-18) a je naopak ofenzivnejsou hračkou. Má slušný forehand a najmä backend, ako aj pohyb po kurte. Jej kondícia je slabšia, čo môže byť aj kvôli jej veku (31 rokov) 🇫🇷
 
-V ich vzájomných zápasoch Jones 2 krát vyhrala 2:0_ 🙌
+V ich vzájomných zápasoch Jones 2 krát vyhrala 2:0 _ 🙌
 
 *V tomto zápase si vyberám Jones Francesku ako lepšiu a vytrvalejsiu tenistku * ✅
 
-___
 
 📊 *ANALÝZA ZÁPASU: Kyrgios + Monfils - Nys + Roger-Vasselin*
 
 Priatelia, prvýkrát si podáme aj na 4hru. V nej sa stretnú Kyrgios + Monfils s Nys + Roger-Vasselin 🎾
 
-_Hugo Nys a Edouard Roger-Vasselin sú už zohratym párom v 4hre. Vasselin ako starší hráč  hrá viac pri sieti, kým Nys je baseline hráč. Vasselin je vo svojej práci už skúsený a dobrými "poachmi" (zachytenie lopty pri sieti) vie skomplikovať súperom hru. Nys má zas hlboké groundstrokes, ktoré držia súperov vzadu a v defenzíve. Kladú dôraz na konzistenciu a minimum chýb 🏆
+_ Hugo Nys a Edouard Roger-Vasselin sú už zohratym párom v 4hre. Vasselin ako starší hráč  hrá viac pri sieti, kým Nys je baseline hráč. Vasselin je vo svojej práci už skúsený a dobrými "poachmi" (zachytenie lopty pri sieti) vie skomplikovať súperom hru. Nys má zas hlboké groundstrokes, ktoré držia súperov vzadu a v defenzíve. Kladú dôraz na konzistenciu a minimum chýb 🏆
 
-Kyrgios s Monfilsom sú zamozrejme veľkí hráči, ale Nick sa ešte dostáva len do formy po zranení a toto je ich premiéra v 4hre. Hrajú viacmenej silový a agresívnejší tenis. Mávajú neortodoxné údery a ich stratégia sa dá popísať ako risk/reward - teda vedia robiť riskantné rozhodnutia pre získanie bodov, čo však prináša aj chyby_⚖️
+Kyrgios s Monfilsom sú zamozrejme veľkí hráči, ale Nick sa ešte dostáva len do formy po zranení a toto je ich premiéra v 4hre. Hrajú viacmenej silový a agresívnejší tenis. Mávajú neortodoxné údery a ich stratégia sa dá popísať ako risk/reward - teda vedia robiť riskantné rozhodnutia pre získanie bodov, čo však prináša aj chyby _ ⚖️
 
 *Nys + Vasselin sú skúsení a klavírny hráči 4hry, ktorú určite majú navrch aj v skusenostiach a zohranosti* ✅"""
 
