@@ -25,14 +25,14 @@ start_time = time.time()
 
 # Príklad dát zápasu
 example_match = {
-    'sport': 'Franceska - Paquet',
-    'team1': 'J. Franceska',
-    'team2': 'C. Paquet',
-    'tournament': 'WTA Palermo',
-    'time': '17:35',
-    'pick': 'J. Franceska vyhrá - 1',
-    'odds': '1.28',
-    'betting_url': 'https://www.tipsport.sk/kurzy/zapas/tenis-jones-francesca-paquet-chloe/7250839/co-sa-tipuje'
+    'sport': '4hra',
+    'team1': 'Kyrgios/G.Monfils',
+    'team2': 'Nys/Roger Vasselin',
+    'tournament': 'ATP Washington',
+    'time': '19:20',
+    'pick': 'Nys/Roger Vasselin vyhrajú - 2',
+    'odds': '1.36',
+    'betting_url': 'https://www.tipsport.sk/kurzy/zapas/tenis-kyrgiosgmonfils-nysroger-vasselin/7250241/co-sa-tipuje'
 }
 
 analysis_text = """📊 *ANALÝZA ZÁPASU: J. Franceska - C. Paquet*
@@ -67,12 +67,12 @@ vip_text = """💎 *SMART BETS VIP*
 🎁 Bonusové tipy cez víkendy
 
 🚀 *BILANCIA TIKETOV*
-• výherné tikety: 14 ✅
+• výherné tikety: 15 ✅
 • prehraté tikety: 5 ❌
 
 📈 *NAŠA ÚSPEŠNOSŤ*
-• Navrátnosť za dané obdobie: 8.25% 
-• Zisk za dané obdobie: +4.16u
+• Navrátnosť za dané obdobie: 11.91% 
+• Zisk za dané obdobie: +6.48u
 
 (1u=250€)
 
@@ -257,7 +257,7 @@ def send_ticket_to_channel():
     }
     
     # Skús poslať obrázok
-    image_path = f"images/{match_data.get('sport', 'Franceska - Paquete')}.png"
+    image_path = f"images/{match_data.get('sport', '4hra')}.png"
     
     if send_telegram_photo(CHANNEL_ID, image_path, caption, keyboard):
         print("✅ Ticket with image sent to channel")
