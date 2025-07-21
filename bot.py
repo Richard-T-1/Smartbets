@@ -25,29 +25,37 @@ start_time = time.time()
 
 # Príklad dát zápasu
 example_match = {
-    'sport': 'Bastad - finale',
-    'team1': 'L. DARDERI',
-    'team2': 'J. DE JONG',
-    'tournament': 'Bastad - finále',
-    'time': '14:00',
-    'pick': 'L. DARDERI vyhrá - 1',
-    'odds': '1.58',
-    'betting_url': 'https://www.tipsport.sk/kurzy/zapas/tenis-darderi-luciano-de-jong-jesper/7249621/co-sa-tipuje'
+    'sport': 'Franceska - Paquet',
+    'team1': 'J. Franceska',
+    'team2': 'C. Paquet',
+    'tournament': 'WTA Palermo',
+    'time': '17:35',
+    'pick': 'J. Franceska vyhrá - 1',
+    'odds': '1.28',
+    'betting_url': 'https://www.tipsport.sk/kurzy/zapas/tenis-jones-francesca-paquet-chloe/7250839/co-sa-tipuje'
 }
 
-# Analýza text
-analysis_text = """📊 *ANALÝZA ZÁPASU: L. Darderi - J. De Jong*
+analysis_text = """📊 *ANALÝZA ZÁPASU: J. Franceska - C. Paquet*
 
-*Bastad - finále* 🏆
-Čas: 14:00
+_Jones Franceska (WTA 101) nedávno vyhrala svoj prvý WTA 125 titul, kde vo finále zdolala Elsu Jacquemot. Je skôr defenzívny typ hračky, svoje super zdoláva vďaka vytrvalosti a ich vlastným chybám. Francecska je taktiež známa svojim handicapom (chýbajúce prsty), čo môže sťažovať jej hru (verím, že si už zvykla 😄 ). Ma trocha slabšie podanie a relatívne málo skúsenosti na najvyššej úrovni 🇬🇧
 
-Pred pár dňami sme boli prítomní pri finále Wimbledonu, teraz budeme aj pri finále Bastadu. O víťazovi sa rozhodne v zápase Darderi - De Jong 🎾
+Chloe Paquet (WTA 173) má tento rok zatiaľ negatívnu bilanciu (14-18) a je naopak ofenzivnejsou hračkou. Má slušný forehand a najmä backend, ako aj pohyb po kurte. Jej kondícia je slabšia, čo môže byť aj kvôli jej veku (31 rokov) 🇫🇷
 
-_Luciano Darderi (ATP 55) už ma z posledného obdobia 2 tituly a určite si ide po tretí. Darderi má výborné podanie a agresívnejší prístup. Uprednostňuje baseline štýl tenisu so silným forehandom. Jeho slabinou je bránenie breakbalov a inkasuje v priemere viac es 🇮🇹
+V ich vzájomných zápasoch Jones 2 krát vyhrala 2:0_ 🙌
 
-Jesper De Jong (ATP 106) vstupuje ako outsider do tohto zápasu. Jeho štýl podávania je agresívny, máva však preto aj problémy s dvojchybami a podania môžu byť nekonzistentné. Často vystupuje k sieti, čo na antuke je o niečo menej efektívne. De Jong bude mať viac času na pribehnutie k lopte a môže lepšie pripraviť loby alebo passing shoty _ 🇳🇱
+*V tomto zápase si vyberám Jones Francesku ako lepšiu a vytrvalejsiu tenistku * ✅
 
-*Darderi je v tomto zápase určite favorit a aj jeho herný štýl mu zväčšuje šance na úspech* ✅"""
+___
+
+📊 *ANALÝZA ZÁPASU: Kyrgios + Monfils - Nys + Roger-Vasselin*
+
+Priatelia, prvýkrát si podáme aj na 4hru. V nej sa stretnú Kyrgios + Monfils s Nys + Roger-Vasselin 🎾
+
+_Hugo Nys a Edouard Roger-Vasselin sú už zohratym párom v 4hre. Vasselin ako starší hráč  hrá viac pri sieti, kým Nys je baseline hráč. Vasselin je vo svojej práci už skúsený a dobrými "poachmi" (zachytenie lopty pri sieti) vie skomplikovať súperom hru. Nys má zas hlboké groundstrokes, ktoré držia súperov vzadu a v defenzíve. Kladú dôraz na konzistenciu a minimum chýb 🏆
+
+Kyrgios s Monfilsom sú zamozrejme veľkí hráči, ale Nick sa ešte dostáva len do formy po zranení a toto je ich premiéra v 4hre. Hrajú viacmenej silový a agresívnejší tenis. Mávajú neortodoxné údery a ich stratégia sa dá popísať ako risk/reward - teda vedia robiť riskantné rozhodnutia pre získanie bodov, čo však prináša aj chyby_⚖️
+
+*Nys + Vasselin sú skúsení a klavírny hráči 4hry, ktorú určite majú navrch aj v skusenostiach a zohranosti* ✅"""
 
 vip_text = """💎 *SMART BETS VIP* 
 
@@ -250,7 +258,7 @@ def send_ticket_to_channel():
     }
     
     # Skús poslať obrázok
-    image_path = f"images/{match_data.get('sport', 'Bastad - finale')}.png"
+    image_path = f"images/{match_data.get('sport', 'Franceska - Paquete')}.png"
     
     if send_telegram_photo(CHANNEL_ID, image_path, caption, keyboard):
         print("✅ Ticket with image sent to channel")
