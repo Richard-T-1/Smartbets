@@ -248,7 +248,7 @@ def send_ticket_to_channel():
     }
     
     # Skús poslať obrázok
-    image_path = f"images/{match_data.get('sport', '4hra')}.png"
+    image_path = f"images/{match_data.get('sport', 'UEFA')}.png"
     
     if send_telegram_photo(CHANNEL_ID, image_path, caption, keyboard):
         print("✅ Ticket with image sent to channel")
