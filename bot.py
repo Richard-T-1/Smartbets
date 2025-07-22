@@ -25,36 +25,27 @@ start_time = time.time()
 
 # Príklad dát zápasu
 example_match = {
-    'sport': '4hra',
-    'team1': 'Kyrgios/G.Monfils',
-    'team2': 'Nys/Roger Vasselin',
-    'tournament': 'ATP Washington',
-    'time': '19:20',
-    'pick': 'Nys/Roger Vasselin vyhrajú - 2',
-    'odds': '1.36',
-    'betting_url': 'https://www.tipsport.sk/kurzy/zapas/tenis-kyrgiosgmonfils-nysroger-vasselin/7250241/co-sa-tipuje'
+    'sport': 'UEFA',
+    'team1': 'Hamrun Spartans',
+    'team2': 'Dynamo Kiev',
+    'tournament': 'Liga Majstrov - kvalifikácia',
+    'time': '19:00',
+    'pick': 'Dynamo Kiev vyhrá - 2',
+    'odds': '1.45',
+    'betting_url': 'https://www.tipsport.sk/kurzy/zapas/futbal-hamrun-dynamo-kyiv/7240346'
 }
 
-analysis_text = """📊 *ANALÝZA ZÁPASU: J. Franceska - C. Paquet*
+analysis_text = """📊 *ANALÝZA ZÁPASU: Hamrun Spartans - Dynamo Kiev*
 
-_ Jones Franceska (WTA 101) nedávno vyhrala svoj prvý WTA 125 titul, kde vo finále zdolala Elsu Jacquemot. Je skôr defenzívny typ hračky, svoje super zdoláva vďaka vytrvalosti a ich vlastným chybám. Francecska je taktiež známa svojim handicapom (chýbajúce prsty), čo môže sťažovať jej hru (verím, že si už zvykla 😄 ). Ma trocha slabšie podanie a relatívne málo skúsenosti na najvyššej úrovni 🇬🇧
+Dnes sa pozrieme na štvrťfinále kvalifikácie do Champions league. V nej sa stretne Dynamo Kiev s Hamurnom Spartans ⚽️
 
-Chloe Paquet (WTA 173) má tento rok zatiaľ negatívnu bilanciu (14-18) a je naopak ofenzivnejsou hračkou. Má slušný forehand a najmä backend, ako aj pohyb po kurte. Jej kondícia je slabšia, čo môže byť aj kvôli jej veku (31 rokov) 🇫🇷
+_ Kiev sa pravidelne zúčastňuje európskych pohárov a vyhráva Majstrovstvá Ukrajiny. Sú celkovo kvalitnejší tím s viac skúsenosťami a aj väčšou individuálnou kvalitou. Na druhu stranu majú momentálne horšiu formu, čo sa však môže zmeniť proti outsiderovi, akým je Hamrun 🇺🇦
 
-V ich vzájomných zápasoch Jones 2 krát vyhrala 2:0 _ 🙌
+Hamrun Spartans dosiahol prvýkrát play-off fázu tejto sútaže. Je to 1 z najlepších tímov na Malte a v poslednej dobe majú solídnu formu. Defenzívu sa snažia držať kompaktnú a efektívne využívajú štandardné situácie. Ich kvalita kádra je však  limitovaná a väčšinou nedokážu udržať tempo po celý zápas. Nemajú ani tak veľa skúseností s kvalitnými súpermi, akým je Dynamo _ 🇲🇹
 
-*V tomto zápase si vyberám Jones Francesku ako lepšiu a vytrvalejsiu tenistku * ✅
+* V tomto zápasu vyberám celkovú kvalitu a skúsenosti pred momentálnou formou * ✅
 
-
-📊 *ANALÝZA ZÁPASU: Kyrgios + Monfils - Nys + Roger-Vasselin*
-
-Priatelia, prvýkrát si podáme aj na 4hru. V nej sa stretnú Kyrgios + Monfils s Nys + Roger-Vasselin 🎾
-
-_ Hugo Nys a Edouard Roger-Vasselin sú už zohratym párom v 4hre. Vasselin ako starší hráč  hrá viac pri sieti, kým Nys je baseline hráč. Vasselin je vo svojej práci už skúsený a dobrými "poachmi" (zachytenie lopty pri sieti) vie skomplikovať súperom hru. Nys má zas hlboké groundstrokes, ktoré držia súperov vzadu a v defenzíve. Kladú dôraz na konzistenciu a minimum chýb 🏆
-
-Kyrgios s Monfilsom sú zamozrejme veľkí hráči, ale Nick sa ešte dostáva len do formy po zranení a toto je ich premiéra v 4hre. Hrajú viacmenej silový a agresívnejší tenis. Mávajú neortodoxné údery a ich stratégia sa dá popísať ako risk/reward - teda vedia robiť riskantné rozhodnutia pre získanie bodov, čo však prináša aj chyby _ ⚖️
-
-*Nys + Vasselin sú skúsení a klavírny hráči 4hry, ktorú určite majú navrch aj v skusenostiach a zohranosti* ✅"""
+Dodatok: pre odvážnejšich tiperov je možné do tohto tiketu doplniť počet gólov 1-4 (poprípade 1-3), keďže obrana Hamrunu je slušná a neočakávame nejakú prestrelku."""
 
 vip_text = """💎 *SMART BETS VIP* 
 
@@ -67,12 +58,12 @@ vip_text = """💎 *SMART BETS VIP*
 🎁 Bonusové tipy cez víkendy
 
 🚀 *BILANCIA TIKETOV*
-• výherné tikety: 15 ✅
+• výherné tikety: 16 ✅
 • prehraté tikety: 5 ❌
 
 📈 *NAŠA ÚSPEŠNOSŤ*
-• Navrátnosť za dané obdobie: 11.91% 
-• Zisk za dané obdobie: +6.48u
+• Navrátnosť za dané obdobie: 13.94% 
+• Zisk za dané obdobie: +7.86u
 
 (1u=250€)
 
@@ -243,7 +234,7 @@ def send_ticket_to_channel():
     
     # Caption pre tiket
     caption = (f"🏆 {match_data['team1']} vs {match_data['team2']}\n"
-              f"🎾 {match_data['tournament']}\n"
+              f"⚽️ {match_data['tournament']}\n"
               f"🕘 {match_data['time']}\n\n"
               f"🎯 {match_data['pick']}\n"
               f"💰 Kurz: {match_data['odds']}")
