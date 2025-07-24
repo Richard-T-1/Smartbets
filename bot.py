@@ -47,7 +47,7 @@ V ich histórii hrali spolu 2 krát - v 2020 a 2021. Oba zápasy vyhrali Moutet,
 
 * Verím, že aj tento zápas bude vyrovnaný (s miernou výhodou Mouteta) a prinesie dobrú show aj pre divákov * ✅
 
-Alternatíva: Dá sa aj trocha viac zapisovať s handicapom +3.5 """
+Alternatíva: Dá sa aj trocha viac zariskovať s handicapom +3.5 """
 
 vip_text = """💎 *SMART BETS VIP* 
 
