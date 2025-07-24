@@ -39,7 +39,7 @@ analysis_text = """📊 *ANALÝZA ZÁPASU: D. Evans - C. Moutet*
 
 Priatelia, dneska tu máme osemfinále turnaja vo Washnigtone. V ňom sa proti sebe stretnú aj Daniel Evans (ATP 144) s Corentinom Moutetom (ATP 59) 🎾
 
-_ Evans, ktorého by som nazval aj "tenisovým šachistom", má výborné defenzíve schopnosti. Hra baseline štýlom (na základnej čiare kurtu) a svoju hru vie pestro variovať - drop shoty, loby, zmeny tempa a uhlov. Mimo basekine štýlu mu nevadí ani vyjsť na sieť a využiť volej. Jeho slabšiu stránkou je sila v uderoch a fyzické limity kvôli veku (35 rokov). Napriek tomu však postupuje v ATP rebríčku 🇬🇧
+_ Evans, ktorého by som nazval aj "tenisovým šachistom", má výborné defenzíve schopnosti. Hra baseline štýlom (na základnej čiare kurtu) a svoju hru vie pestro variovať - drop shoty, loby, zmeny tempa a uhlov. Mimo baseline štýlu mu nevadí ani vyjsť na sieť a využiť volej. Jeho slabšou stránkou je sila v úderoch a fyzické limity kvôli veku (35 rokov). Napriek tomu však postupuje v ATP rebríčku 🇬🇧
 
 Corentin Moutet je agresívny baseliner, ktorý sa aj vyznačuje hernou kreativitou. Jeho výhodu spočíva v atletizme a dobrom pohybe po kurte. Ako baseline hráč takisto využíva drop shoty a loby. Jeho hra je niekedy zbrkla a môže mať problémy s mentalitou 🇫🇷
 
