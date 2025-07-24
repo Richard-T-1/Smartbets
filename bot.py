@@ -25,27 +25,29 @@ start_time = time.time()
 
 # Príklad dát zápasu
 example_match = {
-    'sport': 'UEFA',
-    'team1': 'Hamrun Spartans',
-    'team2': 'Dynamo Kiev',
-    'tournament': 'Liga Majstrov - kvalifikácia',
-    'time': '19:00',
-    'pick': 'Dynamo Kiev vyhrá - 2',
-    'odds': '1.45',
-    'betting_url': 'https://www.tipsport.sk/kurzy/zapas/futbal-hamrun-dynamo-kyiv/7240346'
+    'sport': 'Evans - Moutet',
+    'team1': 'D. Evans',
+    'team2': 'C. Moutet',
+    'tournament': 'ATP Washington',
+    'time': '18:10',
+    'pick': 'D. Evans + 4.5 gemu',
+    'odds': '1.47',
+    'betting_url': 'https://www.tipsport.sk/kurzy/zapas/tenis-evans-daniel-moutet-corentin/7260991/co-sa-tipuje'
 }
 
-analysis_text = """📊 *ANALÝZA ZÁPASU: Hamrun Spartans - Dynamo Kiev*
+analysis_text = """📊 *ANALÝZA ZÁPASU: D. Evans - C. Moutet*
 
-Dnes sa pozrieme na štvrťfinále kvalifikácie do Champions league. V nej sa stretne Dynamo Kiev s Hamurnom Spartans ⚽️
+Priatelia, dneska tu máme osemfinále turnaja vo Washnigtone. V ňom sa proti sebe stretnú aj Daniel Evans (ATP 144) s Corentinom Moutetom (ATP 59) 🎾
 
-_ Kiev sa pravidelne zúčastňuje európskych pohárov a vyhráva Majstrovstvá Ukrajiny. Sú celkovo kvalitnejší tím s viac skúsenosťami a aj väčšou individuálnou kvalitou. Na druhu stranu majú momentálne horšiu formu, čo sa však môže zmeniť proti outsiderovi, akým je Hamrun 🇺🇦
+_ Evans, ktorého by som nazval aj "tenisovým šachistom", má výborné defenzíve schopnosti. Hra baseline štýlom (na základnej čiare kurtu) a svoju hru vie pestro variovať - drop shoty, loby, zmeny tempa a uhlov. Mimo basekine štýlu mu nevadí ani vyjsť na sieť a využiť volej. Jeho slabšiu stránkou je sila v uderoch a fyzické limity kvôli veku (35 rokov). Napriek tomu však postupuje v ATP rebríčku 🇬🇧
 
-Hamrun Spartans dosiahol prvýkrát play-off fázu tejto sútaže. Je to 1 z najlepších tímov na Malte a v poslednej dobe majú solídnu formu. Defenzívu sa snažia držať kompaktnú a efektívne využívajú štandardné situácie. Ich kvalita kádra je však  limitovaná a väčšinou nedokážu udržať tempo po celý zápas. Nemajú ani tak veľa skúseností s kvalitnými súpermi, akým je Dynamo _ 🇲🇹
+Corentin Moutet je agresívny baseliner, ktorý sa aj vyznačuje hernou kreativitou. Jeho výhodu spočíva v atletizme a dobrom pohybe po kurte. Ako baseline hráč takisto využíva drop shoty a loby. Jeho hra je niekedy zbrkla a môže mať problémy s mentalitou 🇫🇷
 
-* V tomto zápasu vyberám celkovú kvalitu a skúsenosti pred momentálnou formou * ✅
+V ich histórii hrali spolu 2 krát - v 2020 a 2021. Oba zápasy vyhrali Moutet, ale vôbec neboli jednostranné. V 2021 vyhral (6:4, 5:7, 6:3) a rok predtým (4:6, 6:3, 7:6, 7:6). Teda oba tieto zápasy boli rozdielom 3 gemov 🙌_
 
-Dodatok: pre odvážnejšich tiperov je možné do tohto tiketu doplniť počet gólov 1-4 (poprípade 1-3), keďže obrana Hamrunu je slušná a neočakávame nejakú prestrelku."""
+* Verím, že aj tento zápas bude vyrovnaný (s miernou výhodou Mouteta) a prinesie dobrú show aj pre divákov * ✅
+
+Alternatíva: Dá sa aj trocha viac zapisovať s handicapom +3.5 """
 
 vip_text = """💎 *SMART BETS VIP* 
 
@@ -58,12 +60,12 @@ vip_text = """💎 *SMART BETS VIP*
 🎁 Bonusové tipy cez víkendy
 
 🚀 *BILANCIA TIKETOV*
-• výherné tikety: 16 ✅
+• výherné tikety: 19 ✅
 • prehraté tikety: 5 ❌
 
 📈 *NAŠA ÚSPEŠNOSŤ*
-• Navrátnosť za dané obdobie: 13.94% 
-• Zisk za dané obdobie: +7.86u
+• Navrátnosť za dané obdobie: 19.19% 
+• Zisk za dané obdobie: +11.82u
 
 (1u=250€)
 
@@ -234,7 +236,7 @@ def send_ticket_to_channel():
     
     # Caption pre tiket
     caption = (f"🏆 {match_data['team1']} vs {match_data['team2']}\n"
-              f"⚽️ {match_data['tournament']}\n"
+              f"🎾 {match_data['tournament']}\n"
               f"🕘 {match_data['time']}\n\n"
               f"🎯 {match_data['pick']}\n"
               f"💰 Kurz: {match_data['odds']}")
@@ -248,7 +250,7 @@ def send_ticket_to_channel():
     }
     
     # Skús poslať obrázok
-    image_path = f"images/{match_data.get('sport', 'UEFA')}.png"
+    image_path = f"images/{match_data.get('sport', 'Evans - Moutet')}.png"
     
     if send_telegram_photo(CHANNEL_ID, image_path, caption, keyboard):
         print("✅ Ticket with image sent to channel")
