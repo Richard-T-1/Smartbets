@@ -25,29 +25,25 @@ start_time = time.time()
 
 # Príklad dát zápasu
 example_match = {
-    'sport': 'Evans - Moutet',
-    'team1': 'D. Evans',
-    'team2': 'C. Moutet',
-    'tournament': 'ATP Washington',
-    'time': '18:10',
-    'pick': 'D. Evans + 4.5 gemu',
-    'odds': '1.47',
-    'betting_url': 'https://www.tipsport.sk/kurzy/zapas/tenis-evans-daniel-moutet-corentin/7260991/co-sa-tipuje'
+    'sport': 'Brod - Zdar',
+    'team1': 'Havličkuv Brod',
+    'team2': 'Žďár nad Sázavou',
+    'tournament': 'Český pohár',
+    'time': '18:00',
+    'pick': 'Havličkuv Brod vyhrá - 1',
+    'odds': '1.67 (Doxxbet)',
+    'betting_url': 'https://www.doxxbet.sk/sk/sportove-tipovanie-online/kurzy/futbal/cesko/pohar?event=63946579&name=havl-brod-vs-zdar-ns'
 }
 
-analysis_text = """📊 *ANALÝZA ZÁPASU: D. Evans - C. Moutet*
+analysis_text = """📊 *ANALÝZA ZÁPASU: Havličkuv Brod - Žďár nad Sázavou*
 
-Priatelia, dneska tu máme osemfinále turnaja vo Washnigtone. V ňom sa proti sebe stretnú aj Daniel Evans (ATP 144) s Corentinom Moutetom (ATP 59) 🎾
+_ Havlickuv Brod hra je tím v divízii D českého futbalu. V rámci klubu vychovávajú mládež, čo dáva ich tímu mladicky elán a vyhliadky aj do budúcna. V tabuľke Divizie D sa umiestňovali pravidelne nad Žďarom 🏆
 
-_ Evans, ktorého by som nazval aj "tenisovým šachistom", má výborné defenzíve schopnosti. Hra baseline štýlom (na základnej čiare kurtu) a svoju hru vie pestro variovať - drop shoty, loby, zmeny tempa a uhlov. Mimo baseline štýlu mu nevadí ani vyjsť na sieť a využiť volej. Jeho slabšou stránkou je sila v úderoch a fyzické limity kvôli veku (35 rokov). Napriek tomu však postupuje v ATP rebríčku 🇬🇧
+Žďar na čele s trénerom Václavom Pohankom skôr uprednostňuje defenzívny štýl a kontrolu hry. Vo vonkajších zápasoch (akým je tento) mávajú horšie výsledky (čo si však myslím, že nie je úplne kľúčové). Počas leta hráči Žďaru už párkrát kondičné nezvládli hru, a teda sa to môže stať aj dnes ⚽️
 
-Corentin Moutet je agresívny baseliner, ktorý sa aj vyznačuje hernou kreativitou. Jeho výhodu spočíva v atletizme a dobrom pohybe po kurte. Ako baseline hráč takisto využíva drop shoty a loby. Jeho hra je niekedy zbrkla a môže mať problémy s mentalitou 🇫🇷
+Vo vzájomných zápasoch ma Žďar mierne navrch, každopádne zápasy boli vyrovnané a to očakávame aj dnes._
 
-V ich histórii hrali spolu 2 krát - v 2020 a 2021. Oba zápasy vyhrali Moutet, ale vôbec neboli jednostranné. V 2021 vyhral (6:4, 5:7, 6:3) a rok predtým (4:6, 6:3, 7:6, 7:6). Teda oba tieto zápasy boli rozdielom 3 gemov 🙌_
-
-* Verím, že aj tento zápas bude vyrovnaný (s miernou výhodou Mouteta) a prinesie dobrú show aj pre divákov * ✅
-
-Alternatíva: Dá sa aj trocha viac zariskovať s handicapom +3.5 """
+* Havlickuv Brod vidím ako mierneho favorita, no na tento tip odporúčam staviť menšiu časť kapitálu (1u/0.5u) ⚖️ * """
 
 vip_text = """💎 *SMART BETS VIP* 
 
@@ -60,12 +56,12 @@ vip_text = """💎 *SMART BETS VIP*
 🎁 Bonusové tipy cez víkendy
 
 🚀 *BILANCIA TIKETOV*
-• výherné tikety: 19 ✅
-• prehraté tikety: 5 ❌
+• výherné tikety: 20 ✅
+• prehraté tikety: 6 ❌
 
 📈 *NAŠA ÚSPEŠNOSŤ*
-• Navrátnosť za dané obdobie: 19.19% 
-• Zisk za dané obdobie: +11.82u
+• Navrátnosť za dané obdobie: 16.50% 
+• Zisk za dané obdobie: +10.82u
 
 (1u=250€)
 
@@ -236,7 +232,7 @@ def send_ticket_to_channel():
     
     # Caption pre tiket
     caption = (f"🏆 {match_data['team1']} vs {match_data['team2']}\n"
-              f"🎾 {match_data['tournament']}\n"
+              f"⚽️ {match_data['tournament']}\n"
               f"🕘 {match_data['time']}\n\n"
               f"🎯 {match_data['pick']}\n"
               f"💰 Kurz: {match_data['odds']}")
@@ -250,7 +246,7 @@ def send_ticket_to_channel():
     }
     
     # Skús poslať obrázok
-    image_path = f"images/{match_data.get('sport', 'Evans - Moutet')}.png"
+    image_path = f"images/{match_data.get('sport', 'Brod - Zdar')}.png"
     
     if send_telegram_photo(CHANNEL_ID, image_path, caption, keyboard):
         print("✅ Ticket with image sent to channel")
