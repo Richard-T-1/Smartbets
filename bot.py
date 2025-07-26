@@ -25,31 +25,33 @@ start_time = time.time()
 
 # Príklad dát zápasu
 example_match = {
-    'sport': 'Brod - Zdar',
-    'team1': 'Havličkuv Brod',
-    'team2': 'Žďár nad Sázavou',
-    'tournament': 'Český pohár',
-    'time': '18:00',
-    'pick': 'Havličkuv Brod vyhrá - 1',
-    'odds': '1.67 (Doxxbet)',
-    'betting_url': 'https://www.doxxbet.sk/sk/sportove-tipovanie-online/kurzy/futbal/cesko/pohar?event=63946579&name=havl-brod-vs-zdar-ns'
+    'sport': 'VNL',
+    'team1': 'Brazília ž',
+    'team2': 'Japonsko ž',
+    'tournament': 'Liga národov - semifinále',
+    'time': '20:00',
+    'pick': 'Brazília ž -1.5 setu',
+    'odds': '1.54',
+    'betting_url': 'https://www.tipsport.sk/kurzy/zapas/volejbal-brazilia-z-japonsko-z/7266963'
 }
 
-analysis_text = """📊 *ANALÝZA ZÁPASU: Havličkuv Brod - Žďár nad Sázavou*
+analysis_text = """📊 *ANALÝZA ZÁPASU: Brazília ž - Japonsko ž*
 
-_ Havlickuv Brod hra je tím v divízii D českého futbalu. V rámci klubu vychovávajú mládež, čo dáva ich tímu mladicky elán a vyhliadky aj do budúcna. V tabuľke Divizie D sa umiestňovali pravidelne nad Žďarom 🏆
+Dnes tu máme po dlhšom čase volejbal, a nie len tak hocijaky. Pozrieme sa na zápas zo semifinále ženskej ligy národov 🏐
 
-Žďar na čele s trénerom Václavom Pohankom skôr uprednostňuje defenzívny štýl a kontrolu hry. Vo vonkajších zápasoch (akým je tento) mávajú horšie výsledky (čo si však myslím, že nie je úplne kľúčové). Počas leta hráči Žďaru už párkrát kondičné nezvládli hru, a teda sa to môže stať aj dnes ⚽️
+_ Brazilčanmi sú momentálne na 2. mieste tabuľky VNL 2025 (po Taliansku). Do semifinále postúpili po výhre so svetovou 7. - Nemeckom 3:0, zatiaľ čo Japonky predviedli 5 setovy boj Tureckom. Majú výborný útočný potenciál na čele s Juliou Bergmann a Gabrielou Guimaraes. Nemajú výrazné slabé stránky 🇧🇷
 
-Vo vzájomných zápasoch ma Žďar mierne navrch, každopádne zápasy boli vyrovnané a to očakávame aj dnes._
+Japonky (VNL 4) sú tiež skúsenými súperkami s taktickou disciplínou a dobrou súhrou. Oproti Brazílii majú slabšiu ofenzívu a celkovo nižšiu kvalitu hry 🇯🇵
 
-* Havlickuv Brod vidím ako mierneho favorita, no na tento tip odporúčam staviť menšiu časť kapitálu (1u/0.5u) ⚖️ * """
+Ich vzájomné zápasy hrajú výrazne v prospech Brazílie. V základnej časti VNL Brazilčanky nadelili Japonsku 3:0 (25:17, 25:18, 25:22). Z ich 36 vzájomných zápasov Brazília vyhrala až 32 a posledne 2 nekompromisne 3:0._
+
+* Brazilčanky sú jednoznačne favoritkami a verím, že ich kvalitativna prevaha sa ukáže do 4 setov ✅ * """
 
 vip_text = """💎 *SMART BETS VIP* 
 
 🔥 *Prečo si vybrať VIP?*
 
-💎 1-3 Exkluzívne tipy každý deň
+👑 1-3 Exkluzívne tipy každý deň
 🎯 Denné tipy s kurzom 1.8+
 🔔 Prioritná podpora
 📊 Profesionálne analýzy
@@ -60,8 +62,8 @@ vip_text = """💎 *SMART BETS VIP*
 • prehraté tikety: 6 ❌
 
 📈 *NAŠA ÚSPEŠNOSŤ*
-• Navrátnosť za dané obdobie: 16.50% 
-• Zisk za dané obdobie: +10.82u
+• Navrátnosť za dané obdobie: 17.11% 
+• Zisk za dané obdobie: +11.36u
 
 (1u=250€)
 
@@ -232,7 +234,7 @@ def send_ticket_to_channel():
     
     # Caption pre tiket
     caption = (f"🏆 {match_data['team1']} vs {match_data['team2']}\n"
-              f"⚽️ {match_data['tournament']}\n"
+              f"🏐 {match_data['tournament']}\n"
               f"🕘 {match_data['time']}\n\n"
               f"🎯 {match_data['pick']}\n"
               f"💰 Kurz: {match_data['odds']}")
@@ -246,7 +248,7 @@ def send_ticket_to_channel():
     }
     
     # Skús poslať obrázok
-    image_path = f"images/{match_data.get('sport', 'Brod - Zdar')}.png"
+    image_path = f"images/{match_data.get('sport', 'VNL')}.png"
     
     if send_telegram_photo(CHANNEL_ID, image_path, caption, keyboard):
         print("✅ Ticket with image sent to channel")
