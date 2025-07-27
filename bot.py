@@ -37,11 +37,11 @@ example_match = {
 
 analysis_text = """📊 *ANALÝZA ZÁPASU: J. A. Cristian - M. Stakusic*
 
-_ Jaqueline Cristian (WTA 49) má agresívny baseline štýl a efektívny ako forehand, tak aj backend. Dobre využíva pokrytie kurtu a nachádzať dobré uhly, aby držala súperky v defenzíve. Občas máva problémy s ukončovaním zápasov na vyšších leveloch, tu by to však nemal byť problém. Jej herný štýl naznačuje, že preferuje antuku, ale nemá problém ani s tvrdým povrchom (kde drží pozitívnu bilanciu) 🇷🇴
+_Jaqueline Cristian (WTA 49) má agresívny baseline štýl a efektívny ako forehand, tak aj backend. Dobre využíva pokrytie kurtu a nachádzať dobré uhly, aby držala súperky v defenzíve. Občas máva problémy s ukončovaním zápasov na vyšších leveloch, tu by to však nemal byť problém. Jej herný štýl naznačuje, že preferuje antuku, ale nemá problém ani s tvrdým povrchom (kde drží pozitívnu bilanciu) 🇷🇴
 
 Marina Stakusic (WTA 142) je mladá Kanaďanka (20 rokov), ktorá je fyzicky pripravená a vďaka svojim silným returnom dokázala potrápiť aj silnejšie hráčky. Môže mať problémy s dvojchybami (najmä pod tlakom) a tento rok má na tvrdom povrchu horšiu bilanciu. Tiež má horší servis v porovnaní s Cristian a nižšiu úroveň hry ako takej 🇨🇦 _
 
-* Cristian je silnejšia hráčka a predpokladám, že Stakusic porazí v 2 setoch. Teda handicap -3.5 vidím ako rozumný (6:4, 6:4) ✅ * 
+*Cristian je silnejšia hráčka a predpokladám, že Stakusic porazí v 2 setoch. Teda handicap -3.5 vidím ako rozumný (6:4, 6:4) ✅ * 
 
 Dodatok: Ak by sa niekto obával tiebreaku, može zvoliť aj handicap -2.5, poprípade Tipsport umožňuje jedine čisto výhru Cristian. """
 
