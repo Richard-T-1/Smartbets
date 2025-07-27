@@ -25,27 +25,25 @@ start_time = time.time()
 
 # Príklad dát zápasu
 example_match = {
-    'sport': 'VNL',
-    'team1': 'Brazília ž',
-    'team2': 'Japonsko ž',
-    'tournament': 'Liga národov - semifinále',
-    'time': '20:00',
-    'pick': 'Brazília ž -1.5 setu',
-    'odds': '1.54',
-    'betting_url': 'https://www.tipsport.sk/kurzy/zapas/volejbal-brazilia-z-japonsko-z/7266963'
+    'sport': 'WTA Montreal',
+    'team1': 'J. A. Cristian',
+    'team2': 'M. Stakusic',
+    'tournament': 'WTA Montreal',
+    'time': '17:05',
+    'pick': 'Stakusic -3.5 gemu',
+    'odds': '1.58 (Niké)',
+    'betting_url': 'https://www.nike.sk/tipovanie/zapas/1003512052/27.7.2025-Cristian_J_A_vs_Stakusic_M_'
 }
 
-analysis_text = """📊 *ANALÝZA ZÁPASU: Brazília ž - Japonsko ž*
+analysis_text = """📊 *ANALÝZA ZÁPASU: J. A. Cristian - M. Stakusic*
 
-Dnes tu máme po dlhšom čase volejbal, a nie len tak hocijaky. Pozrieme sa na zápas zo semifinále ženskej ligy národov 🏐
+_ Jaqueline Cristian (WTA 49) má agresívny baseline štýl a efektívny ako forehand, tak aj backend. Dobre využíva pokrytie kurtu a nachádzať dobré uhly, aby držala súperky v defenzíve. Občas máva problémy s ukončovaním zápasov na vyšších leveloch, tu by to však nemal byť problém. Jej herný štýl naznačuje, že preferuje antuku, ale nemá problém ani s tvrdým povrchom (kde drží pozitívnu bilanciu) 🇷🇴
 
-_ Brazilčanmi sú momentálne na 2. mieste tabuľky VNL 2025 (po Taliansku). Do semifinále postúpili po výhre so svetovou 7. - Nemeckom 3:0, zatiaľ čo Japonky predviedli 5 setovy boj Tureckom. Majú výborný útočný potenciál na čele s Juliou Bergmann a Gabrielou Guimaraes. Nemajú výrazné slabé stránky 🇧🇷
+Marina Stakusic (WTA 142) je mladá Kanaďanka (20 rokov), ktorá je fyzicky pripravená a vďaka svojim silným returnom dokázala potrápiť aj silnejšie hráčky. Môže mať problémy s dvojchybami (najmä pod tlakom) a tento rok má na tvrdom povrchu horšiu bilanciu. Tiež má horší servis v porovnaní s Cristian a nižšiu úroveň hry ako takej 🇨🇦 _
 
-Japonky (VNL 4) sú tiež skúsenými súperkami s taktickou disciplínou a dobrou súhrou. Oproti Brazílii majú slabšiu ofenzívu a celkovo nižšiu kvalitu hry 🇯🇵
+* Cristian je silnejšia hráčka a predpokladám, že Stakusic porazí v 2 setoch. Teda handicap -3.5 vidím ako rozumný (6:4, 6:4) ✅ * 
 
-Ich vzájomné zápasy hrajú výrazne v prospech Brazílie. V základnej časti VNL Brazilčanky nadelili Japonsku 3:0 (25:17, 25:18, 25:22). Z ich 36 vzájomných zápasov Brazília vyhrala až 32 a posledne 2 nekompromisne 3:0._
-
-* Brazilčanky sú jednoznačne favoritkami a verím, že ich kvalitativna prevaha sa ukáže do 4 setov ✅ * """
+Dodatok: Ak by sa niekto obával tiebreaku, može zvoliť aj handicap -2.5, poprípade Tipsport umožňuje jedine čisto výhru Cristian. """
 
 vip_text = """💎 *SMART BETS VIP* 
 
@@ -58,12 +56,12 @@ vip_text = """💎 *SMART BETS VIP*
 🎁 Bonusové tipy cez víkendy
 
 🚀 *BILANCIA TIKETOV*
-• výherné tikety: 20 ✅
+• výherné tikety: 22 ✅
 • prehraté tikety: 6 ❌
 
 📈 *NAŠA ÚSPEŠNOSŤ*
-• Navrátnosť za dané obdobie: 17.11% 
-• Zisk za dané obdobie: +11.36u
+• Navrátnosť za dané obdobie: 18.86% 
+• Zisk za dané obdobie: +13.32u
 
 (1u=250€)
 
@@ -248,7 +246,7 @@ def send_ticket_to_channel():
     }
     
     # Skús poslať obrázok
-    image_path = f"images/{match_data.get('sport', 'VNL')}.png"
+    image_path = f"images/{match_data.get('sport', 'WTA Montreal')}.png"
     
     if send_telegram_photo(CHANNEL_ID, image_path, caption, keyboard):
         print("✅ Ticket with image sent to channel")
