@@ -25,25 +25,25 @@ start_time = time.time()
 
 # Príklad dát zápasu
 example_match = {
-    'sport': 'WTA Montreal',
-    'team1': 'J. A. Cristian',
-    'team2': 'M. Stakusic',
-    'tournament': 'WTA Montreal',
-    'time': '17:05',
-    'pick': 'Stakusic -3.5 gemu',
-    'odds': '1.58 (Niké)',
-    'betting_url': 'https://www.nike.sk/tipovanie/zapas/1003512052/27.7.2025-Cristian_J_A_vs_Stakusic_M_'
+    'sport': 'WTA Warsava',
+    'team1': 'P. Hercog',
+    'team2': 'J. V. Kasintseva',
+    'tournament': 'WTA Warsava',
+    'time': '13:40',
+    'pick': 'Kasintseva vyhrá + v zápase bude menej ako 20.5 gemu',
+    'odds': '1.41',
+    'betting_url': 'https://www.tipsport.sk/kurzy/zapas/tenis-hercog-polona-jimenez-kasintseva-victoria/7273020'
 }
 
-analysis_text = """📊 *ANALÝZA ZÁPASU: J. A. Cristian - M. Stakusic*
+analysis_text = """📊 *ANALÝZA ZÁPASU: P. Hercog - J. V. Kasintseva*
 
-_Jaqueline Cristian (WTA 49) má agresívny baseline štýl a efektívny ako forehand, tak aj backend. Dobre využíva pokrytie kurtu a nachádzať dobré uhly, aby držala súperky v defenzíve. Občas máva problémy s ukončovaním zápasov na vyšších leveloch, tu by to však nemal byť problém. Jej herný štýl naznačuje, že preferuje antuku, ale nemá problém ani s tvrdým povrchom (kde drží pozitívnu bilanciu) 🇷🇴
+Táto analýza bude stručnejšia vzhľadom na časové obmedzenie:
 
-Marina Stakusic (WTA 142) je mladá Kanaďanka (20 rokov), ktorá je fyzicky pripravená a vďaka svojim silným returnom dokázala potrápiť aj silnejšie hráčky. Môže mať problémy s dvojchybami (najmä pod tlakom) a tento rok má na tvrdom povrchu horšiu bilanciu. Tiež má horší servis v porovnaní s Cristian a nižšiu úroveň hry ako takej 🇨🇦 _
+_ Hercog je bývalá tenistka svetovej top 50. Potom však v priebehu jej kariéry mala viac zranení a zlomenín. Tieto zranenia ju poznačili natoľko, že z úspšenej tenistky sa prepadla na WTA 754 a momentálne v 34 rokoch už od nej veľa očakávať nemôžeme.
 
-*Cristian je silnejšia hráčka a predpokladám, že Stakusic porazí v 2 setoch. Teda handicap -3.5 vidím ako rozumný (6:4, 6:4) ✅ * 
+Kasintseva (WTA 142) je mladá (19 ročná) tenistka, ktorá má stúpajúcu tendenciu. Trénuje od 3 rokoch a momentálne si zvyká na vyššiu úroveň tenisu, čo môže byť trochu nebezpečné. Inak však verím jej talentu a dobej kondícii spojenej s kvalitnou hrou.
 
-Dodatok: Ak by sa niekto obával tiebreaku, može zvoliť aj handicap -2.5, poprípade Tipsport umožňuje jedine čisto výhru Cristian. """
+*Kasintseva s veľkou pravdepodobnosťou porazí Hercog a to v 2. setoch. Zároveň očakávam do 20.5 gemu (6:4, 6:4) ✅ *  """
 
 vip_text = """💎 *SMART BETS VIP* 
 
@@ -56,12 +56,12 @@ vip_text = """💎 *SMART BETS VIP*
 🎁 Bonusové tipy cez víkendy
 
 🚀 *BILANCIA TIKETOV*
-• výherné tikety: 22 ✅
+• výherné tikety: 23 ✅
 • prehraté tikety: 6 ❌
 
 📈 *NAŠA ÚSPEŠNOSŤ*
-• Navrátnosť za dané obdobie: 18.86% 
-• Zisk za dané obdobie: +13.32u
+• Navrátnosť za dané obdobie: 19.94% 
+• Zisk za dané obdobie: +14.48u
 
 (1u=250€)
 
@@ -246,7 +246,7 @@ def send_ticket_to_channel():
     }
     
     # Skús poslať obrázok
-    image_path = f"images/{match_data.get('sport', 'WTA Montreal')}.png"
+    image_path = f"images/{match_data.get('sport', 'WTA Warsava')}.png"
     
     if send_telegram_photo(CHANNEL_ID, image_path, caption, keyboard):
         print("✅ Ticket with image sent to channel")
