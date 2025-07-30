@@ -12,7 +12,7 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 
 # Konfigurácia
 BOT_TOKEN = os.environ.get('BOT_TOKEN', '7511593743:AAGsPG2FG9_QC-ynD85hHHptE29-P5KiBMQ')
-CHANNEL_ID = os.environ.get('CHANNEL_ID', '-1002107685116')
+CHANNEL_ID = os.environ.get('CHANNEL_ID', '--1002827606573')
 ADMIN_ID = int(os.environ.get('ADMIN_ID', '7626888184'))
 PORT = int(os.environ.get('PORT', 10000))
 WEBHOOK_URL = os.environ.get('WEBHOOK_URL', 'https://smartbets.onrender.com')
@@ -62,6 +62,8 @@ def get_user_stats():
                 'total_clicks': 0,
                 'analiza_clicks': 0,
                 'vip_clicks': 0,
+                'start_clicks': 0,
+                'analysis_from_channel': 0,
                 'unique_users': 0,
                 'recent_interactions': []
             }
@@ -73,6 +75,8 @@ def get_user_stats():
         total_clicks = len(data)
         analiza_clicks = len([x for x in data if x['button'] == 'ANALÝZA'])
         vip_clicks = len([x for x in data if x['button'] == 'VIP'])
+        start_clicks = len([x for x in data if x['button'] == 'ŠTART bota'])
+        analysis_from_channel = len([x for x in data if x['button'] == 'ANALÝZA (z kanála)'])
         unique_users = len(set([x['user_id'] for x in data]))
         
         # Posledných 10 interakcií
@@ -82,6 +86,8 @@ def get_user_stats():
             'total_clicks': total_clicks,
             'analiza_clicks': analiza_clicks,
             'vip_clicks': vip_clicks,
+            'start_clicks': start_clicks,
+            'analysis_from_channel': analysis_from_channel,
             'unique_users': unique_users,
             'recent_interactions': recent
         }
@@ -225,7 +231,11 @@ def answer_callback_query(callback_query_id, text=""):
 def handle_start_command(chat_id, user_id, user_name, text):
     """Spracuje /start príkaz"""
     
-    if "analysis" in text:
+    # Rozlíš medzi /start analysis a obyčajným /start
+    if text == "/start analysis":
+        # Zaznamenaj interakciu keď niekto klikne na ANALÝZA z kanála
+        log_user_interaction(user_name, user_id, "ANALÝZA (z kanála)")
+        
         # Pošle analýzu
         send_telegram_message(
             chat_id, 
@@ -233,7 +243,7 @@ def handle_start_command(chat_id, user_id, user_name, text):
             parse_mode='Markdown'
         )
         
-        # Potom menu - len s tlačidlom ANALÝZA
+        # Potom menu
         keyboard = {
             "inline_keyboard": [
                 [{"text": "📊 ANALÝZA", "callback_data": "user_analysis"}],
@@ -251,7 +261,8 @@ def handle_start_command(chat_id, user_id, user_name, text):
             parse_mode='Markdown'
         )
     
-    elif is_admin(user_id):
+    elif text == "/start" and is_admin(user_id):
+        # Admin spustil bota
         send_telegram_message(
             chat_id,
             f'Vitajte v Sports Tips Bot! 🏆\n'
@@ -261,7 +272,11 @@ def handle_start_command(chat_id, user_id, user_name, text):
             '/status - Stav bota\n'
             '/help - Zobrazí nápovedu'
         )
-    else:
+    
+    elif text == "/start":
+        # Obyčajný používateľ spustil bota
+        log_user_interaction(user_name, user_id, "ŠTART bota")
+        
         keyboard = {
             "inline_keyboard": [
                 [{"text": "📊 ANALÝZA", "callback_data": "user_analysis"}],
@@ -275,6 +290,26 @@ def handle_start_command(chat_id, user_id, user_name, text):
             '🏆 **SMART BETS** - Váš expert na športové stávky\n\n'
             '📊 **ANALÝZA** - Získajte podrobné analýzy zápasov\n'
             '💎 **VIP** - Prémium tipy s vyššími kurzmi\n\n'
+            '🎯 Vyberte si možnosť:',
+            reply_markup=keyboard,
+            parse_mode='Markdown'
+        )
+    
+    else:
+        # Neznámy /start parameter
+        print(f"❓ Unknown start parameter: {text}")
+        # Fallback na normálne menu
+        keyboard = {
+            "inline_keyboard": [
+                [{"text": "📊 ANALÝZA", "callback_data": "user_analysis"}],
+                [{"text": "💎 VIP", "callback_data": "user_vip"}]
+            ]
+        }
+        
+        send_telegram_message(
+            chat_id,
+            f'Vitajte {user_name}! 👋\n\n'
+            '🏆 **SMART BETS** - Váš expert na športové stávky\n\n'
             '🎯 Vyberte si možnosť:',
             reply_markup=keyboard,
             parse_mode='Markdown'
@@ -455,9 +490,11 @@ def user_statistics():
         
         <div class="stat">
             <h2>📈 Celkové štatistiky</h2>
-            <p><strong>Celkový počet kliknutí:</strong> {stats['total_clicks']}</p>
-            <p><strong>Kliknutia na ANALÝZA:</strong> {stats['analiza_clicks']}</p>
+            <p><strong>Celkový počet interakcií:</strong> {stats['total_clicks']}</p>
+            <p><strong>Kliknutia na ANALÝZA (v chate):</strong> {stats['analiza_clicks']}</p>
+            <p><strong>Kliknutia na ANALÝZA (z kanála):</strong> {stats['analysis_from_channel']}</p>
             <p><strong>Kliknutia na VIP:</strong> {stats['vip_clicks']}</p>
+            <p><strong>Spustenia bota (/start):</strong> {stats['start_clicks']}</p>
             <p><strong>Unikátni užívatelia:</strong> {stats['unique_users']}</p>
         </div>
         
@@ -469,7 +506,7 @@ def user_statistics():
         html += f"""
             <div class="recent">
                 <strong>{interaction['user_name']}</strong> (ID: {interaction['user_id']}) 
-                klikol na <strong>{interaction['button']}</strong><br>
+                akcia: <strong>{interaction['button']}</strong><br>
                 <small>⏰ {interaction['timestamp']}</small>
             </div>
         """
