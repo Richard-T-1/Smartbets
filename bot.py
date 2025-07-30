@@ -3,6 +3,7 @@ import os
 import json
 import time
 import requests
+from datetime import datetime
 from flask import Flask, request, jsonify
 
 # Vypnutie verbose logov
@@ -11,7 +12,7 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 
 # Konfigurácia
 BOT_TOKEN = os.environ.get('BOT_TOKEN', '7511593743:AAGsPG2FG9_QC-ynD85hHHptE29-P5KiBMQ')
-CHANNEL_ID = os.environ.get('CHANNEL_ID', '-1002107685116')
+CHANNEL_ID = os.environ.get('CHANNEL_ID', '-1002827606573')
 ADMIN_ID = int(os.environ.get('ADMIN_ID', '7626888184'))
 PORT = int(os.environ.get('PORT', 10000))
 WEBHOOK_URL = os.environ.get('WEBHOOK_URL', 'https://smartbets.onrender.com')
@@ -22,17 +23,81 @@ app = Flask(__name__)
 # Globálne premenné
 bot_initialized = False
 start_time = time.time()
+STATS_FILE = 'user_stats.json'
 
-# Príklad dát zápasu
+def log_user_interaction(user_name, user_id, button_type):
+    """Zaznamenať kliknutie užívateľa na tlačidlo"""
+    try:
+        # Načítaj existujúce dáta
+        if os.path.exists(STATS_FILE):
+            with open(STATS_FILE, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+        else:
+            data = []
+        
+        # Pridaj nový záznam
+        new_record = {
+            'user_name': user_name,
+            'user_id': user_id,
+            'button': button_type,
+            'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        }
+        
+        data.append(new_record)
+        
+        # Ulož späť do súboru
+        with open(STATS_FILE, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+            
+        print(f"📊 Logged: {user_name} clicked {button_type}")
+        
+    except Exception as e:
+        print(f"❌ Error logging interaction: {e}")
+
+def get_user_stats():
+    """Získaj štatistiky užívateľov"""
+    try:
+        if not os.path.exists(STATS_FILE):
+            return {
+                'total_clicks': 0,
+                'analiza_clicks': 0,
+                'vip_clicks': 0,
+                'unique_users': 0,
+                'recent_interactions': []
+            }
+        
+        with open(STATS_FILE, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        # Spočítaj štatistiky
+        total_clicks = len(data)
+        analiza_clicks = len([x for x in data if x['button'] == 'ANALÝZA'])
+        vip_clicks = len([x for x in data if x['button'] == 'VIP'])
+        unique_users = len(set([x['user_id'] for x in data]))
+        
+        # Posledných 10 interakcií
+        recent = sorted(data, key=lambda x: x['timestamp'], reverse=True)[:10]
+        
+        return {
+            'total_clicks': total_clicks,
+            'analiza_clicks': analiza_clicks,
+            'vip_clicks': vip_clicks,
+            'unique_users': unique_users,
+            'recent_interactions': recent
+        }
+        
+    except Exception as e:
+        print(f"❌ Error getting stats: {e}")
+        return {'error': str(e)}
+
+# Príklad dát zápasu - odstránená kolónka 'sport'
 example_match = {
-    'sport': 'WTA Warsava',
     'team1': 'P. Hercog',
     'team2': 'J. V. Kasintseva',
     'tournament': 'WTA Warsava',
     'time': '13:40',
     'pick': 'Kasintseva vyhrá + v zápase bude menej ako 20.5 gemu',
-    'odds': '1.41',
-    'betting_url': 'https://www.tipsport.sk/kurzy/zapas/tenis-hercog-polona-jimenez-kasintseva-victoria/7273020'
+    'odds': '1.41'
 }
 
 analysis_text = """📊 *ANALÝZA ZÁPASU: P. Hercog - J. V. Kasintseva*
@@ -55,17 +120,27 @@ vip_text = """💎 *SMART BETS VIP*
 📊 Profesionálne analýzy
 🎁 Bonusové tipy cez víkendy
 
-🚀 *BILANCIA TIKETOV*
-• výherné tikety: 23 ✅
-• prehraté tikety: 6 ❌
+🏆 *BILANCIA TIKETOV*
+• Výherné tikety: 28 ✅
+• Prehraté tikety: 6 ❌
+• Úspešnosť: 82.35% 
 
-📈 *NAŠA ÚSPEŠNOSŤ*
-• Navrátnosť za dané obdobie: 19.94% 
-• Zisk za dané obdobie: +14.48u
+📈 *FINANČNÉ VÝSLEDKY*
+• Navrátnosť za dané obdobie: 26.17% 
+• Zisk za dané obdobie: +21.62u
+• Investovaná suma: 82.6u
 
-(1u=250€)
+💰 *CELKOVÝ ZISK V €*
+⏩pri vklade 100€ ZISK 432€
+⏩pri vklade 200€ ZISK 865€
+⏩pri vklade 500€ ZISK 2162€
 
-📞 [BLIŽŠIE INFO TU](https://t.me/SmartTipy)"""
+💰 *CELKOVÝ ZISK V KC*
+⏩pri vklade 2500KC ZISK 10810KC
+⏩pri vklade 5000KC ZISK 21620KC
+⏩pri vklade 12500KC ZISK 54050KC
+
+💬 [AK CHCETE AJ VY ZARÁBAŤ TIETO SUMY S NAŠOU VIP](https://t.me/SmartTipy)"""
 
 def is_admin(user_id):
     """Kontrola admin práv"""
@@ -156,7 +231,7 @@ def handle_start_command(chat_id, user_id, user_name, text):
             parse_mode='Markdown'
         )
         
-        # Potom menu
+        # Potom menu - len s tlačidlom ANALÝZA
         keyboard = {
             "inline_keyboard": [
                 [{"text": "📊 ANALÝZA", "callback_data": "user_analysis"}],
@@ -237,23 +312,21 @@ def send_ticket_to_channel():
               f"🎯 {match_data['pick']}\n"
               f"💰 Kurz: {match_data['odds']}")
     
-    # Inline keyboard
+    # Inline keyboard - len s tlačidlom ANALÝZA
     keyboard = {
         "inline_keyboard": [
-            [{"text": "🎯 STAV TERAZ!", "url": match_data['betting_url']}],
             [{"text": "📊 ANALÝZA", "url": "https://t.me/smartbets_tikety_bot?start=analysis"}]
         ]
     }
     
-    # Skús poslať obrázok
-    image_path = f"images/{match_data.get('sport', 'WTA Warsava')}.png"
+    # Skús poslať obrázok - odstránené generovanie cesty podľa 'sport'
+    image_path = "images/default.png"  # Použije default obrázok
     
     if send_telegram_photo(CHANNEL_ID, image_path, caption, keyboard):
         print("✅ Ticket with image sent to channel")
     else:
         # Fallback - pošli len text
-        text_message = f"{caption}\n\n🎯 [STAV TERAZ!]({match_data['betting_url']})"
-        send_telegram_message(CHANNEL_ID, text_message, parse_mode='Markdown')
+        send_telegram_message(CHANNEL_ID, caption, parse_mode='Markdown')
         print("✅ Ticket as text sent to channel")
 
 def handle_status_command(chat_id):
@@ -352,6 +425,66 @@ def health():
         'uptime_hours': round((time.time() - start_time) / 3600, 2)
     })
 
+@app.route('/stats')
+def user_statistics():
+    """Zobrazí štatistiky užívateľov"""
+    stats = get_user_stats()
+    
+    if 'error' in stats:
+        return jsonify({'error': stats['error']}), 500
+    
+    # Vytvor prehľadný HTML výstup
+    html = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>User Statistics</title>
+        <meta charset="utf-8">
+        <style>
+            body {{ font-family: Arial, sans-serif; margin: 40px; }}
+            .stat {{ background: #f0f0f0; padding: 20px; margin: 10px 0; border-radius: 8px; }}
+            .recent {{ background: #e8f4fd; padding: 15px; margin: 10px 0; border-radius: 5px; }}
+            h1 {{ color: #333; }}
+            h2 {{ color: #666; }}
+        </style>
+    </head>
+    <body>
+        <h1>📊 Bot Statistics</h1>
+        
+        <div class="stat">
+            <h2>📈 Celkové štatistiky</h2>
+            <p><strong>Celkový počet kliknutí:</strong> {stats['total_clicks']}</p>
+            <p><strong>Kliknutia na ANALÝZA:</strong> {stats['analiza_clicks']}</p>
+            <p><strong>Kliknutia na VIP:</strong> {stats['vip_clicks']}</p>
+            <p><strong>Unikátni užívatelia:</strong> {stats['unique_users']}</p>
+        </div>
+        
+        <div class="stat">
+            <h2>🔄 Posledné interakcie</h2>
+    """
+    
+    for interaction in stats['recent_interactions']:
+        html += f"""
+            <div class="recent">
+                <strong>{interaction['user_name']}</strong> (ID: {interaction['user_id']}) 
+                klikol na <strong>{interaction['button']}</strong><br>
+                <small>⏰ {interaction['timestamp']}</small>
+            </div>
+        """
+    
+    html += """
+        </div>
+    </body>
+    </html>
+    """
+    
+    return html
+
+@app.route('/stats/json')
+def user_statistics_json():
+    """Vráti štatistiky v JSON formáte"""
+    return jsonify(get_user_stats())
+
 @app.route('/debug')
 def debug_info():
     """Debug informácie"""
@@ -415,9 +548,13 @@ def webhook():
             # Spracovanie akcií
             if data == "user_analysis":
                 print("📊 Sending analysis...")
+                # Zaznamenaj interakciu
+                log_user_interaction(user_name, user_id, "ANALÝZA")
                 send_analysis(chat_id)
             elif data == "user_vip":
                 print("💎 Sending VIP info...")
+                # Zaznamenaj interakciu
+                log_user_interaction(user_name, user_id, "VIP")
                 send_vip_info(chat_id)
             else:
                 print(f"❓ Unknown callback data: {data}")
