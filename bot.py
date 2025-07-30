@@ -12,7 +12,7 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 
 # Konfigurácia
 BOT_TOKEN = os.environ.get('BOT_TOKEN', '7511593743:AAGsPG2FG9_QC-ynD85hHHptE29-P5KiBMQ')
-CHANNEL_ID = os.environ.get('CHANNEL_ID', '-1002827606573')
+CHANNEL_ID = os.environ.get('CHANNEL_ID', '-1002107685116')
 ADMIN_ID = int(os.environ.get('ADMIN_ID', '7626888184'))
 PORT = int(os.environ.get('PORT', 10000))
 WEBHOOK_URL = os.environ.get('WEBHOOK_URL', 'https://smartbets.onrender.com')
@@ -140,7 +140,7 @@ vip_text = """💎 *SMART BETS VIP*
 ⏩pri vklade 5000KC ZISK 21620KC
 ⏩pri vklade 12500KC ZISK 54050KC
 
-💬 [AK CHCETE AJ VY ZARÁBAŤ TIETO SUMY S NAŠOU VIP](https://t.me/SmartTipy)"""
+💬* [AK CHCETE AJ VY ZARÁBAŤ TIETO SUMY S NAŠOU VIP]*(https://t.me/SmartTipy)"""
 
 def is_admin(user_id):
     """Kontrola admin práv"""
@@ -523,7 +523,11 @@ def webhook():
             
             # Handle commands
             if text.startswith('/start'):
-                handle_start_command(chat_id, user_id, user_name, text)
+                # Preferuj username pred first_name aj pre /start
+                display_name = message['from'].get('username', message['from'].get('first_name', 'Unknown'))
+                if display_name and not display_name.startswith('@'):
+                    display_name = f"@{display_name}"
+                handle_start_command(chat_id, user_id, display_name, text)
             elif text == '/tiket' and is_admin(user_id):
                 handle_tiket_command(chat_id)
             elif text == '/status' and is_admin(user_id):
@@ -535,7 +539,10 @@ def webhook():
         elif 'callback_query' in update_data:
             callback = update_data['callback_query']
             chat_id = callback['message']['chat']['id']
-            user_name = callback['from'].get('first_name', 'Unknown')
+            # Preferuj username pred first_name
+            user_name = callback['from'].get('username', callback['from'].get('first_name', 'Unknown'))
+            if user_name and not user_name.startswith('@'):
+                user_name = f"@{user_name}"
             user_id = callback['from']['id']
             data = callback['data']
             callback_query_id = callback['id']
