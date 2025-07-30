@@ -92,27 +92,29 @@ def get_user_stats():
 
 # Príklad dát zápasu - odstránená kolónka 'sport'
 example_match = {
-    'team1': 'P. Hercog',
-    'team2': 'J. V. Kasintseva',
-    'tournament': 'WTA Warsava',
-    'time': '13:40',
-    'pick': 'Kasintseva vyhrá + v zápase bude menej ako 20.5 gemu',
-    'odds': '1.41'
+    'team1': 'E. Raducanu',
+    'team2': 'P. Stearns',
+    'tournament': 'WTA Montreal',
+    'time': '0:00',
+    'pick': 'Raducanu -3.5 gemu',
+    'odds': '1.58 (Niké)'
 }
 
-analysis_text = """📊 *ANALÝZA ZÁPASU: P. Hercog - J. V. Kasintseva*
+analysis_text = """📊 *ANALÝZA ZÁPASU: E. Raducanu - P. Stearns*
 
-Táto analýza bude stručnejšia vzhľadom na časové obmedzenie:
+_Emma Raducanu (WTA 33) je mladá talentovaná Britka, ktorá preferuje defenzívnejší baseline štýl. Pri svojej hre sa snaží najmä využiť tempo súperky proti nej. Dobre returnuje podania a takisto je nepríjemné jej vlastné podanie (silovo). Silné podanie na druhú stranu značí riziko dvojchýb, takže je to dvojsečná zbraň. Jej najlepší úder je dvojručný backend vďaka prenosti a sile, ktorú do neho dáva 🇬🇧
 
-_ Hercog je bývalá tenistka svetovej top 50. Potom však v priebehu jej kariéry mala viac zranení a zlomenín. Tieto zranenia ju poznačili natoľko, že z úspšenej tenistky sa prepadla na WTA 754 a momentálne v 34 rokoch už od nej veľa očakávať nemôžeme.
+Peyton Stearns (WTA 37) hrá takisto baseline štýlom, ale skôr útočným. Snaží sa diktovať tempo hry s použitím vynikajúceho forehandu. Na druhú stranu má problémy, keď sa dostane do obrany 🇺🇸
 
-Kasintseva (WTA 142) je mladá (19 ročná) tenistka, ktorá má stúpajúcu tendenciu. Trénuje od 3 rokoch a momentálne si zvyká na vyššiu úroveň tenisu, čo môže byť trochu nebezpečné. Inak však verím jej talentu a dobej kondícii spojenej s kvalitnou hrou.
+Čo sa týka povrchu (ktorým je hard), tak štýlovo im vyhovuje podobne. Je to každopádne Emmin obľúbený povrch a má na ňom aj zdopovedajúce výsledky. Hrali doteraz 2 vzájomné zápasy a oba vyhrala Raducanu 2:0. Riziko predstavuje to, že sme videli v týchto zápasoch dokopy 3 tiebreaky, čo ohrozuje handicap -3.5 _
 
-*Kasintseva s veľkou pravdepodobnosťou porazí Hercog a to v 2. setoch. Zároveň očakávam do 20.5 gemu (6:4, 6:4) ✅ *  """
+*V tomto zápase je Raducanu o niečo lepšia a podstatne krajšia hráčka (to druhé nám však nepomôže 😂), čo sa ukázalo aj v ich vzájomných zápasoch. Verím jej teda, že znova ukáže kvalitnú hru ✅ *  
+
+Alternatíva: Dá sa hrať aj handicap -2.5 pre tých, čo sa boja tiebreakov a tesného zápasu """
 
 vip_text = """💎 *SMART BETS VIP* 
 
-🔥 *Prečo si vybrať VIP?*
+*Prečo si vybrať VIP?*
 
 👑 1-3 Exkluzívne tipy každý deň
 🎯 Denné tipy s kurzom 1.8+
