@@ -98,25 +98,27 @@ def get_user_stats():
 
 # Príklad dát zápasu - odstránená kolónka 'sport'
 example_match = {
-    'team1': 'E. Raducanu',
-    'team2': 'P. Stearns',
-    'tournament': 'WTA Montreal',
-    'time': '0:00',
-    'pick': 'Raducanu -3.5 gemu',
-    'odds': '1.58 (Niké)'
+    'team1': 'D. Evans',
+    'team2': 'M. Zheng',
+    'tournament': 'ATP Lexington',
+    'time': '16:00',
+    'pick': 'Zheng vyhrá - 2',
+    'odds': '1.90 (Doxxbet)'
 }
 
-analysis_text = """📊 *ANALÝZA ZÁPASU: E. Raducanu - P. Stearns*
+analysis_text = """📊 *ANALÝZA ZÁPASU: D. Evans - M. Zheng*
 
-_Emma Raducanu (WTA 33) je mladá talentovaná Britka, ktorá preferuje defenzívnejší baseline štýl. Pri svojej hre sa snaží najmä využiť tempo súperky proti nej. Dobre returnuje podania a takisto je nepríjemné jej vlastné podanie (silovo). Silné podanie na druhú stranu značí riziko dvojchýb, takže je to dvojsečná zbraň. Jej najlepší úder je dvojručný backend vďaka prenosti a sile, ktorú do neho dáva 🇬🇧
+Máme tu osemfinále vyraďovacej časti ATP Lexington. Medzi inými si zmerajú sily aj Daniel Evans s mladým americkým talentom - Michaelom Zhengom 🎾
 
-Peyton Stearns (WTA 37) hrá takisto baseline štýlom, ale skôr útočným. Snaží sa diktovať tempo hry s použitím vynikajúceho forehandu. Na druhú stranu má problémy, keď sa dostane do obrany 🇺🇸
+_Michael Zheng (ATP 444) je 21 ročný agresívny baseline hráč. Do druhého kola postúpil po výhre 2:0 s ATP 275. Má veľmi kvalitné podanie a v prvom zápase na žiadnom druhom podaní neurobil dvojchybu. Jeho nevýhodou je menej skúseností na vyššej úrovni a horšie premieňanie breakpointov. Zato však jeho fyzická stránka mu bude slúžiť ako výhoda 🇺🇸
 
-Čo sa týka povrchu (ktorým je hard), tak štýlovo im vyhovuje podobne. Je to každopádne Emmin obľúbený povrch a má na ňom aj zdopovedajúce výsledky. Hrali doteraz 2 vzájomné zápasy a oba vyhrala Raducanu 2:0. Riziko predstavuje to, že sme videli v týchto zápasoch dokopy 3 tiebreaky, čo ohrozuje handicap -3.5 _
+Daniel Evans (ATP 129) je o 14 rokov starší Brit, ktorý je skôr všestranný. Jeho štýl sa dá popísať ako defenzívny baseline, kde používa slice na vynucovanie chýb súperov. Na returne je agresívny, ale zároveň kreatívny. Spolieha sa skôr na herné IQ a zmenu rytmu. Jeho fyzická kondícia je však už horšia a má slabšie aj prvé, aj druhé podanie v porovnaní so Zhengom. Takisto má v tomto roku horšiu bilanciu (dokonca negatívnu: 19-20) 🇬🇧 
 
-*V tomto zápase je Raducanu o niečo lepšia a podstatne krajšia hráčka (to druhé nám však nepomôže 😂), čo sa ukázalo aj v ich vzájomných zápasoch. Verím jej teda, že znova ukáže kvalitnú hru ✅ *  
+Tvrdý povrch vyhovuje skôr Zhengovmu agresívnejšiemu štýlu, čo zväčšuje jeho šance na výhru. _
 
-Alternatíva: Dá sa hrať aj handicap -2.5 pre tých, čo sa boja tiebreakov a tesného zápasu """
+* Myslím si, že mladý talentovaný Američan v tomto zápase výhodu a jeho rastová tendencia bude pokračovať ✅ *  
+
+Dodatok: Tento zápas je menej predvídateľný, preto odporúčam staviť menšiu sumu ako obvykle"""
 
 vip_text = """💎 *SMART BETS VIP* 
 
@@ -129,26 +131,26 @@ vip_text = """💎 *SMART BETS VIP*
 🎁 Bonusové tipy cez víkendy
 
 🏆 *BILANCIA TIKETOV*
-• Výherné tikety: 28 ✅
+• Výherné tikety: 29 ✅
 • Prehraté tikety: 6 ❌
 • Úspešnosť: 82.35% 
 
 📈 *FINANČNÉ VÝSLEDKY*
-• Navrátnosť za dané obdobie: 26.17% 
-• Zisk za dané obdobie: +21.62u
-• Investovaná suma: 82.6u
+• Navrátnosť za dané obdobie: 26.85% 
+• Zisk za dané obdobie: +22.72u
+• Investovaná suma: 84.6u
 
 💰 *CELKOVÝ ZISK V €*
-⏩pri vklade 100€ ZISK 432€
-⏩pri vklade 200€ ZISK 865€
-⏩pri vklade 500€ ZISK 2162€
+⏩pri vklade 100€ ZISK 454€
+⏩pri vklade 200€ ZISK 909€
+⏩pri vklade 500€ ZISK 2272€
 
 💰 *CELKOVÝ ZISK V KC*
-⏩pri vklade 2500KC ZISK 10810KC
-⏩pri vklade 5000KC ZISK 21620KC
-⏩pri vklade 12500KC ZISK 54050KC
+⏩pri vklade 2500KC ZISK 11360KC
+⏩pri vklade 5000KC ZISK 22720KC
+⏩pri vklade 12500KC ZISK 56800KC
 
-💬* [AK CHCETE AJ VY ZARÁBAŤ TIETO SUMY S NAŠOU VIP]*(https://t.me/SmartTipy)"""
+💬[*AK CHCETE AJ VY ZARÁBAŤ TIETO SUMY S NAŠOU VIP*](https://t.me/SmartTipy)"""
 
 def is_admin(user_id):
     """Kontrola admin práv"""
@@ -357,7 +359,7 @@ def send_ticket_to_channel():
     }
     
     # Skús poslať obrázok - odstránené generovanie cesty podľa 'sport'
-    image_path = "images/Raducanu - Stearns.png"
+    image_path = "images/Evans - Zheng.png"
     
     if send_telegram_photo(CHANNEL_ID, image_path, caption, keyboard):
         print("✅ Ticket with image sent to channel")
