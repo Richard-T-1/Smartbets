@@ -98,27 +98,25 @@ def get_user_stats():
 
 # Príklad dát zápasu - odstránená kolónka 'sport'
 example_match = {
-    'team1': 'D. Evans',
-    'team2': 'M. Zheng',
-    'tournament': 'ATP Lexington',
-    'time': '16:00',
-    'pick': 'Zheng vyhrá - 2',
-    'odds': '1.90 (Doxxbet)'
+    'team1': 'Frýdek-Místek',
+    'team2': 'Hlučín',
+    'tournament': 'MSFL',
+    'time': '18:00',
+    'pick': 'Frýdek-Místek vyhrá - 1',
+    'odds': '1.61'
 }
 
-analysis_text = """📊 *ANALÝZA ZÁPASU: D. Evans - M. Zheng*
+analysis_text = """📊 *ANALÝZA ZÁPASU: Frýdek-Místek - Hlučín*
 
-Máme tu osemfinále vyraďovacej časti ATP Lexington. Medzi inými si zmerajú sily aj Daniel Evans s mladým americkým talentom - Michaelom Zhengom 🎾
+Začína futbalová sezóna a dnes sa bude hrať MSFL, teda 3. liga českého futbalu. V 1. kole nastúpia proti sebe Frýdek-Místek a Hlučín ⚽️
 
-_Michael Zheng (ATP 444) je 21 ročný agresívny baseline hráč. Do druhého kola postúpil po výhre 2:0 s ATP 275. Má veľmi kvalitné podanie a v prvom zápase na žiadnom druhom podaní neurobil dvojchybu. Jeho nevýhodou je menej skúseností na vyššej úrovni a horšie premieňanie breakpointov. Zato však jeho fyzická stránka mu bude slúžiť ako výhoda 🇺🇸
+_Frýdek-Místek už nejaké roky pôsobí v MSFL, má ofenzívnejší štýl a v hre sú konzistentný. Snažia sa o kontrolu hry a držanie lopty, aby súpera nepustili k veľkým šanciam. Takisto majú nové posily, ktoré obohatia ich futbal. Občas môže mať problémy v obrane.
 
-Daniel Evans (ATP 129) je o 14 rokov starší Brit, ktorý je skôr všestranný. Jeho štýl sa dá popísať ako defenzívny baseline, kde používa slice na vynucovanie chýb súperov. Na returne je agresívny, ale zároveň kreatívny. Spolieha sa skôr na herné IQ a zmenu rytmu. Jeho fyzická kondícia je však už horšia a má slabšie aj prvé, aj druhé podanie v porovnaní so Zhengom. Takisto má v tomto roku horšiu bilanciu (dokonca negatívnu: 19-20) 🇬🇧 
+Hlučín je kvalitný súper, ale zažili značné zmeny kádra po odchode viacerých hráčov (8 v priebehu mesiaca) a tieto prestupy budú pravdepodobne aj pokračovať. V porovnaní s Frýdkom- Místkom majú horší útok, ale lepšiu obranu.
 
-Tvrdý povrch vyhovuje skôr Zhengovmu agresívnejšiemu štýlu, čo zväčšuje jeho šance na výhru. _
+V tomto zápase bude Hlučín spoliehať na kvalitnú obranu a rýchlymi protiútokmi sa bude snažiť prekvapiť súpera. Otázne je, či sa mu to podarí. Kurz 1.61 vidím stále ako férový a má svoju hodnotu (aj keď už klesol) ⚖️ _
 
-* Myslím si, že mladý talentovaný Američan v tomto zápase výhodu a jeho rastová tendencia bude pokračovať ✅ *  
-
-Dodatok: Tento zápas je menej predvídateľný, preto odporúčam staviť menšiu sumu ako obvykle"""
+*Frýdek-Místek je vo výbornej forme a myslím si, že by dnes mal Hlučín zdolať vďaka kvalitnejšiemu futbalu ✅*  """
 
 vip_text = """💎 *SMART BETS VIP* 
 
@@ -131,24 +129,24 @@ vip_text = """💎 *SMART BETS VIP*
 🎁 Bonusové tipy cez víkendy
 
 🏆 *BILANCIA TIKETOV*
-• Výherné tikety: 29 ✅
+• Výherné tikety: 31✅
 • Prehraté tikety: 6 ❌
-• Úspešnosť: 82.35% 
+• Úspešnosť: 83.78%  
 
 📈 *FINANČNÉ VÝSLEDKY*
-• Navrátnosť za dané obdobie: 26.85% 
-• Zisk za dané obdobie: +22.72u
-• Investovaná suma: 84.6u
+• Navrátnosť za dané obdobie: 29,40% 
+• Zisk za dané obdobie: +25,90u
+• Investovaná suma: 83.78u
 
 💰 *CELKOVÝ ZISK V €*
-⏩pri vklade 100€ ZISK 454€
-⏩pri vklade 200€ ZISK 909€
-⏩pri vklade 500€ ZISK 2272€
+⏩pri vklade 100€ ZISK 518€
+⏩pri vklade 200€ ZISK 1036€
+⏩pri vklade 500€ ZISK 2590€
 
 💰 *CELKOVÝ ZISK V KC*
-⏩pri vklade 2500KC ZISK 11360KC
-⏩pri vklade 5000KC ZISK 22720KC
-⏩pri vklade 12500KC ZISK 56800KC
+⏩pri vklade 2500KC ZISK 12950KC
+⏩pri vklade 5000KC ZISK 25900KC
+⏩pri vklade 12500KC ZISK 64750KC
 
 💬[*AK CHCETE AJ VY ZARÁBAŤ TIETO SUMY S NAŠOU VIP*](https://t.me/SmartTipy)"""
 
@@ -346,7 +344,7 @@ def send_ticket_to_channel():
     
     # Caption pre tiket
     caption = (f"🏆 {match_data['team1']} vs {match_data['team2']}\n"
-              f"🎾 {match_data['tournament']}\n"
+              f"⚽️ {match_data['tournament']}\n"
               f"🕘 {match_data['time']}\n\n"
               f"🎯 {match_data['pick']}\n"
               f"💰 Kurz: {match_data['odds']}")
@@ -359,7 +357,7 @@ def send_ticket_to_channel():
     }
     
     # Skús poslať obrázok - odstránené generovanie cesty podľa 'sport'
-    image_path = "images/Evans - Zheng.png"
+    image_path = "images/MSFL.png"
     
     if send_telegram_photo(CHANNEL_ID, image_path, caption, keyboard):
         print("✅ Ticket with image sent to channel")
