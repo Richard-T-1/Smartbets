@@ -98,25 +98,23 @@ def get_user_stats():
 
 # Príklad dát zápasu - odstránená kolónka 'sport'
 example_match = {
-    'team1': 'Frýdek-Místek',
-    'team2': 'Hlučín',
-    'tournament': 'MSFL',
-    'time': '18:00',
-    'pick': 'Frýdek-Místek vyhrá - 1',
-    'odds': '1.61'
+    'team1': 'Holandsko',
+    'team2': 'Rakúsko',
+    'tournament': 'MS - kvalifikácia',
+    'time': '14:30',
+    'pick': 'Rakúsko +5.5',
+    'odds': '1.51'
 }
 
-analysis_text = """📊 *ANALÝZA ZÁPASU: Frýdek-Místek - Hlučín*
+analysis_text = """📊 *ANALÝZA ZÁPASU: Holandsko - Rakúsko*
 
-Začína futbalová sezóna a dnes sa bude hrať MSFL, teda 3. liga českého futbalu. V 1. kole nastúpia proti sebe Frýdek-Místek a Hlučín ⚽️
+ZPo dlhšom čase sa pozrieme aj na európsky basketbal. Predkvalifikácia MS 2027 pokračuje a v skupine C sa stretávajú dva tímy bojujúce o postupové miesta do hlavnej kvalifikácie.
 
-_Frýdek-Místek už nejaké roky pôsobí v MSFL, má ofenzívnejší štýl a v hre sú konzistentný. Snažia sa o kontrolu hry a držanie lopty, aby súpera nepustili k veľkým šanciam. Takisto majú nové posily, ktoré obohatia ich futbal. Občas môže mať problémy v obrane.
+_Rakúsko má výrazne lepšie východiskové postavenie, keďže sú momentálne v dobrej forme, čo naznačujú posledné zápasy a Eurobasket (kde skončili na čele tabuľky). V nedávnych prípravných zápasoch so Slovenskom ukázali svoju kvalitu - v Bratislave síce prehrali 51:73, ale vo Viedni dokázali zvíťaziť 74:71. Tréner Vidin o nich povedal: "V druhom stretnutí to už bolo trochu lepšie", čo naznačuje progres a schopnosť adaptácie. Majú disciplinovanejší prístup a lepšiu organizáciu hry 🇦🇹
 
-Hlučín je kvalitný súper, ale zažili značné zmeny kádra po odchode viacerých hráčov (8 v priebehu mesiaca) a tieto prestupy budú pravdepodobne aj pokračovať. V porovnaní s Frýdkom- Místkom majú horší útok, ale lepšiu obranu.
+Holandsko je tím, ktorý sa dostal do tejto kvalifikácie MS 2025. Pred týmto bol neúspešných tímom na EuroBasket 2025. V kvalifikácii boli v skupine F s Českom, Gréckom a Veľkou Britániou, kde ich Česko zdolalo výsledkom 96:74 a skončili na poslednom mieste tabuľky. Toto naznačuje problémy v obrane a celkovo slabšie výkony proti kvalitnejším európskym tímom. Ich basketbalový program nie je na najvyššej európskej úrovni_ 🇳🇱
 
-V tomto zápase bude Hlučín spoliehať na kvalitnú obranu a rýchlymi protiútokmi sa bude snažiť prekvapiť súpera. Otázne je, či sa mu to podarí. Kurz 1.61 vidím stále ako férový a má svoju hodnotu (aj keď už klesol) ⚖️ _
-
-*Frýdek-Místek je vo výbornej forme a myslím si, že by dnes mal Hlučín zdolať vďaka kvalitnejšiemu futbalu ✅*  """
+*Tento zápas je každopádne vyrovnaný a handicap +5.5 vidím ako rozumnú voľbu. ✅*  """
 
 vip_text = """💎 *SMART BETS VIP* 
 
@@ -129,26 +127,25 @@ vip_text = """💎 *SMART BETS VIP*
 🎁 Bonusové tipy cez víkendy
 
 🏆 *BILANCIA TIKETOV*
-• Výherné tikety: 31✅
-• Prehraté tikety: 6 ❌
-• Úspešnosť: 83.78%  
+• Výherné tikety: 32✅
+• Prehraté tikety: 8 ❌
+• Úspešnosť: 80% 
 
 📈 *FINANČNÉ VÝSLEDKY*
-• Navrátnosť za dané obdobie: 29,40% 
-• Zisk za dané obdobie: +25,90u
-• Investovaná suma: 83.78u
+• Navrátnosť za dané obdobie: 25.91% 
+• Zisk za dané obdobie: +24.12u
 
 💰 *CELKOVÝ ZISK V €*
-⏩pri vklade 100€ ZISK 518€
-⏩pri vklade 200€ ZISK 1036€
-⏩pri vklade 500€ ZISK 2590€
+⏩pri vklade 100€ ZISK 482€
+⏩pri vklade 200€ ZISK 964€
+⏩pri vklade 500€ ZISK 2412€
 
 💰 *CELKOVÝ ZISK V KC*
-⏩pri vklade 2500KC ZISK 12950KC
-⏩pri vklade 5000KC ZISK 25900KC
-⏩pri vklade 12500KC ZISK 64750KC
+⏩pri vklade 2500KC ZISK 12060KC
+⏩pri vklade 5000KC ZISK 24120KC
+⏩pri vklade 12500KC ZISK 60300KC
 
-💬[*AK CHCETE AJ VY ZARÁBAŤ TIETO SUMY S NAŠOU VIP*](https://t.me/SmartTipy)"""
+💬[AK CHCETE AJ VY ZARÁBAŤ TIETO SUMY S NAŠOU VIP](https://t.me/SmartTipy)"""
 
 def is_admin(user_id):
     """Kontrola admin práv"""
@@ -344,7 +341,7 @@ def send_ticket_to_channel():
     
     # Caption pre tiket
     caption = (f"🏆 {match_data['team1']} vs {match_data['team2']}\n"
-              f"⚽️ {match_data['tournament']}\n"
+              f"🏀 {match_data['tournament']}\n"
               f"🕘 {match_data['time']}\n\n"
               f"🎯 {match_data['pick']}\n"
               f"💰 Kurz: {match_data['odds']}")
