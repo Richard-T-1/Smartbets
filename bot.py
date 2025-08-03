@@ -98,23 +98,25 @@ def get_user_stats():
 
 # Príklad dát zápasu - odstránená kolónka 'sport'
 example_match = {
-    'team1': 'Holandsko',
-    'team2': 'Rakúsko',
-    'tournament': 'MS - kvalifikácia',
-    'time': '14:30',
-    'pick': 'Rakúsko +5.5',
-    'odds': '1.51'
+    'team1': 'Ordabasy',
+    'team2': 'Atyrau',
+    'tournament': '1. KZ liga',
+    'time': '17:00',
+    'pick': 'Ordabasy vyhrá - 1',
+    'odds': '1.63'
 }
 
-analysis_text = """📊 *ANALÝZA ZÁPASU: Holandsko - Rakúsko*
+analysis_text = """📊 *ANALÝZA ZÁPASU: Francúzsko ž - Slovinsko ž*
 
-ZPo dlhšom čase sa pozrieme aj na európsky basketbal. Predkvalifikácia MS 2027 pokračuje a v skupine C sa stretávajú dva tímy bojujúce o postupové miesta do hlavnej kvalifikácie.
+Po návrate k európskemu futbalu sa zameriame aj na litovskú A Lygu ⚽️
 
-_Rakúsko má výrazne lepšie východiskové postavenie, keďže sú momentálne v dobrej forme, čo naznačujú posledné zápasy a Eurobasket (kde skončili na čele tabuľky). V nedávnych prípravných zápasoch so Slovenskom ukázali svoju kvalitu - v Bratislave síce prehrali 51:73, ale vo Viedni dokázali zvíťaziť 74:71. Tréner Vidin o nich povedal: "V druhom stretnutí to už bolo trochu lepšie", čo naznačuje progres a schopnosť adaptácie. Majú disciplinovanejší prístup a lepšiu organizáciu hry 🇦🇹
+_Ordabasy je tím, ktorý sa v tejto sezóne nachádza v strede tabuľky na 7. mieste s priemernou formou. Ich herný štýl je založený na vyváženej hre s dôrazom na domáce prostredie, kde majú slušnú bilanciu. Silnou stránkou je ich domáca forma a solídna defenzíva - majú 6 čistých kont v sezóne, čo je vynikajúci výsledok. Používajú formáciu 4-3-3 a majú 71% úspešnosť udržania náskoku, čo svedčí o mentálnej stabilite. Najlepšími strelcami sú Everton Moraes s 4 gólmi a Sergey Maliy s 3 gólmi. Slabšou stránkou sú ich vonkajšie výkony, čo však nie je tak podstatné 🏆
 
-Holandsko je tím, ktorý sa dostal do tejto kvalifikácie MS 2025. Pred týmto bol neúspešných tímom na EuroBasket 2025. V kvalifikácii boli v skupine F s Českom, Gréckom a Veľkou Britániou, kde ich Česko zdolalo výsledkom 96:74 a skončili na poslednom mieste tabuľky. Toto naznačuje problémy v obrane a celkovo slabšie výkony proti kvalitnejším európskym tímom. Ich basketbalový program nie je na najvyššej európskej úrovni_ 🇳🇱
+Atyrau prežíva katastrofálnu sezónu. Nachádzajú sa na poslednom mieste tabuľky s len 8 bodmi z 18 zápasov a zažívali sériu 17 zápasov bez víťazstva až do poslednej výhry s Kyzylharom. Ich herný štýl je extrémne defenzívny, často hrajú na výsledok 0:0. Majú najhorší útok v lige s priemerom len 0,70 gólu na zápas a nevedeli skórovať v posledných 5 ligových zápasoch (ked nerátam posledný). Ich najlepšími strelcami sú Sapanov a Barbosa Soares. Najslabšou stránkou je ich ofenzívna bezmocnosť a najhoršia defenzíva v lige s 35 inkasovanými gólmi (na ktorú sa vlastne spoliehajú).
 
-*Tento zápas je každopádne vyrovnaný a handicap +5.5 vidím ako rozumnú voľbu. ✅*  """
+Posledných 7 zápasov Atyrau s Ordabasy nevyhrali, dokázali však urobiť 4 remízy. Remízu vidím ako jediný možný výsledok, čo nás sklame 💰 _
+
+*Momentálna forma a kvalita družstva jasne naznačuje favorita - Odarbasy, a museli by padať fúriky z neba, aby Atyrau predviedol tak dobrý výkon, že dokážu s ním konkurovať ✅"""
 
 vip_text = """💎 *SMART BETS VIP* 
 
@@ -127,23 +129,23 @@ vip_text = """💎 *SMART BETS VIP*
 🎁 Bonusové tipy cez víkendy
 
 🏆 *BILANCIA TIKETOV*
-• Výherné tikety: 32✅
+• Výherné tikety: 34✅
 • Prehraté tikety: 8 ❌
-• Úspešnosť: 80% 
+• Úspešnosť: 81% 
 
 📈 *FINANČNÉ VÝSLEDKY*
-• Navrátnosť za dané obdobie: 25.91% 
-• Zisk za dané obdobie: +24.12u
+• Navrátnosť za dané obdobie: 27.74% 
+• Zisk za dané obdobie: +27.49u
 
 💰 *CELKOVÝ ZISK V €*
-⏩pri vklade 100€ ZISK 482€
-⏩pri vklade 200€ ZISK 964€
-⏩pri vklade 500€ ZISK 2412€
+⏩pri vklade 100€ ZISK 550€
+⏩pri vklade 200€ ZISK 1100€
+⏩pri vklade 500€ ZISK 2750€
 
 💰 *CELKOVÝ ZISK V KC*
-⏩pri vklade 2500KC ZISK 12060KC
-⏩pri vklade 5000KC ZISK 24120KC
-⏩pri vklade 12500KC ZISK 60300KC
+⏩pri vklade 2500KC ZISK 13745KC
+⏩pri vklade 5000KC ZISK 27490KC
+⏩pri vklade 12500KC ZISK 68725KC
 
 💬[AK CHCETE AJ VY ZARÁBAŤ TIETO SUMY S NAŠOU VIP](https://t.me/SmartTipy)"""
 
@@ -341,7 +343,7 @@ def send_ticket_to_channel():
     
     # Caption pre tiket
     caption = (f"🏆 {match_data['team1']} vs {match_data['team2']}\n"
-              f"🏀 {match_data['tournament']}\n"
+              f"⚽️ {match_data['tournament']}\n"
               f"🕘 {match_data['time']}\n\n"
               f"🎯 {match_data['pick']}\n"
               f"💰 Kurz: {match_data['odds']}")
@@ -354,7 +356,7 @@ def send_ticket_to_channel():
     }
     
     # Skús poslať obrázok - odstránené generovanie cesty podľa 'sport'
-    image_path = "images/Kvalifikacia.png"
+    image_path = "images/1. KZ.png"
     
     if send_telegram_photo(CHANNEL_ID, image_path, caption, keyboard):
         print("✅ Ticket with image sent to channel")
