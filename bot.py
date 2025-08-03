@@ -106,7 +106,7 @@ example_match = {
     'odds': '1.63'
 }
 
-analysis_text = """📊 *ANALÝZA ZÁPASU: Francúzsko ž - Slovinsko ž*
+analysis_text = """📊 *ANALÝZA ZÁPASU: Ordabasy - Atyrau*
 
 Po návrate k európskemu futbalu sa zameriame aj na litovskú A Lygu ⚽️
 
@@ -116,7 +116,7 @@ Atyrau prežíva katastrofálnu sezónu. Nachádzajú sa na poslednom mieste tab
 
 Posledných 7 zápasov Atyrau s Ordabasy nevyhrali, dokázali však urobiť 4 remízy. Remízu vidím ako jediný možný výsledok, čo nás sklame 💰 _
 
-*Momentálna forma a kvalita družstva jasne naznačuje favorita - Odarbasy, a museli by padať fúriky z neba, aby Atyrau predviedol tak dobrý výkon, že dokážu s ním konkurovať ✅"""
+*Momentálna forma a kvalita družstva jasne naznačuje favorita - Odarbasy, a museli by padať fúriky z neba, aby Atyrau predviedol tak dobrý výkon, že dokážu s ním konkurovať* ✅"""
 
 vip_text = """💎 *SMART BETS VIP* 
 
