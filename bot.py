@@ -118,8 +118,6 @@ Jediný relevantný zápas, ktorý spolu hrali bol pred rokom (keďže ide o ml�
 
 *Under 150.5 bodov vidím ako tip mierne naklonený v náš prospech (v zmysle rizko/výnos) ✅*  """
 
-    },
-
 vip_text = """💎 *SMART BETS VIP* 
 
 *Prečo si vybrať VIP?*
