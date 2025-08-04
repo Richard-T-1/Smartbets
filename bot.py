@@ -98,25 +98,27 @@ def get_user_stats():
 
 # Príklad dát zápasu - odstránená kolónka 'sport'
 example_match = {
-    'team1': 'Ordabasy',
-    'team2': 'Atyrau',
-    'tournament': '1. KZ liga',
-    'time': '17:00',
-    'pick': 'Ordabasy vyhrá - 1',
-    'odds': '1.63'
+    'team1': 'Litva ž U20',
+    'team2': 'Izrael ž U20',
+    'tournament': 'ME div. A',
+    'time': '16:30',
+    'pick': 'Počet bodov - menej ako 150.5',
+    'odds': '1.89'
 }
 
-analysis_text = """📊 *ANALÝZA ZÁPASU: Ordabasy - Atyrau*
+analysis_text = """📊 *ANALÝZA ZÁPASU: Litva ž - Izrael ž*
 
-Po návrate k európskemu futbalu sa zameriame aj na litovskú A Lygu ⚽️
+Po včerajšom sklamaní ešte dáme šancu raz šancu európskemu basketbalu 🏀
 
-_Ordabasy je tím, ktorý sa v tejto sezóne nachádza v strede tabuľky na 7. mieste s priemernou formou. Ich herný štýl je založený na vyváženej hre s dôrazom na domáce prostredie, kde majú slušnú bilanciu. Silnou stránkou je ich domáca forma a solídna defenzíva - majú 6 čistých kont v sezóne, čo je vynikajúci výsledok. Používajú formáciu 4-3-3 a majú 71% úspešnosť udržania náskoku, čo svedčí o mentálnej stabilite. Najlepšími strelcami sú Everton Moraes s 4 gólmi a Sergey Maliy s 3 gólmi. Slabšou stránkou sú ich vonkajšie výkony, čo však nie je tak podstatné 🏆
+_Litvanky tvoria tím s bohatou basketbalovou tradíciou. Ich herný štýl je charakterizovaný disciplinovanou obranou, tímovo orientovanou hrou a silnou pracovnou morálkou, čo odráža hlboko zakorenenú basketbalovú kultúru Litvy. V poslednom období majú bilanciu 2 víťazstiev a 8 prehier, s priemerom 59.3 bodov na zápas a 73.2 inkasovaných bodov. Momentálne nie sú v najlepšej forme a majú problémy v ofenzíve, čo pomáha nášmu tipu 🇱🇹
 
-Atyrau prežíva katastrofálnu sezónu. Nachádzajú sa na poslednom mieste tabuľky s len 8 bodmi z 18 zápasov a zažívali sériu 17 zápasov bez víťazstva až do poslednej výhry s Kyzylharom. Ich herný štýl je extrémne defenzívny, často hrajú na výsledok 0:0. Majú najhorší útok v lige s priemerom len 0,70 gólu na zápas a nevedeli skórovať v posledných 5 ligových zápasoch (ked nerátam posledný). Ich najlepšími strelcami sú Sapanov a Barbosa Soares. Najslabšou stránkou je ich ofenzívna bezmocnosť a najhoršia defenzíva v lige s 35 inkasovanými gólmi (na ktorú sa vlastne spoliehajú).
+Izraelčanmi reprezentujú tím, ktorý v tomto turnaji predvádza variabilné výkony. Ich posledný zápas proti Belgicku prehrali jasne 80:104. V posledných 5 zápasoch majú priemer 68,2 bodov na zápas a 68,0 inkasovaných bodov. Oproti Litve majú lepšiu ofenzívu. Slabšou stránkou je nestabilita - dokážu hrať vysokoskórové zápasy, ale proti defenzívne orientovaným tímom ich produkcia často klesá 🇮🇱
 
-Posledných 7 zápasov Atyrau s Ordabasy nevyhrali, dokázali však urobiť 4 remízy. Remízu vidím ako jediný možný výsledok, čo nás sklame 💰 _
+Jediný relevantný zápas, ktorý spolu hrali bol pred rokom (keďže ide o mládežnícky basketbal), a ten skončil 73:55 pre Izrael _
 
-*Momentálna forma a kvalita družstva jasne naznačuje favorita - Odarbasy, a museli by padať fúriky z neba, aby Atyrau predviedol tak dobrý výkon, že dokážu s ním konkurovať* ✅"""
+*Under 150.5 bodov vidím ako tip mierne naklonený v náš prospech (v zmysle rizko/výnos) ✅*  """
+
+    },
 
 vip_text = """💎 *SMART BETS VIP* 
 
@@ -130,22 +132,22 @@ vip_text = """💎 *SMART BETS VIP*
 
 🏆 *BILANCIA TIKETOV*
 • Výherné tikety: 34✅
-• Prehraté tikety: 8 ❌
-• Úspešnosť: 81% 
+• Prehraté tikety: 10 ❌
+• Úspešnosť: 77% 
 
 📈 *FINANČNÉ VÝSLEDKY*
-• Navrátnosť za dané obdobie: 27.74% 
-• Zisk za dané obdobie: +27.49u
+• Navrátnosť za dané obdobie: 22.58% 
+• Zisk za dané obdobie: +23.49u
 
 💰 *CELKOVÝ ZISK V €*
-⏩pri vklade 100€ ZISK 550€
-⏩pri vklade 200€ ZISK 1100€
-⏩pri vklade 500€ ZISK 2750€
+⏩pri vklade 100€ ZISK 470€
+⏩pri vklade 200€ ZISK 940€
+⏩pri vklade 500€ ZISK 2350€
 
 💰 *CELKOVÝ ZISK V KC*
-⏩pri vklade 2500KC ZISK 13745KC
-⏩pri vklade 5000KC ZISK 27490KC
-⏩pri vklade 12500KC ZISK 68725KC
+⏩pri vklade 2500KC ZISK 11745KC
+⏩pri vklade 5000KC ZISK 23490KC
+⏩pri vklade 12500KC ZISK 58725KC
 
 💬[AK CHCETE AJ VY ZARÁBAŤ TIETO SUMY S NAŠOU VIP](https://t.me/SmartTipy)"""
 
@@ -343,7 +345,7 @@ def send_ticket_to_channel():
     
     # Caption pre tiket
     caption = (f"🏆 {match_data['team1']} vs {match_data['team2']}\n"
-              f"⚽️ {match_data['tournament']}\n"
+              f"🏀 {match_data['tournament']}\n"
               f"🕘 {match_data['time']}\n\n"
               f"🎯 {match_data['pick']}\n"
               f"💰 Kurz: {match_data['odds']}")
@@ -356,7 +358,7 @@ def send_ticket_to_channel():
     }
     
     # Skús poslať obrázok - odstránené generovanie cesty podľa 'sport'
-    image_path = "images/1. KZ.png"
+    image_path = "images/LT - IZ.png"
     
     if send_telegram_photo(CHANNEL_ID, image_path, caption, keyboard):
         print("✅ Ticket with image sent to channel")
