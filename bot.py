@@ -98,25 +98,23 @@ def get_user_stats():
 
 # Príklad dát zápasu - odstránená kolónka 'sport'
 example_match = {
-    'team1': 'Litva ž U20',
-    'team2': 'Izrael ž U20',
-    'tournament': 'ME div. A',
-    'time': '16:30',
-    'pick': 'Počet bodov - menej ako 150.5',
-    'odds': '1.89'
+    'team1': 'Glasgow Rangers',
+    'team2': 'Viktoria Plzeň',
+    'tournament': 'Liga majstrov - kvalifikácia',
+    'time': '20:45',
+    'pick': 'Rangers postúpia',
+    'odds': '1.84 (Niké)'
 }
 
-analysis_text = """📊 *ANALÝZA ZÁPASU: Litva ž - Izrael ž*
+analysis_text = """📊 *ANALÝZA ZÁPASU: Glasgow Rangers - Viktoria Plzeň*
 
-Po včerajšom sklamaní ešte dáme šancu raz šancu európskemu basketbalu 🏀
+Dnes sa pozrieme na zaujímavý futbalový duel - semifinále kvalifikácie Ligy majstrov na Ibroxe, kde sa stretnú Glasgow Rangers a česká Viktoria Plzeň.
 
-_Litvanky tvoria tím s bohatou basketbalovou tradíciou. Ich herný štýl je charakterizovaný disciplinovanou obranou, tímovo orientovanou hrou a silnou pracovnou morálkou, čo odráža hlboko zakorenenú basketbalovú kultúru Litvy. V poslednom období majú bilanciu 2 víťazstiev a 8 prehier, s priemerom 59.3 bodov na zápas a 73.2 inkasovaných bodov. Momentálne nie sú v najlepšej forme a majú problémy v ofenzíve, čo pomáha nášmu tipu 🇱🇹
+_Glasgow Rangers tvoria tím v procese transformácie pod novým trénerom Russellom Martinom. Ich herný štýl je založený na dominancii držania lopty, s preferovanou formáciou 4-3-3, s dôrazom na plynulé budovanie útoku, držanie lopty a vysoký presing. Pravý bek - James Tavernier potvrdil, že Martinov štýl je "odlišný od všetkého, čo predtým v Rangers hral". Rangers postúpili cez Panathinaikos (3:1), ale v lige remizovali s Motherwell 1:1, čo vyvolalo tvrdú kritiku od Martina, ktorý obvinil hráčov z mentalitných problémov a nedostatočnej intenzity. Slabšou stránkou sú mentálne problémy, adaptácia na nový štýl hry a absencie kľúčových hráčov - Thelo Aasgaard a Hamza Igamane chýbajú pre zranenia spolu s ďalšími hráčmi 🏴󠁧󠁢󠁳󠁣󠁴󠁿
 
-Izraelčanmi reprezentujú tím, ktorý v tomto turnaji predvádza variabilné výkony. Ich posledný zápas proti Belgicku prehrali jasne 80:104. V posledných 5 zápasoch majú priemer 68,2 bodov na zápas a 68,0 inkasovaných bodov. Oproti Litve majú lepšiu ofenzívu. Slabšou stránkou je nestabilita - dokážu hrať vysokoskórové zápasy, ale proti defenzívne orientovaným tímom ich produkcia často klesá 🇮🇱
+Viktoria Plzeň reprezentuje český tím s veľkými ambíciami, ale výrazne oslabený prestupmi. Ich herný štýl je založený na dynamickej formácii 4-2-3-1, so silnou kreatívnou osou v strede poľa. V poslednom zápase postúpili cez Servette výsledkom 3:1 v odvete po prehre 0:1 doma (aj keď už tu mali problémy). Hlavnou zmenou je prestup ich kľúčového hráča Pavla Šulca, ktorý minulú sezónu zaznamenal 15 gólov a 9 asistencií v českej lige a získal Zlatú loptu pre najlepšieho českého hráča,  do Lyonu za 7,5 mil. €. Silnou stránkou je skúsenosť z európskych súťaží a nedávna slušná forma. Tento tím však oslabuje strata najlepšieho hráča a absencia stredopoliara Adriana Zeljkoviča pre vylúčenie v zápase so Servette _ 🇨🇿 
 
-Jediný relevantný zápas, ktorý spolu hrali bol pred rokom (keďže ide o mládežnícky basketbal), a ten skončil 73:55 pre Izrael _
-
-*Under 150.5 bodov vidím ako tip mierne naklonený v náš prospech (v zmysle rizko/výnos) ✅*  """
+*Kurz 1.84 na postup Rangers vidím ako nadhodnotený a hodný využitia (čakal by som niečo okolo 1.70) ✅*  """
 
 vip_text = """💎 *SMART BETS VIP* 
 
@@ -130,22 +128,22 @@ vip_text = """💎 *SMART BETS VIP*
 
 🏆 *BILANCIA TIKETOV*
 • Výherné tikety: 34✅
-• Prehraté tikety: 10 ❌
-• Úspešnosť: 77% 
+• Prehraté tikety: 11 ❌
+• Úspešnosť: 76% 
 
-📈 *FINANČNÉ VÝSLEDKY*
-• Navrátnosť za dané obdobie: 22.58% 
-• Zisk za dané obdobie: +23.49u
+📈 *NAŠA ÚSPEŠNOSŤ*
+• Navrátnosť za dané obdobie: 20.27% 
+• Zisk za dané obdobie: +21.50u
 
 💰 *CELKOVÝ ZISK V €*
-⏩pri vklade 100€ ZISK 470€
-⏩pri vklade 200€ ZISK 940€
-⏩pri vklade 500€ ZISK 2350€
+⏩pri vklade 100€ ZISK 430€
+⏩pri vklade 200€ ZISK 860€
+⏩pri vklade 500€ ZISK 2150€
 
 💰 *CELKOVÝ ZISK V KC*
-⏩pri vklade 2500KC ZISK 11745KC
-⏩pri vklade 5000KC ZISK 23490KC
-⏩pri vklade 12500KC ZISK 58725KC
+⏩pri vklade 2500KC ZISK 10750KC
+⏩pri vklade 5000KC ZISK 21500KC
+⏩pri vklade 12500KC ZISK 53750KC
 
 💬[AK CHCETE AJ VY ZARÁBAŤ TIETO SUMY S NAŠOU VIP](https://t.me/SmartTipy)"""
 
@@ -343,7 +341,7 @@ def send_ticket_to_channel():
     
     # Caption pre tiket
     caption = (f"🏆 {match_data['team1']} vs {match_data['team2']}\n"
-              f"🏀 {match_data['tournament']}\n"
+              f"⚽️ {match_data['tournament']}\n"
               f"🕘 {match_data['time']}\n\n"
               f"🎯 {match_data['pick']}\n"
               f"💰 Kurz: {match_data['odds']}")
@@ -356,7 +354,7 @@ def send_ticket_to_channel():
     }
     
     # Skús poslať obrázok - odstránené generovanie cesty podľa 'sport'
-    image_path = "images/LT - IZ.png"
+    image_path = "images/Liga majstrov - k.png"
     
     if send_telegram_photo(CHANNEL_ID, image_path, caption, keyboard):
         print("✅ Ticket with image sent to channel")
