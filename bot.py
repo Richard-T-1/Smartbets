@@ -98,23 +98,25 @@ def get_user_stats():
 
 # Príklad dát zápasu - odstránená kolónka 'sport'
 example_match = {
-    'team1': 'Glasgow Rangers',
-    'team2': 'Viktoria Plzeň',
-    'tournament': 'Liga majstrov - kvalifikácia',
-    'time': '20:45',
-    'pick': 'Rangers postúpia',
-    'odds': '1.84 (Niké)'
+        'team1': 'Rumunsko ž',
+        'team2': 'Chorvátsko ž',
+        'tournament': 'Kvalifikácia ME',
+        'time': '17:00',
+        'pick': 'Rumunsko vyhrá - 1',
+        'odds': '1.57 (Doxxbet)'
 }
 
-analysis_text = """📊 *ANALÝZA ZÁPASU: Glasgow Rangers - Viktoria Plzeň*
+analysis_text = """📊 *ANALÝZA ZÁPASU: Rumunsko ž - Chorvátsko ž*
 
-Dnes sa pozrieme na zaujímavý futbalový duel - semifinále kvalifikácie Ligy majstrov na Ibroxe, kde sa stretnú Glasgow Rangers a česká Viktoria Plzeň.
+Dnes sa pozrieme na zaujímavý volejbalový duel v kvalifikácii na ME 2026, kde sa stretnú rumunské a chorvátske ženy 🏐
 
-_Glasgow Rangers tvoria tím v procese transformácie pod novým trénerom Russellom Martinom. Ich herný štýl je založený na dominancii držania lopty, s preferovanou formáciou 4-3-3, s dôrazom na plynulé budovanie útoku, držanie lopty a vysoký presing. Pravý bek - James Tavernier potvrdil, že Martinov štýl je "odlišný od všetkého, čo predtým v Rangers hral". Rangers postúpili cez Panathinaikos (3:1), ale v lige remizovali s Motherwell 1:1, čo vyvolalo tvrdú kritiku od Martina, ktorý obvinil hráčov z mentalitných problémov a nedostatočnej intenzity. Slabšou stránkou sú mentálne problémy, adaptácia na nový štýl hry a absencie kľúčových hráčov - Thelo Aasgaard a Hamza Igamane chýbajú pre zranenia spolu s ďalšími hráčmi 🏴󠁧󠁢󠁳󠁣󠁴󠁿
+_Rumunsko ženy tvoria tím s rastúcou formou v európskom volejbale. Ich herný štýl je založený na silnej defenzíve a tímovej súhre. V posledných rokoch sa výrazne zlepšujú - získali titul v European Silver League 2022. Ich momentálne výsledky sú uspokojivé: 9/11 🇷🇴
 
-Viktoria Plzeň reprezentuje český tím s veľkými ambíciami, ale výrazne oslabený prestupmi. Ich herný štýl je založený na dynamickej formácii 4-2-3-1, so silnou kreatívnou osou v strede poľa. V poslednom zápase postúpili cez Servette výsledkom 3:1 v odvete po prehre 0:1 doma (aj keď už tu mali problémy). Hlavnou zmenou je prestup ich kľúčového hráča Pavla Šulca, ktorý minulú sezónu zaznamenal 15 gólov a 9 asistencií v českej lige a získal Zlatú loptu pre najlepšieho českého hráča,  do Lyonu za 7,5 mil. €. Silnou stránkou je skúsenosť z európskych súťaží a nedávna slušná forma. Tento tím však oslabuje strata najlepšieho hráča a absencia stredopoliara Adriana Zeljkoviča pre vylúčenie v zápase so Servette _ 🇨🇿 
+Chorvátsko ženy reprezentujú tím s tradíciou ale variabilnými výkonmi. Ich herný štýl je kombinuje techniku s fyzickou silou. Chorvátsko má skúsenosti z medzinárodných turnajov a pravidelne sa kvalifikuje na európske šampionáty, čiže tiež ide o kvalitný tím 🇭🇷
 
-*Kurz 1.84 na postup Rangers vidím ako nadhodnotený a hodný využitia (čakal by som niečo okolo 1.70) ✅*  """
+Oba tímy nie sú úplne konzistentné a nemajú takú finančnú podporu ako volejbalové veľmoci. Vrámci spoločných zápasov to bolo rôznorodé. Z posledných zápasov (od roku 2020) Rumunky vedú 4:2. V ich dlhej histórii žiadny zápas sa zároveň nehral na 5 setov - väčšinou tím, čo vyhral 1. set aj udržal toto vedenie _
+
+*Rumunsko je vďaka lepšej hre a lepším výsledkom favoritom v tomto zápase. Nie je to však také jednoznačné, preto odporúčam staviť 1u ✅*  """
 
 vip_text = """💎 *SMART BETS VIP* 
 
@@ -128,22 +130,22 @@ vip_text = """💎 *SMART BETS VIP*
 
 🏆 *BILANCIA TIKETOV*
 • Výherné tikety: 34✅
-• Prehraté tikety: 11 ❌
-• Úspešnosť: 76% 
+• Prehraté tikety: 12 ❌
+• Úspešnosť: 74% 
 
 📈 *NAŠA ÚSPEŠNOSŤ*
-• Navrátnosť za dané obdobie: 20.27% 
-• Zisk za dané obdobie: +21.50u
+• Navrátnosť za dané obdobie: 18,04% 
+• Zisk za dané obdobie: +19.50u
 
 💰 *CELKOVÝ ZISK V €*
-⏩pri vklade 100€ ZISK 430€
-⏩pri vklade 200€ ZISK 860€
-⏩pri vklade 500€ ZISK 2150€
+⏩pri vklade 100€ ZISK 390€
+⏩pri vklade 200€ ZISK 780€
+⏩pri vklade 500€ ZISK 1950€
 
 💰 *CELKOVÝ ZISK V KC*
-⏩pri vklade 2500KC ZISK 10750KC
-⏩pri vklade 5000KC ZISK 21500KC
-⏩pri vklade 12500KC ZISK 53750KC
+⏩pri vklade 2500KC ZISK 9750KC
+⏩pri vklade 5000KC ZISK 19500KC
+⏩pri vklade 12500KC ZISK 48750KC
 
 💬[AK CHCETE AJ VY ZARÁBAŤ TIETO SUMY S NAŠOU VIP](https://t.me/SmartTipy)"""
 
@@ -341,7 +343,7 @@ def send_ticket_to_channel():
     
     # Caption pre tiket
     caption = (f"🏆 {match_data['team1']} vs {match_data['team2']}\n"
-              f"⚽️ {match_data['tournament']}\n"
+              f"🏐 {match_data['tournament']}\n"
               f"🕘 {match_data['time']}\n\n"
               f"🎯 {match_data['pick']}\n"
               f"💰 Kurz: {match_data['odds']}")
@@ -354,7 +356,7 @@ def send_ticket_to_channel():
     }
     
     # Skús poslať obrázok - odstránené generovanie cesty podľa 'sport'
-    image_path = "images/Liga majstrov - k.png"
+    image_path = "images/RU - CH.png"
     
     if send_telegram_photo(CHANNEL_ID, image_path, caption, keyboard):
         print("✅ Ticket with image sent to channel")
