@@ -98,25 +98,25 @@ def get_user_stats():
 
 # Príklad dát zápasu - odstránená kolónka 'sport'
 example_match = {
-        'team1': 'Rumunsko ž',
-        'team2': 'Chorvátsko ž',
-        'tournament': 'Kvalifikácia ME',
-        'time': '17:00',
-        'pick': 'Rumunsko vyhrá - 1',
-        'odds': '1.57 (Doxxbet)'
+         'team1': 'T. M. Etcheverry',
+         'team2': 'J. Shang',
+         'tournament': 'ATP Cincinnati',
+         'time': '19:20',
+         'pick': 'Etcheverry vyhrá - 1',
+         'odds': '1.65'
 }
 
-analysis_text = """📊 *ANALÝZA ZÁPASU: Rumunsko ž - Chorvátsko ž*
+analysis_text = """📊 *ANALÝZA ZÁPASU: T. M. Etcheverry - J. Shang*
 
-Dnes sa pozrieme na zaujímavý volejbalový duel v kvalifikácii na ME 2026, kde sa stretnú rumunské a chorvátske ženy 🏐
+V turnaji ATP Cincinnati začína vyraďovacia časť, ktorá nám priniesla aj zápas Tomasa Etcheverryho s Junchengom Shangom  🎾
 
-_Rumunsko ženy tvoria tím s rastúcou formou v európskom volejbale. Ich herný štýl je založený na silnej defenzíve a tímovej súhre. V posledných rokoch sa výrazne zlepšujú - získali titul v European Silver League 2022. Ich momentálne výsledky sú uspokojivé: 9/11 🇷🇴
+_Tomas Martin Etcheverry (ATP 60) má klasický antukársky štýl s bohatými skúsenosťami. Jeho štýl je založený na silnej baseline hre s dôrazom na topspin údery a fyzickú odolnosť. Argentínčan dosiahol kariérne maximum ATP 27 a má za sebou tri finále ATP turnajov. Etcheverry má výborný bekhend s oboma rukami a vie hrať dlhé výmeny s vysokou intenzitou. Silnou stránkou je jeho mentálna odolnosť a skúsenosti z veľkých zápasov. Jeho výkony na tvrdom kurte sú horšie ako na antuke, ale už aj tu si zobral pál skalpov - napr. minulý týždeň porazil Griekspoora. Zároveň treba spomenúť, mesiac dozadu porazil Bena Sheltona  🇦🇷
+ 
+Juncheng Shang (ATP 109) reprezentuje novú generáciu čínskych tenistov s veľkým potenciálom.  Jeho herný štýl je all-court s výbornou technikou a rýchlosťou po kurte. Jeho ľavácky herný štýl vytvára problémy súperom a má výborné anticipovanie. Shang je syn bývalého futbalistu a majsterky sveta v stolnom tenise, čo mu dáva športové gény. Problémom je jeho mladý vek a niekedy nedostatočné skúsenosti v kľúčových momentoch, najmä proti skúsenejším súperom. Tento rok však toho neodohral. Zranil sa na začiatku sezóny v Hongkongu a potom aj na Australian open s Fokinou 🇨🇳
 
-Chorvátsko ženy reprezentujú tím s tradíciou ale variabilnými výkonmi. Ich herný štýl je kombinuje techniku s fyzickou silou. Chorvátsko má skúsenosti z medzinárodných turnajov a pravidelne sa kvalifikuje na európske šampionáty, čiže tiež ide o kvalitný tím 🇭🇷
+Zatiaľ spolu odohrali 2 zápasy a oba vyhrala Shang. Verím však, že teraz je Etcheverry v lepšej forme a Shang nebude po zraneniach hrať tak dobre _
 
-Oba tímy nie sú úplne konzistentné a nemajú takú finančnú podporu ako volejbalové veľmoci. Vrámci spoločných zápasov to bolo rôznorodé. Z posledných zápasov (od roku 2020) Rumunky vedú 4:2. V ich dlhej histórii žiadny zápas sa zároveň nehral na 5 setov - väčšinou tím, čo vyhral 1. set aj udržal toto vedenie _
-
-*Rumunsko je vďaka lepšej hre a lepším výsledkom favoritom v tomto zápase. Nie je to však také jednoznačné, preto odporúčam staviť 1u ✅*  """
+*Tento zápas bude však vyrovnaný, kde môže rozhodnúť Etcheverryho forma a herné skúsenosti * ✅ """               
 
 vip_text = """💎 *SMART BETS VIP* 
 
@@ -129,23 +129,23 @@ vip_text = """💎 *SMART BETS VIP*
 🎁 Bonusové tipy cez víkendy
 
 🏆 *BILANCIA TIKETOV*
-• Výherné tikety: 34✅
+• Výherné tikety: 36✅
 • Prehraté tikety: 12 ❌
-• Úspešnosť: 74% 
+• Úspešnosť: 75% 
 
 📈 *NAŠA ÚSPEŠNOSŤ*
-• Navrátnosť za dané obdobie: 18,04% 
-• Zisk za dané obdobie: +19.50u
+• Navrátnosť za dané obdobie: 17,68% 
+• Zisk za dané obdobie: +19.63u
 
 💰 *CELKOVÝ ZISK V €*
-⏩pri vklade 100€ ZISK 390€
-⏩pri vklade 200€ ZISK 780€
-⏩pri vklade 500€ ZISK 1950€
+⏩pri vklade 100€ ZISK 393€
+⏩pri vklade 200€ ZISK 785€
+⏩pri vklade 500€ ZISK 1963€
 
 💰 *CELKOVÝ ZISK V KC*
-⏩pri vklade 2500KC ZISK 9750KC
-⏩pri vklade 5000KC ZISK 19500KC
-⏩pri vklade 12500KC ZISK 48750KC
+⏩pri vklade 2500KC ZISK 9815KC
+⏩pri vklade 5000KC ZISK 19630KC
+⏩pri vklade 12500KC ZISK 49075KC
 
 💬[AK CHCETE AJ VY ZARÁBAŤ TIETO SUMY S NAŠOU VIP](https://t.me/SmartTipy)"""
 
@@ -343,7 +343,7 @@ def send_ticket_to_channel():
     
     # Caption pre tiket
     caption = (f"🏆 {match_data['team1']} vs {match_data['team2']}\n"
-              f"🏐 {match_data['tournament']}\n"
+              f"🎾 {match_data['tournament']}\n"
               f"🕘 {match_data['time']}\n\n"
               f"🎯 {match_data['pick']}\n"
               f"💰 Kurz: {match_data['odds']}")
@@ -356,7 +356,7 @@ def send_ticket_to_channel():
     }
     
     # Skús poslať obrázok - odstránené generovanie cesty podľa 'sport'
-    image_path = "images/RU - CH.png"
+    image_path = "images/ATP Cincinnati 2.png"
     
     if send_telegram_photo(CHANNEL_ID, image_path, caption, keyboard):
         print("✅ Ticket with image sent to channel")
