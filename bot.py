@@ -116,7 +116,7 @@ Bílovec je tím s bohatou tradíciou, ale momentálne prechádza ťažkým obdo
 
 Posledný vzájomný zápas vyhral Petrvald 3-1a minulú sezónu mali o 12b viac ako Bílovec. _
 
-*V tomto zápase je Petrvald favoritom vďaka kvalitnejšiemu kádru, kde väčšina hráčov má skúsenosti aj z vyšších líg ✅*
+*V tomto zápase je Petrvald favoritom vďaka kvalitnejšiemu kádru, kde väčšina hráčov má skúsenosti aj z vyšších líg ✅*"""
 
 vip_text = """💎 *SMART BETS VIP* 
 
