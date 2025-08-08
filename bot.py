@@ -98,25 +98,25 @@ def get_user_stats():
 
 # Príklad dát zápasu - odstránená kolónka 'sport'
 example_match = {
-         'team1': 'T. M. Etcheverry',
-         'team2': 'J. Shang',
-         'tournament': 'ATP Cincinnati',
-         'time': '19:20',
-         'pick': 'Etcheverry vyhrá - 1',
-         'odds': '1.65'
+        'team1': 'Petřvald na Moravě',
+        'team2': 'Bílovec',
+        'tournament': 'Česko - 4. liga',
+        'time': '18:00',
+        'pick': 'Petřvald vyhrá - 1',
+        'odds': '1.50'
 }
 
-analysis_text = """📊 *ANALÝZA ZÁPASU: T. M. Etcheverry - J. Shang*
+analysis_text = """📊 *ANALÝZA ZÁPASU: Petřvald na Moravě - Bílovec*
 
-V turnaji ATP Cincinnati začína vyraďovacia časť, ktorá nám priniesla aj zápas Tomasa Etcheverryho s Junchengom Shangom  🎾
+Dnes sa pozrieme na zaujímavý futbalový duel v Divíze F, kde sa stretnú Petřvald na Moravě a Bílovec ⚽️
 
-_Tomas Martin Etcheverry (ATP 60) má klasický antukársky štýl s bohatými skúsenosťami. Jeho štýl je založený na silnej baseline hre s dôrazom na topspin údery a fyzickú odolnosť. Argentínčan dosiahol kariérne maximum ATP 27 a má za sebou tri finále ATP turnajov. Etcheverry má výborný bekhend s oboma rukami a vie hrať dlhé výmeny s vysokou intenzitou. Silnou stránkou je jeho mentálna odolnosť a skúsenosti z veľkých zápasov. Jeho výkony na tvrdom kurte sú horšie ako na antuke, ale už aj tu si zobral pál skalpov - napr. minulý týždeň porazil Griekspoora. Zároveň treba spomenúť, mesiac dozadu porazil Bena Sheltona  🇦🇷
- 
-Juncheng Shang (ATP 109) reprezentuje novú generáciu čínskych tenistov s veľkým potenciálom.  Jeho herný štýl je all-court s výbornou technikou a rýchlosťou po kurte. Jeho ľavácky herný štýl vytvára problémy súperom a má výborné anticipovanie. Shang je syn bývalého futbalistu a majsterky sveta v stolnom tenise, čo mu dáva športové gény. Problémom je jeho mladý vek a niekedy nedostatočné skúsenosti v kľúčových momentoch, najmä proti skúsenejším súperom. Tento rok však toho neodohral. Zranil sa na začiatku sezóny v Hongkongu a potom aj na Australian open s Fokinou 🇨🇳
+_Petřvald na Moravě je tím s rastúcimi ambíciami v moravskom futbale, ktorý prechádza zaujímavou transformáciou. Ich herný štýl je založený na kombinácii solídnej defenzívy s rýchlymi protiútokmi, pričom sa spoliehajú na kolektívny výkon celého tímu. Výhodou je určite domáce prostredie na ich štadióne v Petřvalde, kde majú výbornú podporu miestnych fanúšikov. Ich útočná sila sa opiera najmä o produktívneho Ondřeja Pyclíka, ktorý strelil oba góly proti Opave B a ukázal svoju schopnosť skórovať v kľúčových momentoch. Slabšou stránkou je však výrazná nekonzistentnosť výkonov, ktorá sa prejavuje najmä v tom, že dokážu predviesť výborný futbal proti silným súperom, ale potom sa im nedarí proti teoreticky slabším tímom 🏆 
 
-Zatiaľ spolu odohrali 2 zápasy a oba vyhrala Shang. Verím však, že teraz je Etcheverry v lepšej forme a Shang nebude po zraneniach hrať tak dobre _
+Bílovec je tím s bohatou tradíciou, ale momentálne prechádza ťažkým obdobím, ktoré ovplyvňuje ich celkový herný prejav. Ich futbalový štýl kombinuje klasický český prístup s dôrazom na techniku a organizáciu hry, pričom sa snažia využívať skúsených hráčov v kombinácii s mladými talentami. Táto podpora mládeže má občas svoju daň, keďže im chýbajú skúsenosti a väčšinou nedokážu konkurovať skúseným hráčom. Ich aktuálna forma nie je tiež nič extra, keď z posledných 11 zápasov majú 7 prehier. 
 
-*Tento zápas bude však vyrovnaný, kde môže rozhodnúť Etcheverryho forma a herné skúsenosti * ✅ """               
+Posledný vzájomný zápas vyhral Petrvald 3-1a minulú sezónu mali o 12b viac ako Bílovec. _
+
+*V tomto zápase je Petrvald favoritom vďaka kvalitnejšiemu kádru, kde väčšina hráčov má skúsenosti aj z vyšších líg ✅*
 
 vip_text = """💎 *SMART BETS VIP* 
 
@@ -129,23 +129,23 @@ vip_text = """💎 *SMART BETS VIP*
 🎁 Bonusové tipy cez víkendy
 
 🏆 *BILANCIA TIKETOV*
-• Výherné tikety: 36✅
-• Prehraté tikety: 12 ❌
-• Úspešnosť: 75% 
+• Výherné tikety: 2✅
+• Prehraté tikety: 0❌
+• Úspešnosť: 76% 
 
 📈 *NAŠA ÚSPEŠNOSŤ*
-• Navrátnosť za dané obdobie: 17,68% 
-• Zisk za dané obdobie: +19.63u
+• Navrátnosť za dané obdobie: 82% 
+• Zisk za dané obdobie: +3.28u
 
 💰 *CELKOVÝ ZISK V €*
-⏩pri vklade 100€ ZISK 393€
-⏩pri vklade 200€ ZISK 785€
-⏩pri vklade 500€ ZISK 1963€
+⏩pri vklade 100€ ZISK 66€
+⏩pri vklade 200€ ZISK 131€
+⏩pri vklade 500€ ZISK 328€
 
 💰 *CELKOVÝ ZISK V KC*
-⏩pri vklade 2500KC ZISK 9815KC
-⏩pri vklade 5000KC ZISK 19630KC
-⏩pri vklade 12500KC ZISK 49075KC
+⏩pri vklade 2500KC ZISK 1640KC
+⏩pri vklade 5000KC ZISK 3280KC
+⏩pri vklade 12500KC ZISK 8200KC
 
 💬[AK CHCETE AJ VY ZARÁBAŤ TIETO SUMY S NAŠOU VIP](https://t.me/SmartTipy)"""
 
@@ -343,7 +343,7 @@ def send_ticket_to_channel():
     
     # Caption pre tiket
     caption = (f"🏆 {match_data['team1']} vs {match_data['team2']}\n"
-              f"🎾 {match_data['tournament']}\n"
+              f"⚽️ {match_data['tournament']}\n"
               f"🕘 {match_data['time']}\n\n"
               f"🎯 {match_data['pick']}\n"
               f"💰 Kurz: {match_data['odds']}")
@@ -356,7 +356,7 @@ def send_ticket_to_channel():
     }
     
     # Skús poslať obrázok - odstránené generovanie cesty podľa 'sport'
-    image_path = "images/ATP Cincinnati 2.png"
+    image_path = "images/Petrvald - Bilovec.png"
     
     if send_telegram_photo(CHANNEL_ID, image_path, caption, keyboard):
         print("✅ Ticket with image sent to channel")
