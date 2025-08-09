@@ -98,25 +98,25 @@ def get_user_stats():
 
 # Príklad dát zápasu - odstránená kolónka 'sport'
 example_match = {
-        'team1': 'Petřvald na Moravě',
-        'team2': 'Bílovec',
-        'tournament': 'Česko - 4. liga',
-        'time': '18:00',
-        'pick': 'Petřvald vyhrá - 1',
-        'odds': '1.50'
+        'team1': 'O. Benedito',
+        'team2': 'E. Dassi',
+        'tournament': 'PFL',
+        'time': '18:50',
+        'pick': 'Benedito vyhrá - 1',
+        'odds': '1.84'
 }
 
-analysis_text = """📊 *ANALÝZA ZÁPASU: Petřvald na Moravě - Bílovec*
+analysis_text = """📊 *ANALÝZA ZÁPASU: O. Benedito - E. Dassi*
 
 Dnes sa pozrieme na zaujímavý futbalový duel v Divíze F, kde sa stretnú Petřvald na Moravě a Bílovec ⚽️
 
-_Petřvald na Moravě je tím s rastúcimi ambíciami v moravskom futbale, ktorý prechádza zaujímavou transformáciou. Ich herný štýl je založený na kombinácii solídnej defenzívy s rýchlymi protiútokmi, pričom sa spoliehajú na kolektívny výkon celého tímu. Výhodou je určite domáce prostredie na ich štadióne v Petřvalde, kde majú výbornú podporu miestnych fanúšikov. Ich útočná sila sa opiera najmä o produktívneho Ondřeja Pyclíka, ktorý strelil oba góly proti Opave B a ukázal svoju schopnosť skórovať v kľúčových momentoch. Slabšou stránkou je však výrazná nekonzistentnosť výkonov, ktorá sa prejavuje najmä v tom, že dokážu predviesť výborný futbal proti silným súperom, ale potom sa im nedarí proti teoreticky slabším tímom 🏆 
+_Osvaldo Benedito (3-1) je bojovník z Angoly s prezývkou "Créu", ktorý trénuje v Angolan Top Team. Je nebezpečný grappler, ktorý dokáže systematicky ničiť súperov. Dokáže finishovať zápasy aj postojačky (1 KO/TKO). Jeho jediná prehra prišla cez KO/TKO, ale to je pochopiteľné - grappleri mávajú slabiny v striking fáze 🇦🇴
 
-Bílovec je tím s bohatou tradíciou, ale momentálne prechádza ťažkým obdobím, ktoré ovplyvňuje ich celkový herný prejav. Ich futbalový štýl kombinuje klasický český prístup s dôrazom na techniku a organizáciu hry, pričom sa snažia využívať skúsených hráčov v kombinácii s mladými talentami. Táto podpora mládeže má občas svoju daň, keďže im chýbajú skúsenosti a väčšinou nedokážu konkurovať skúseným hráčom. Ich aktuálna forma nie je tiež nič extra, keď z posledných 11 zápasov majú 7 prehier. 
+Emilios Dassi (4-1) je bojovník z Kamerunu trénujúci v Francis Ngannou Foundation. Na prvý pohľad vyzerá devastačne - všetky jeho víťazstva (100%) prišli cez KO/TKO, čo ukazuje jeho knockout power. Svoj jediný zápas prehral takisto na KO/TKO. V týchto zápasoch sa stretol aj s graplermi, ale boli o dosť nižšie v rebríčku v porovnaní s Beneditom 🇨🇲
 
-Posledný vzájomný zápas vyhral Petrvald 3-1a minulú sezónu mali o 12b viac ako Bílovec. _
+Títo páni sa stretnú po prvýkrát a ich matchup štýlov bude zaujímavý. Bude to klasické stretnutie postojárskeho štýlu s graplingom _
 
-*V tomto zápase je Petrvald favoritom vďaka kvalitnejšiemu kádru, kde väčšina hráčov má skúsenosti aj z vyšších líg ✅*"""
+*Tento zápas je celkom vyrovnaný, ale prikláňam sa k Beneditovi. Je všestrannejší bojovník a ak sa mu aspoň raz podarí boj previesť na zem, môže to byť pre Dassiho smrteľné. Odporúčam staviť 0.75u ✅*  """
 
 vip_text = """💎 *SMART BETS VIP* 
 
@@ -128,24 +128,24 @@ vip_text = """💎 *SMART BETS VIP*
 📊 Profesionálne analýzy
 🎁 Bonusové tipy cez víkendy
 
-🏆 *BILANCIA TIKETOV*
-• Výherné tikety: 2✅
-• Prehraté tikety: 0❌
-• Úspešnosť: 76% 
+🏆 *BILANCIA TIKETOV - AUGUST*
+• Výherné tikety: 3✅
+• Prehraté tikety: 2❌
+• Dlhodobá úspešnosť: 74% 
 
 📈 *NAŠA ÚSPEŠNOSŤ*
-• Navrátnosť za dané obdobie: 82% 
-• Zisk za dané obdobie: +3.28u
+• Navrátnosť za dané obdobie: -1.83% 
+• Zisk za dané obdobie: -0.22u
 
 💰 *CELKOVÝ ZISK V €*
-⏩pri vklade 100€ ZISK 66€
-⏩pri vklade 200€ ZISK 131€
-⏩pri vklade 500€ ZISK 328€
+⏩pri vklade 100€ ZISK 318€
+⏩pri vklade 200€ ZISK 636€
+⏩pri vklade 500€ ZISK 1590€
 
 💰 *CELKOVÝ ZISK V KC*
-⏩pri vklade 2500KC ZISK 1640KC
-⏩pri vklade 5000KC ZISK 3280KC
-⏩pri vklade 12500KC ZISK 8200KC
+⏩pri vklade 2500KC ZISK 7950KC
+⏩pri vklade 5000KC ZISK 15900KC
+⏩pri vklade 12500KC ZISK 31800KC
 
 💬[AK CHCETE AJ VY ZARÁBAŤ TIETO SUMY S NAŠOU VIP](https://t.me/SmartTipy)"""
 
@@ -343,7 +343,7 @@ def send_ticket_to_channel():
     
     # Caption pre tiket
     caption = (f"🏆 {match_data['team1']} vs {match_data['team2']}\n"
-              f"⚽️ {match_data['tournament']}\n"
+              f"🥊 {match_data['tournament']}\n"
               f"🕘 {match_data['time']}\n\n"
               f"🎯 {match_data['pick']}\n"
               f"💰 Kurz: {match_data['odds']}")
@@ -356,7 +356,7 @@ def send_ticket_to_channel():
     }
     
     # Skús poslať obrázok - odstránené generovanie cesty podľa 'sport'
-    image_path = "images/Petrvald - Bilovec.png"
+    image_path = "images/PFL 2.png"
     
     if send_telegram_photo(CHANNEL_ID, image_path, caption, keyboard):
         print("✅ Ticket with image sent to channel")
