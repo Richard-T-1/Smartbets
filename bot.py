@@ -98,25 +98,25 @@ def get_user_stats():
 
 # Príklad dát zápasu - odstránená kolónka 'sport'
 example_match = {
-        'team1': 'O. Benedito',
-        'team2': 'E. Dassi',
-        'tournament': 'PFL',
-        'time': '18:50',
-        'pick': 'Benedito vyhrá - 1',
-        'odds': '1.84'
+        'team1': 'V. Kudermetová',
+        'team2': 'B. Bencic',
+        'tournament': 'WTA Cincinnati',
+        'time': '17:05',
+        'pick': 'Bencic vyhrá + bude viac ako 17.5 gemu',
+        'odds': '2.05'
 }
 
-analysis_text = """📊 *ANALÝZA ZÁPASU: O. Benedito - E. Dassi*
+analysis_text = """📊 *ANALÝZA ZÁPASU: V. Kudermetová - B. Bencic*
 
-Dnes sa pozrieme na zaujímavý futbalový duel v Divíze F, kde sa stretnú Petřvald na Moravě a Bílovec ⚽️
+Vraciame sa späť do Cincinnati, kde momentálne prebieha 2. kolo pavúka. Tu sa stretne Veronika Kudermetová s Belindou Bencic 🎾
 
-_Osvaldo Benedito (3-1) je bojovník z Angoly s prezývkou "Créu", ktorý trénuje v Angolan Top Team. Je nebezpečný grappler, ktorý dokáže systematicky ničiť súperov. Dokáže finishovať zápasy aj postojačky (1 KO/TKO). Jeho jediná prehra prišla cez KO/TKO, ale to je pochopiteľné - grappleri mávajú slabiny v striking fáze 🇦🇴
+_Belinda Bencic (WTA 19) je 28-ročná švajčiarska hráčka, ktorá sa nedávno vrátila po materskej dovolenke (ako sme už spomínali naposledy), a tento návrat zvládla výborne (o čom hovorí jej umietnenie v rebričku). Má deväť WTA titulov a je známa svojou všestrannosťou na rôznych povrchoch. V roku 2025 už vyhrala titul v Abu Dhabi a dosiahla semifinále Wimbledonu, kde prehrala s Igou Swiatek. Bencic je technicky vyspelá hráčka s výborným returnom a schopnosťou adaptovať sa na rôzne herné štýly. Na tvrdých povrchoch má takisto výborné výsledky 🇨🇭 
 
-Emilios Dassi (4-1) je bojovník z Kamerunu trénujúci v Francis Ngannou Foundation. Na prvý pohľad vyzerá devastačne - všetky jeho víťazstva (100%) prišli cez KO/TKO, čo ukazuje jeho knockout power. Svoj jediný zápas prehral takisto na KO/TKO. V týchto zápasoch sa stretol aj s graplermi, ale boli o dosť nižšie v rebríčku v porovnaní s Beneditom 🇨🇲
+Veronika Kudermetová (WTA 36)  je 28-ročná ruská hráčka, ktorá prežíva zmiešanú sezónu. Je bývalou svetovou deviatkou (najvyšší ranking v októbri 2022) a špecializuje sa na antuku. Má za sebou skvelý doubles úspech - nedávno vyhrala Wimbledon s Elise Mertens a je bývalou dvojkovou hráčkou sveta v debli. Jej hra je založená na silných základných úderoch a vynikajúcej kondícii, ale má problémy s konzistentnosťou na rýchlych tvrdých povrchoch. 🇷🇺
 
-Títo páni sa stretnú po prvýkrát a ich matchup štýlov bude zaujímavý. Bude to klasické stretnutie postojárskeho štýlu s graplingom _
+Vzájomne majú vyrovnanú bilanciu, ale ich posledné stretnutie v Abu Dhabi 2025 jasne vyhrala Bencic 6-0, 6-0, čo bolo devastačné víťazstvo pre Švajčiarku. To ukazuje aktuálny pomer síl medzi nimi. _
 
-*Tento zápas je celkom vyrovnaný, ale prikláňam sa k Beneditovi. Je všestrannejší bojovník a ak sa mu aspoň raz podarí boj previesť na zem, môže to byť pre Dassiho smrteľné. Odporúčam staviť 0.75u ✅*  """
+*V tomto zápase sa prikláňam k Belinde Bencic. Zároveň verím, že minulý debakel 6-0, 6-0 bol skôr anomáliou a Kudermetovej sa podarí uhrať aspoň tých 6 gemov ✅*  """
 
 vip_text = """💎 *SMART BETS VIP* 
 
@@ -129,23 +129,23 @@ vip_text = """💎 *SMART BETS VIP*
 🎁 Bonusové tipy cez víkendy
 
 🏆 *BILANCIA TIKETOV - AUGUST*
-• Výherné tikety: 3✅
+• Výherné tikety: 4✅
 • Prehraté tikety: 2❌
 • Dlhodobá úspešnosť: 74% 
 
 📈 *NAŠA ÚSPEŠNOSŤ*
-• Navrátnosť za dané obdobie: -1.83% 
-• Zisk za dané obdobie: -0.22u
+• Navrátnosť za dané obdobie: 0.3% 
+• Zisk za dané obdobie: +0.05u
 
 💰 *CELKOVÝ ZISK V €*
-⏩pri vklade 100€ ZISK 318€
-⏩pri vklade 200€ ZISK 636€
-⏩pri vklade 500€ ZISK 1590€
+⏩pri vklade 100€ ZISK 270€
+⏩pri vklade 200€ ZISK 540€
+⏩pri vklade 500€ ZISK 1350€
 
 💰 *CELKOVÝ ZISK V KC*
-⏩pri vklade 2500KC ZISK 7950KC
-⏩pri vklade 5000KC ZISK 15900KC
-⏩pri vklade 12500KC ZISK 31800KC
+⏩pri vklade 2500KC ZISK 6750KC
+⏩pri vklade 5000KC ZISK 13500KC
+⏩pri vklade 12500KC ZISK 33750KC
 
 💬[AK CHCETE AJ VY ZARÁBAŤ TIETO SUMY S NAŠOU VIP](https://t.me/SmartTipy)"""
 
@@ -343,7 +343,7 @@ def send_ticket_to_channel():
     
     # Caption pre tiket
     caption = (f"🏆 {match_data['team1']} vs {match_data['team2']}\n"
-              f"🥊 {match_data['tournament']}\n"
+              f"🎾 {match_data['tournament']}\n"
               f"🕘 {match_data['time']}\n\n"
               f"🎯 {match_data['pick']}\n"
               f"💰 Kurz: {match_data['odds']}")
@@ -356,7 +356,7 @@ def send_ticket_to_channel():
     }
     
     # Skús poslať obrázok - odstránené generovanie cesty podľa 'sport'
-    image_path = "images/PFL 2.png"
+    image_path = "images/Cincinnati 5.png"
     
     if send_telegram_photo(CHANNEL_ID, image_path, caption, keyboard):
         print("✅ Ticket with image sent to channel")
