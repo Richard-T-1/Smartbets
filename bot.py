@@ -98,25 +98,25 @@ def get_user_stats():
 
 # Príklad dát zápasu - odstránená kolónka 'sport'
 example_match = {
-        'team1': 'V. Kudermetová',
-        'team2': 'B. Bencic',
-        'tournament': 'WTA Cincinnati',
-        'time': '17:05',
-        'pick': 'Bencic vyhrá + bude viac ako 17.5 gemu',
-        'odds': '2.05'
+         'team1': 'F. Tiafoe',
+         'team2': 'U. Humbert', 
+         'tournament': 'ATP Cincinnati',
+         'time': '18:10',
+         'pick': 'Tiafoe vyhrá - 1',
+         'odds': '1.70'
 }
 
-analysis_text = """📊 *ANALÝZA ZÁPASU: V. Kudermetová - B. Bencic*
+analysis_text = """📊 *ANALÝZA ZÁPASU: F. Tiafoe - U. Humbert*
 
-Vraciame sa späť do Cincinnati, kde momentálne prebieha 2. kolo pavúka. Tu sa stretne Veronika Kudermetová s Belindou Bencic 🎾
+Druhý zápas poobedný zápas bude zo Cincinnati. Bude to zápas Francesa Tiafoe s Ugom Humbertom 🎾
 
-_Belinda Bencic (WTA 19) je 28-ročná švajčiarska hráčka, ktorá sa nedávno vrátila po materskej dovolenke (ako sme už spomínali naposledy), a tento návrat zvládla výborne (o čom hovorí jej umietnenie v rebričku). Má deväť WTA titulov a je známa svojou všestrannosťou na rôznych povrchoch. V roku 2025 už vyhrala titul v Abu Dhabi a dosiahla semifinále Wimbledonu, kde prehrala s Igou Swiatek. Bencic je technicky vyspelá hráčka s výborným returnom a schopnosťou adaptovať sa na rôzne herné štýly. Na tvrdých povrchoch má takisto výborné výsledky 🇨🇭 
+_Frances Tiafoe (ATP 14) je americký reprezentant, ktorý dosiahol kariérový rekord 10. miesta v ATP rebríčku pred 2 rokmi, a stal sa tak prvým americkým mužom so sierra leonskými koreňmi v top 10. Má 3 ATP tituly - Delray Beach 2018, Houston 2023 na antuke a Stuttgart 2023 na tráve. Tiafoeov herný štýl je založený na výraznej atletike a explozívnej hre. Je známy svojimi spektakulárnymi údermi a showmanstvom na kurte. Má výborné podanie a jeho forehand je jeho hlavnou zbraňou - dokáže robiť víťazné údery z takmer nemožných pozícií. Obľubuje agresívnu hru a rychle tempo. Jeho atletika mu umožňuje pokrývať kurt veľmi efektívne a často robiť obranné údery, ktoré sa zmenia na útoky 🇺🇸 
 
-Veronika Kudermetová (WTA 36)  je 28-ročná ruská hráčka, ktorá prežíva zmiešanú sezónu. Je bývalou svetovou deviatkou (najvyšší ranking v októbri 2022) a špecializuje sa na antuku. Má za sebou skvelý doubles úspech - nedávno vyhrala Wimbledon s Elise Mertens a je bývalou dvojkovou hráčkou sveta v debli. Jej hra je založená na silných základných úderoch a vynikajúcej kondícii, ale má problémy s konzistentnosťou na rýchlych tvrdých povrchoch. 🇷🇺
+Ugo Humbert (ATP 25) e 27-ročný francúzsky hráč, ktorý má takisto viacero ATP titulov. Jeho hra je založená na tlaku a rýchlom ukončovaní výmen. Preferuje tvrdé kurty a je charakterizovaný ako skutočný ofenzívny hráč, ktorý rád volleyuje. Má výborný backend a aj slušné podania 🇫🇷
+ 
+Zatiaľ spolu odohrali 3 zápasy a Tiafoe vedie 2:1. Tieto zápasy však boli 4 a viac rokov dozadu, čiže neposkytujú až tak dobrý obraz o ich kvalitách _
 
-Vzájomne majú vyrovnanú bilanciu, ale ich posledné stretnutie v Abu Dhabi 2025 jasne vyhrala Bencic 6-0, 6-0, čo bolo devastačné víťazstvo pre Švajčiarku. To ukazuje aktuálny pomer síl medzi nimi. _
-
-*V tomto zápase sa prikláňam k Belinde Bencic. Zároveň verím, že minulý debakel 6-0, 6-0 bol skôr anomáliou a Kudermetovej sa podarí uhrať aspoň tých 6 gemov ✅*  """
+*Tiafoe je v tomto zápase miernym favoritom a prikláňam sa k jeho výhre. Je o niečo kvalitenjší hráč a je aj rozohratý z minulých turnajov * ✅ """ 
 
 vip_text = """💎 *SMART BETS VIP* 
 
@@ -130,22 +130,22 @@ vip_text = """💎 *SMART BETS VIP*
 
 🏆 *BILANCIA TIKETOV - AUGUST*
 • Výherné tikety: 4✅
-• Prehraté tikety: 2❌
-• Dlhodobá úspešnosť: 74% 
+• Prehraté tikety: 4❌
+• Dlhodobá úspešnosť: 71% 
 
 📈 *NAŠA ÚSPEŠNOSŤ*
 • Navrátnosť za dané obdobie: 0.3% 
 • Zisk za dané obdobie: +0.05u
 
 💰 *CELKOVÝ ZISK V €*
-⏩pri vklade 100€ ZISK 270€
-⏩pri vklade 200€ ZISK 540€
-⏩pri vklade 500€ ZISK 1350€
+⏩pri vklade 100€ ZISK 248€
+⏩pri vklade 200€ ZISK 496€
+⏩pri vklade 500€ ZISK 1240€
 
 💰 *CELKOVÝ ZISK V KC*
-⏩pri vklade 2500KC ZISK 6750KC
-⏩pri vklade 5000KC ZISK 13500KC
-⏩pri vklade 12500KC ZISK 33750KC
+⏩pri vklade 2500KC ZISK 6200KC
+⏩pri vklade 5000KC ZISK 12400KC
+⏩pri vklade 12500KC ZISK 31000KC
 
 💬[AK CHCETE AJ VY ZARÁBAŤ TIETO SUMY S NAŠOU VIP](https://t.me/SmartTipy)"""
 
