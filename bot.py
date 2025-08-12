@@ -98,25 +98,25 @@ def get_user_stats():
 
 # Príklad dát zápasu - odstránená kolónka 'sport'
 example_match = {
-         'team1': 'F. Tiafoe',
-         'team2': 'U. Humbert', 
+         'team1': 'A. Popyrin',
+         'team2': 'A. Rublev', 
          'tournament': 'ATP Cincinnati',
-         'time': '18:10',
-         'pick': 'Tiafoe vyhrá - 1',
-         'odds': '1.70'
+         'time': '17:00',
+         'pick': 'Rublev vyhrá - 2',
+         'odds': '1.52
 }
 
-analysis_text = """📊 *ANALÝZA ZÁPASU: F. Tiafoe - U. Humbert*
+analysis_text = """📊 *ANALÝZA ZÁPASU: A. Popyrin - A. Rublev*
 
-Druhý zápas poobedný zápas bude zo Cincinnati. Bude to zápas Francesa Tiafoe s Ugom Humbertom 🎾
+Po futbale nás čaká tenisové stretnutie 2 veľkých mien: Andreya Rubleva (ATP 11) a Alexeia Popyrina (ATP 19)  🎾
 
-_Frances Tiafoe (ATP 14) je americký reprezentant, ktorý dosiahol kariérový rekord 10. miesta v ATP rebríčku pred 2 rokmi, a stal sa tak prvým americkým mužom so sierra leonskými koreňmi v top 10. Má 3 ATP tituly - Delray Beach 2018, Houston 2023 na antuke a Stuttgart 2023 na tráve. Tiafoeov herný štýl je založený na výraznej atletike a explozívnej hre. Je známy svojimi spektakulárnymi údermi a showmanstvom na kurte. Má výborné podanie a jeho forehand je jeho hlavnou zbraňou - dokáže robiť víťazné údery z takmer nemožných pozícií. Obľubuje agresívnu hru a rychle tempo. Jeho atletika mu umožňuje pokrývať kurt veľmi efektívne a často robiť obranné údery, ktoré sa zmenia na útoky 🇺🇸 
+_Andrey Rublev je 27-ročný ruský hráč, ktoré maximum bolo 5. miesto v ATP rebíčku. Má 17 ATP titulov vrátane dvoch Masters 1000 (Monte-Carlo 2023, Madrid 2024). Rublev je známy svojím explozívnym štýlom hry s devastačným forehendom ako obľúbeným úderom. Priemerne má 7.4 és na zápas a 70% úspešnosťou 1. podania. Jeho powerfull baseline hra môže dominovať súperom, ale mentálna nestabilita je jeho achillova päta 🇷🇺
 
-Ugo Humbert (ATP 25) e 27-ročný francúzsky hráč, ktorý má takisto viacero ATP titulov. Jeho hra je založená na tlaku a rýchlom ukončovaní výmen. Preferuje tvrdé kurty a je charakterizovaný ako skutočný ofenzívny hráč, ktorý rád volleyuje. Má výborný backend a aj slušné podania 🇫🇷
- 
-Zatiaľ spolu odohrali 3 zápasy a Tiafoe vedie 2:1. Tieto zápasy však boli 4 a viac rokov dozadu, čiže neposkytujú až tak dobrý obraz o ich kvalitách _
+Alexei Popyrin má za sebou úspešnú sezónu 2025. Jeho najväčším úspechom je víťazstvo na Masters 1000 v Kanade 2024, kde vo finále porazil práve Rubleva 6-2, 6-4. V roku 2025 dosiahol štvrťfinále v Monte-Carlo, Ženeve a Toronte. Popyrinov herný štýl je založený na výbornom servise s 8.5 esami na zápas a 61% úspešnosťou prvého podania (ale vyšším počtom dvojchýb). Je fyzicky silný hráč s výškou 195 cm a preferuje agresívnu hru z baseline. Jeho slabšou stránkou je konzistentnosť - dokáže hrať výnimočne, ale aj sklamať v dôležitých momentoch 🇦🇺
 
-*Tiafoe je v tomto zápase miernym favoritom a prikláňam sa k jeho výhre. Je o niečo kvalitenjší hráč a je aj rozohratý z minulých turnajov * ✅ """ 
+Odohrali spolu zatiaľ 3 zápasy a Popyrin vedie 2-1. Na tvrdých kurtoch v hlavných turnajoch vedie Popyrin 1-0. _
+
+*Po dôkladnom uvážení vyberám Rubleva, ktorý si myslím, že má (momentálne) o niečo lepšiu formu. 2 dni dozadu predviedol výborný výkon proti Tienovi. Popyrin síce zobral 1 set Zverevovi, ale Zverev sám tvrdil, že sa necíti herne na tom dobre. Odporúčam ale staviť 1u, keďže zápas sa môže aj skomplikovať *✅"""
 
 vip_text = """💎 *SMART BETS VIP* 
 
@@ -129,23 +129,23 @@ vip_text = """💎 *SMART BETS VIP*
 🎁 Bonusové tipy cez víkendy
 
 🏆 *BILANCIA TIKETOV - AUGUST*
-• Výherné tikety: 4✅
+• Výherné tikety: 5✅
 • Prehraté tikety: 4❌
-• Dlhodobá úspešnosť: 71% 
+• Dlhodobá úspešnosť: 72% 
 
 📈 *NAŠA ÚSPEŠNOSŤ*
-• Navrátnosť za dané obdobie: 0.3% 
-• Zisk za dané obdobie: +0.05u
+• Navrátnosť: 9.5% 
+• Zisk: +12.65u
 
 💰 *CELKOVÝ ZISK V €*
-⏩pri vklade 100€ ZISK 248€
-⏩pri vklade 200€ ZISK 496€
-⏩pri vklade 500€ ZISK 1240€
+⏩pri vklade 100€ ZISK 253€
+⏩pri vklade 200€ ZISK 506€
+⏩pri vklade 500€ ZISK 1265€
 
 💰 *CELKOVÝ ZISK V KC*
-⏩pri vklade 2500KC ZISK 6200KC
-⏩pri vklade 5000KC ZISK 12400KC
-⏩pri vklade 12500KC ZISK 31000KC
+⏩pri vklade 2500KC ZISK 6325KC
+⏩pri vklade 5000KC ZISK 12650KC
+⏩pri vklade 12500KC ZISK 31620KC
 
 💬[AK CHCETE AJ VY ZARÁBAŤ TIETO SUMY S NAŠOU VIP](https://t.me/SmartTipy)"""
 
@@ -356,7 +356,7 @@ def send_ticket_to_channel():
     }
     
     # Skús poslať obrázok - odstránené generovanie cesty podľa 'sport'
-    image_path = "images/Cincinnati 6.png"
+    image_path = "images/Cincinnati 7.png"
     
     if send_telegram_photo(CHANNEL_ID, image_path, caption, keyboard):
         print("✅ Ticket with image sent to channel")
