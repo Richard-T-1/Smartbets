@@ -103,7 +103,7 @@ example_match = {
          'tournament': 'ATP Cincinnati',
          'time': '17:00',
          'pick': 'Rublev vyhrá - 2',
-         'odds': '1.52
+         'odds': '1.52'
 }
 
 analysis_text = """📊 *ANALÝZA ZÁPASU: A. Popyrin - A. Rublev*
