@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.WARNING)
 logging.getLogger("httpx").setLevel(logging.WARNING)
 
 # Konfigurácia
-BOT_TOKEN = os.environ.get('BOT_TOKEN', '7511593743:AAGsPG2FG9_QC-ynD85hHHptE29-P5KiBMQ')
+BOT_TOKEN = os.environ.get('BOT_TOKEN', '7511593743:AAG5jTP7FJoYm77a44aeM0BWhGBwGjgCIkU')
 CHANNEL_ID = os.environ.get('CHANNEL_ID', '-1002107685116')
 ADMIN_ID = int(os.environ.get('ADMIN_ID', '7626888184'))
 PORT = int(os.environ.get('PORT', 10000))
@@ -98,25 +98,27 @@ def get_user_stats():
 
 # Príklad dát zápasu - odstránená kolónka 'sport'
 example_match = {
-         'team1': 'V. Kudermetova',
-         'team2': 'M. Linette', 
-         'tournament': 'WTA Cincinnati',
-         'time': '15.8. 1:00',
-         'pick': 'Kudermetová vyhrá - 1',
-         'odds': '1.63 (Niké)'
+         'team1': 'Salzburg',
+         'team2': 'Košice', 
+         'tournament': 'Priateľské zápasy klubov',
+         'time': '15:00',
+         'pick': 'Salzburg vyhrá - 1',
+         'odds': '1.50 (Doxxbet)' 
 }
 
-analysis_text = """📊 *ANALÝZA ZÁPASU: V. Kudermetova - M. Linette*
+analysis_text = """📊 *ANALÝZA ZÁPASU: Salzburg - Košice*
 
 Dnešným zápasom bude súboj Veroniky Kudermetovej s Magdou Linette z osemfinále WTA Cincinnati 🎾
 
-_Veronika Kudermetova (WTA 36) je 28-ročná Ruska s výrazne agresívnym baseline štýlom a dvojručným bekhendom. Má career high 9. miesto a vyhrala 2 WTA tituly vrátane nedávneho Grand Slam víťazstva v doubles na Wimbledone 2025. Je známa svojim silným servisom a mocnými údermi z baseline, dokáže diktovať tempo hry a preferuje rýchly, agresívny štýl. Najelpšia je na tráve, ale aj na tvrdých kurtoch má slušnú bilanciu 🇷🇺
+Prvýkrát si podáme aj na hokejový zápas. Toto bude prípravný zápas Salzburgu a Košíc 🏒
 
-Magda Linette (WTA 40) je 33-ročná Poľka s takticky vyspelým baseline štýlom charakterizovaným silnou základnou hrou. Má career high 19. miesto a 3 WTA tituly vrátane semifinále Australian Open 2023. Je známa svojou vytrvalosťou, taktickou inteligenciou a schopnosťou hrať dlhé rallye. Na indoor hard kurtoch má najlepšiu bilanciu (62%), celkovo na hardoch je tiež silná 🇵🇱
+_EC Red Bull Salzburg je rakúsky hokejový velikán s obrovskými finančnými možnosťami a profesionálnym zázemím. Klub má za sebou úspešnú históriu - je 10-násobným majstrom ICE Hockey League a má skúsenosti z medzinárodných súťaží vrátane Continental Cup. V poslednom zápase zdolali KAC Klagenfurt 4:0, čo naznačuje dobrú formu. Hrajú s dôrazom na rýchlu ofenzívnu hru, samozrejme s vysokou kvalitou 🇦🇹
 
-Odohrali spolu zatiaľ 1 zápas, ktorý vyhrala Linette otočkou po prehre 1. setu _
+HC Košice je 1 z najúspšenejších slovenských hokejových klubov s bohatou tradíciou. Klub má za sebou fantastickú históriu - 10 titulov v slovenskej extralige, 2 tituly z čias Československa a prezývajú sa "Oceliari". Posledný titul získali v sezóne 2014/15 a od tej doby sa snažia vrátiť na vrchol. Košice majú kvalitných slovenských hráčov a niekoľko legionárov, ale finančné možnosti sú limitované v porovnaní s Red Bull projektmi 🇸🇰
+ 
+Hrali spolu raz, a to Salzburg vyhral suverénne 6:1 _
 
-*Po dôkladnom uvážení vyberám Kudermetovú, ktorá je vo výbornej forme a rýchly tvrdý povrch jej silu ešte zvyšuje *✅"""
+*Samozrejme by som rád podporil našich, ale nie za cenu finančnej straty. Myslím si, že Salzburg je suverénnym favoritom a aj v kurze 1.50 vidím hodnotu* ✅ """ 
 
 vip_text = """💎 *SMART BETS VIP* 
 
@@ -129,23 +131,23 @@ vip_text = """💎 *SMART BETS VIP*
 🎁 Bonusové tipy cez víkendy
 
 🏆 *BILANCIA TIKETOV - AUGUST*
-• Výherné tikety: 10✅
-• Prehraté tikety: 4❌
-• Dlhodobá úspešnosť: 74% 
+• Výherné tikety: 13✅
+• Prehraté tikety: 5❌
+• Dlhodobá úspešnosť: 75% 
 
 📈 *NAŠA ÚSPEŠNOSŤ - AUGUST*
-• Navrátnosť: 15.42% 
-• Zisk: +6.4u
+• Navrátnosť: 17.80% 
+• Zisk: +9.52u
 
 💰 *CELKOVÝ ZISK V €*
-⏩pri vklade 100€ ZISK 447€
-⏩pri vklade 200€ ZISK 894€
-⏩pri vklade 500€ ZISK 2234€
+⏩pri vklade 100€ ZISK 510€
+⏩pri vklade 200€ ZISK 1020€
+⏩pri vklade 500€ ZISK 2550€
 
 💰 *CELKOVÝ ZISK V KC*
-⏩pri vklade 2500KC ZISK 11175KC
-⏩pri vklade 5000KC ZISK 22350KC
-⏩pri vklade 12500KC ZISK 55875KC
+⏩pri vklade 2500KC ZISK 12750KC
+⏩pri vklade 5000KC ZISK 25500KC
+⏩pri vklade 12500KC ZISK 63750KC
 
 💬[AK CHCETE AJ VY ZARÁBAŤ TIETO SUMY S NAŠOU VIP](https://t.me/SmartTipy)"""
 
@@ -343,7 +345,7 @@ def send_ticket_to_channel():
     
     # Caption pre tiket
     caption = (f"🏆 {match_data['team1']} vs {match_data['team2']}\n"
-              f"🎾 {match_data['tournament']}\n"
+              f"🏒  {match_data['tournament']}\n"
               f"🕘 {match_data['time']}\n\n"
               f"🎯 {match_data['pick']}\n"
               f"💰 Kurz: {match_data['odds']}")
@@ -356,7 +358,7 @@ def send_ticket_to_channel():
     }
     
     # Skús poslať obrázok - odstránené generovanie cesty podľa 'sport'
-    image_path = "images/Cincinnati 9.png"
+    image_path = "images/Hokej 1.png"
     
     if send_telegram_photo(CHANNEL_ID, image_path, caption, keyboard):
         print("✅ Ticket with image sent to channel")
