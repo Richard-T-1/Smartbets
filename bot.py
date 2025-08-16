@@ -108,8 +108,6 @@ example_match = {
 
 analysis_text = """📊 *ANALÝZA ZÁPASU: Salzburg - Košice*
 
-Dnešným zápasom bude súboj Veroniky Kudermetovej s Magdou Linette z osemfinále WTA Cincinnati 🎾
-
 Prvýkrát si podáme aj na hokejový zápas. Toto bude prípravný zápas Salzburgu a Košíc 🏒
 
 _EC Red Bull Salzburg je rakúsky hokejový velikán s obrovskými finančnými možnosťami a profesionálnym zázemím. Klub má za sebou úspešnú históriu - je 10-násobným majstrom ICE Hockey League a má skúsenosti z medzinárodných súťaží vrátane Continental Cup. V poslednom zápase zdolali KAC Klagenfurt 4:0, čo naznačuje dobrú formu. Hrajú s dôrazom na rýchlu ofenzívnu hru, samozrejme s vysokou kvalitou 🇦🇹
