@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.WARNING)
 logging.getLogger("httpx").setLevel(logging.WARNING)
 
 # Konfigurácia
-BOT_TOKEN = os.environ.get('BOT_TOKEN', '7511593743:AAG5jTP7FJoYm77a44aeM0BWhGBwGjgCIkU')
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
 CHANNEL_ID = os.environ.get('CHANNEL_ID', '-1002107685116')
 ADMIN_ID = int(os.environ.get('ADMIN_ID', '7626888184'))
 PORT = int(os.environ.get('PORT', 10000))
